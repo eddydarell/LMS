@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LMS_Grupp4.Models
 {
+	//Test
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
