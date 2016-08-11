@@ -15,8 +15,6 @@ namespace LMS_Grupp4.Models.LMS_Models
 		public string FileName { get; set; }
 		[MaxLength(20)]
 		public string FileFormat { get; set; }
-		[MaxLength(25)]
-		public string FileUploader { get; set; }
 		public string URL { get; set; }
 		public bool FilePublicVisibility { get; set; }
 		public DateTime FileUploadDate { get; set; }
