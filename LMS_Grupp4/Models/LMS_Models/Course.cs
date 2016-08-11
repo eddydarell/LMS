@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LMS_Grupp4.Models.LMS_Models
 {
@@ -11,8 +8,13 @@ namespace LMS_Grupp4.Models.LMS_Models
     {
         [Key]
         public int ID { get; set; }
+
+        [Display(Name = "Course")]
+        [Required]
         public string CourseName { get; set; }
-        public string CourseTeacher { get; set; }
+
+        [Display(Name = "Description")]
+        public string Description { get; set; }
 
         public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<ClassSchema> ClassSchemes { get; set; }
