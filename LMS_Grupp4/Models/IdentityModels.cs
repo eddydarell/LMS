@@ -3,6 +3,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections;
+using LMS_Grupp4.Models.LMS_Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace LMS_Grupp4.Models
 {
@@ -11,6 +14,14 @@ namespace LMS_Grupp4.Models
     {
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
+            //To-Do: Add the other properties
+            [Display(Name = "Name")]
+            public string RealName { get; set; }
+            public virtual ICollection<Assigment> Assigments { get; set; }
+            public virtual ICollection<File> Files { get; set; }
+            public virtual ICollection<Course> Courses { get; set; }
+            public virtual ICollection<ProgramClass> { get; set;}
+
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
