@@ -7,6 +7,7 @@ using System.Collections;
 using LMS_Grupp4.Models.LMS_Models;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using System.Security.Principal;
 
 namespace LMS_Grupp4.Models
 {
@@ -26,6 +27,7 @@ namespace LMS_Grupp4.Models
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Add custom user claims here
+            userIdentity.AddClaim(new Claim("RealName", RealName.ToString()));
             return userIdentity;
         }
     }
@@ -46,6 +48,17 @@ namespace LMS_Grupp4.Models
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
+        }
+    }
+
+    //This class in intended to provide extensions to the Use.Identity object
+    public static class IdentityExtensions
+    {
+        public static string GetUserRealName(this IIdentity identity)
+        {
+            var claim = ((ClaimsIdentity)identity).FindFirst("RealName");
+            // Test for null to avoid issues during local testing
+            return (claim != null) ? claim.Value : string.Empty;
         }
     }
 }

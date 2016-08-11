@@ -12,7 +12,7 @@ namespace LMS_Grupp4
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            createRolesandUsers();
+            //createRolesandUsers();
         }
 
         //Method to create the roles for the application  

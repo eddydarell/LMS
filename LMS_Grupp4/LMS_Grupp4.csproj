@@ -196,16 +196,13 @@
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SchemaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608111232476_Initial.cs" />
-    <Compile Include="Migrations\201608111232476_Initial.Designer.cs">
-      <DependentUpon>201608111232476_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608111304269_AddedCourseDescription.cs" />
-    <Compile Include="Migrations\201608111304269_AddedCourseDescription.Designer.cs">
-      <DependentUpon>201608111304269_AddedCourseDescription.cs</DependentUpon>
+    <Compile Include="Migrations\201608111938466_Initial.cs" />
+    <Compile Include="Migrations\201608111938466_Initial.Designer.cs">
+      <DependentUpon>201608111938466_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -277,10 +274,11 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Course\Index.cshtml" />
+    <Content Include="Views\Schema\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Course\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -291,11 +289,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608111232476_Initial.resx">
-      <DependentUpon>201608111232476_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608111304269_AddedCourseDescription.resx">
-      <DependentUpon>201608111304269_AddedCourseDescription.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608111938466_Initial.resx">
+      <DependentUpon>201608111938466_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
