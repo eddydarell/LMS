@@ -200,6 +200,9 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LMS_Models\Assignment.cs" />
+    <Compile Include="Models\LMS_Models\Course.cs" />
+    <Compile Include="Models\LMS_Models\ClassSchema.cs" />
     <Compile Include="Models\LMS_Models\File.cs" />
     <Compile Include="Models\LMS_Models\ProgramClass.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -266,6 +269,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Uploads\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
