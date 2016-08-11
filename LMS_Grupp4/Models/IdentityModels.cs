@@ -32,6 +32,12 @@ namespace LMS_Grupp4.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<ClassSchema> ClassSchemas { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<File> Files { get; set; }
+        public DbSet<ProgramClass> ProgramClasses { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
