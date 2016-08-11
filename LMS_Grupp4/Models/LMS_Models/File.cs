@@ -18,6 +18,7 @@ namespace LMS_Grupp4.Models.LMS_Models
 		public string URL { get; set; }
 		public bool FilePublicVisibility { get; set; }
 		public DateTime FileUploadDate { get; set; }
+		[Range(0, 9999999999.99)]
 		public double FileSize { get; set; }
 		
 		[ForeignKey("ApplicationUser")]
