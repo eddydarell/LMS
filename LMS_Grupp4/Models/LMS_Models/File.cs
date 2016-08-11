@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LMS_Grupp4.Models.LMS_Models
 {
@@ -11,21 +8,34 @@ namespace LMS_Grupp4.Models.LMS_Models
 	{
 		[Key]
 		public int ID { get; set; }
-		[MaxLength(45)]
-		public string FileName { get; set; }
-		[MaxLength(20)]
-		public string FileFormat { get; set; }
-		[MaxLength(25)]
-		public string FileUploader { get; set; }
-		public string URL { get; set; }
-		public bool FilePublicVisibility { get; set; }
-		public DateTime FileUploadDate { get; set; }
-		public double FileSize { get; set; }
-		
-		[ForeignKey("ApplicationUser")]
-		public string ApplicationUserID { get; set; }
 
-		public virtual ApplicationUser FileUploader { get; set; }
+		[MaxLength(45)]
+        [Display(Name = "File Name")]
+        [Required]
+        public string Name { get; set; }
+
+		[MaxLength(20)]
+        [Display(Name = "Format")]
+        public string Format { get; set; }
+
+        [Display(Name = "URL")]
+        [Required]
+        public string URL { get; set; }
+
+        [Display(Name = "Visible For")]
+        [Required]
+        public bool IsPublicVisible { get; set; }
+
+        [Display(Name = "Uploaded On")]
+        [Required]
+        public DateTime UploadDate { get; set; }
+
+        [Range(0, 9999999999.99)]
+        [Display(Name = "Size")]
+        public double Size { get; set; }
+		
+        //Navigation Properties
+		public virtual ApplicationUser Uploader { get; set; }
 		public virtual ICollection<Course> Courses { get; set; }
 	}
 }

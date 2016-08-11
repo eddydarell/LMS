@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LMS_Grupp4.Models.LMS_Models
 {
@@ -12,23 +7,47 @@ namespace LMS_Grupp4.Models.LMS_Models
     {
         [Key]
         public int ID { get; set; }
-        public string AssignmentName { get; set; }
-        public DateTime AssignmentDueDate { get; set; }
-        public DateTime AssignmentReleaseDate { get; set; }
-        public string AssignmentCourse { get; set; }
-        public string AssignmentMark { get; set; }
-        public bool AssignmentPassed { get; set; }
-        public double AssignmentPoints { get; set; }
-        public double AssignmentPercents { get; set; }
-        public double AssignmentMaxPoint { get; set; }
 
-        [ForeignKey("Course")] 
-        public int CourseID { get; set; }
-        [ForeignKey("Assignment")]
-        public int AssignmentID { get; set; }
-        public virtual Course CourseUser { get; set; }
-        public virtual ApplicationUser AssignmentUser { get; set; }
+        [MaxLength(100)]
+        [Display(Name = "Assignment")]
+        [Required]
+        public string Name { get; set; }
 
+        [Display(Name = "Due Date")]
+        [Required]
+        public DateTime DueDate { get; set; }
+
+        [Display(Name = "Issue Date")]
+        [Required]
+        public DateTime IssueDate { get; set; }
+
+        [MaxLength(2)]
+        [Display(Name = "Mark")]
+        public string Mark { get; set; }
+
+        [Display(Name = "Passed")]
+        public bool IsPassed { get; set; }
+
+        [Display(Name = "Expired")]
+        public bool IsExpired { get; set; }
+
+        [Display(Name = "Score")]
+        public int? Score { get; set; }
+
+        [Display(Name = "Percentage")]
+        public double? Percentage { get; set; }
+
+        [Display(Name = "Max Score")]
+        [Required]
+        public int MaxScore { get; set; }
+
+        public virtual Course Course { get; set; }
+        public virtual ApplicationUser Student { get; set; }
     }
 
+    //Model Repository
+    public class AssignmentRepository
+    {
+
+    }
 }
