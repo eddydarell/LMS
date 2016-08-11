@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
 
 namespace LMS_Grupp4.Repositories
 {
@@ -17,13 +18,8 @@ namespace LMS_Grupp4.Repositories
         {
             return db.Assignments.ToList();
         }
-
-        public IEnumerable<Assignment> GetAllAssignments()
-        {
-            return db.Assignments.ToList();
-        }
-
-        public Assignment GetSpecificItem(int? id)
+      
+        public Assignment GetSpecificAssignment(int? id)
         {
             if (id != null)
             { return db.Assignments.Find(id); }
@@ -50,8 +46,7 @@ namespace LMS_Grupp4.Repositories
             Assignment assignment = db.Assignments.Find(id);
             db.Assignments.Remove(assignment);
             db.SaveChanges();
-
-
         }
+
     }
 }
