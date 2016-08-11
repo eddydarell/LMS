@@ -10,7 +10,7 @@ namespace LMS_Grupp4.Models.LMS_Models
 	public class File
 	{
 		[Key]
-		public int FileID { get; set; }
+		public int ID { get; set; }
 		[MaxLength(45)]
 		public string FileName { get; set; }
 		[MaxLength(20)]
@@ -21,9 +21,11 @@ namespace LMS_Grupp4.Models.LMS_Models
 		public bool FilePublicVisibility { get; set; }
 		public DateTime FileUploadDate { get; set; }
 		public double FileSize { get; set; }
+		
+		[ForeignKey("ApplicationUser")]
+		public string ApplicationUserID { get; set; }
 
-		public virtual ApplicationUser FileUser { get; set; }
-
+		public virtual ApplicationUser FileUploader { get; set; }
 		public virtual ICollection<Course> Courses { get; set; }
 	}
 }
