@@ -8,7 +8,7 @@ using System.Web;
 
 namespace LMS_Grupp4.Repositories
 {
-	// Repository for all assignment functions
+	// Repository for all Db-sets
 	public class LMSRepository
 	{
 		/// Database connections
@@ -99,21 +99,21 @@ namespace LMS_Grupp4.Repositories
 			{ return db.Files.Find(id); } else return null;
 		}
 
-		// Adds files to the database
+		// Add file to the database
 		public void AddFile(File file)
 		{
 			db.Files.Add(file);
 			db.SaveChanges();
 		}
 
-		// Edits an file in the database
+		// Edit an file in the database
 		public void EditFile(File file)
 		{
 			db.Entry(file).State = EntityState.Modified;
 			db.SaveChanges();
 		}
 
-		// Deletes a file from the database
+		// Delete a file from the database
 		public void DeleteFile(int id)
 		{
 			File file = db.Files.Find(id);
@@ -131,32 +131,30 @@ namespace LMS_Grupp4.Repositories
 
 		public ProgramClass GetSpecificProgramClass(int id)
 		{
-			if (id != null)
-			{ return db.ProgramClasses.Find(id); } else return null;
+			return db.ProgramClasses.Find(id); 
 		}
 
-		// Adds ProgramClass to the database
-		public void AddFile(ProgramClass programClass)
+		// Add ProgramClass to the database
+		public void AddProgramClass(ProgramClass programClass)
 		{
 			db.ProgramClasses.Add(programClass);
 			db.SaveChanges();
 		}
 
-		// Edits an file in the database
-		public void EditFile(File file)
+		// Edit a ProgramClass in the database
+		public void EditProgramClass(ProgramClass programClass)
 		{
-			db.Entry(file).State = EntityState.Modified;
+			db.Entry(programClass).State = EntityState.Modified;
 			db.SaveChanges();
 		}
 
-		// Deletes a file from the database
-		public void DeleteFile(int id)
+		// Delete a ProgramClass from the database
+		public void DeleteProgramClass(int id)
 		{
-			File file = db.Files.Find(id);
-			db.Files.Remove(file);
+			ProgramClass programClass = db.ProgramClasses.Find(id);
+			db.ProgramClasses.Remove(programClass);
 			db.SaveChanges();
 		}
 		#endregion
-
 	}
 }
