@@ -1,4 +1,5 @@
 ﻿using LMS_Grupp4.Models;
+using LMS_Grupp4.Models.LMS_ViewModels;
 using LMS_Grupp4.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -29,8 +30,9 @@ namespace LMS_Grupp4.Controllers
 
             var model = UserManager.Users.ToList();
 
-            return null;
+            return View(model);
         }
 
+        //public ActionResult
     }
 }

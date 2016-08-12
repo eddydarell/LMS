@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<LMS_Grupp4.Models.ApplicationUser>
 
 @{
-    ViewBag.Title = "ManageUsers";
+    ViewBag.Title = "Manage Users";
 }
 
 <h2>ManageUsers</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Add User", "Create")
 </p>
 <table class="table">
     <tr>
@@ -21,13 +21,7 @@
             @Html.DisplayNameFor(model => model.UserName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EmailConfirmed)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.PhoneNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PhoneNumberConfirmed)
         </th>
         
         <th></th>
@@ -41,21 +35,11 @@
         <td>
             @Html.DisplayFor(modelItem => item.Email)
         </td>
-
         <td>
             @Html.DisplayFor(modelItem => item.UserName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.EmailConfirmed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SecurityStamp)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.PhoneNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PhoneNumberConfirmed)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
