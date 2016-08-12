@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace LMS_Grupp4.Controllers
 {
+    [Authorize]
     public class CourseController : Controller
     {
         private ApplicationDbContext context = new ApplicationDbContext();

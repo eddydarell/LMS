@@ -36,6 +36,7 @@ namespace LMS_Grupp4.Migrations
                     {
                         ID = c.Int(nullable: false, identity: true),
                         CourseName = c.String(nullable: false),
+                        Description = c.String(),
                     })
                 .PrimaryKey(t => t.ID);
             
@@ -93,7 +94,7 @@ namespace LMS_Grupp4.Migrations
                         Name = c.String(nullable: false, maxLength: 45),
                         Format = c.String(maxLength: 20),
                         URL = c.String(nullable: false),
-                        PublicVisibility = c.Boolean(nullable: false),
+                        IsPublicVisible = c.Boolean(nullable: false),
                         UploadDate = c.DateTime(nullable: false),
                         Size = c.Double(nullable: false),
                         Uploader_Id = c.String(maxLength: 128),
