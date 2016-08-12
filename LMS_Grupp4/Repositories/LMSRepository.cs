@@ -23,8 +23,7 @@ namespace LMS_Grupp4.Repositories
 
 		public Assignment GetSpecificAssignment(int id)
 		{
-			if (id != null)
-			{ return db.Assignments.Find(id); } else return null;
+			 return db.Assignments.Find(id);             
 		}
 
 		// Adds assignments to the database
@@ -59,9 +58,7 @@ namespace LMS_Grupp4.Repositories
 
         public Course GetSpecificCourse(int id)
         {
-            if (id != null)
-            { return db.Courses.Find(id); }
-            else return null;
+            return db.Courses.Find(id);
         }
 
         // Adds courses to the database
@@ -95,8 +92,7 @@ namespace LMS_Grupp4.Repositories
 
 		public File GetSpecificFile(int id)
 		{
-			if (id != null)
-			{ return db.Files.Find(id); } else return null;
+			return db.Files.Find(id);
 		}
 
 		// Add file to the database
