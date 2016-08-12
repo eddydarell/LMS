@@ -102,7 +102,7 @@ namespace LMS_Grupp4.Repositories
 			db.SaveChanges();
 		}
 
-		// Edits an file in the database
+		// Edits a file in the database
 		public void EditFile(File file)
 		{
 			db.Entry(file).State = EntityState.Modified;
@@ -116,7 +116,7 @@ namespace LMS_Grupp4.Repositories
 			db.Files.Remove(file);
 			db.SaveChanges();
 		}
-		#endregion
+		#endregion 
 
 
 		#region ProgramClass
@@ -127,32 +127,65 @@ namespace LMS_Grupp4.Repositories
 
 		public ProgramClass GetSpecificProgramClass(int id)
 		{
-			if (id != null)
-			{ return db.ProgramClasses.Find(id); } else return null;
+			return db.ProgramClasses.Find(id); 
 		}
 
 		// Adds ProgramClass to the database
-		public void AddFile(ProgramClass programClass)
+        public void AddProgramClass(ProgramClass programClass)
 		{
 			db.ProgramClasses.Add(programClass);
 			db.SaveChanges();
 		}
 
-		// Edits an file in the database
-		public void EditFile(File file)
+        // Edits a programClass in the database
+        public void EditProgramClass(ProgramClass programClass)
 		{
-			db.Entry(file).State = EntityState.Modified;
+            db.Entry(programClass).State = EntityState.Modified;
 			db.SaveChanges();
 		}
 
-		// Deletes a file from the database
-		public void DeleteFile(int id)
+        // Deletes a programClass from the database
+        public void DeleteProgramClass(int id)
 		{
-			File file = db.Files.Find(id);
-			db.Files.Remove(file);
+            ProgramClass programClass = db.ProgramClasses.Find(id);
+            db.ProgramClasses.Remove(programClass);
 			db.SaveChanges();
 		}
 		#endregion
 
-	}
+       #region ClassSchema
+        // Returns all classSchemas from the database
+        public IEnumerable<ClassSchema> GetAllClassSchemas()
+        {
+            return db.ClassSchemas.ToList();
+        }
+
+        public ClassSchema GetSpecificClassSchema(int id)
+        {
+            return db.ClassSchemas.Find(id);
+        }
+
+        // Adds classSchemas to the database
+        public void AddClassSchema(ClassSchema classSchema)
+        {
+            db.ClassSchemas.Add(classSchema);
+            db.SaveChanges();
+        }
+
+        // Edits a classSchema in the database
+        public void EditClassSchema(ClassSchema classSchema)
+        {
+            db.Entry(classSchema).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        // Deletes a classSchema from the database
+        public void DeleteClassSchema(int id)
+        {
+            ClassSchema classSchema = db.ClassSchemas.Find(id);
+            db.ClassSchemas.Remove(classSchema);
+            db.SaveChanges();
+        }
+        #endregion ClassSchema
+    }
 }
