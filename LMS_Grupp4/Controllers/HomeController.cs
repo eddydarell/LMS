@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,26 @@ namespace LMS_Grupp4.Controllers
     {
         public ActionResult Index()
         {
+            if(User.Identity.IsAuthenticated)
+            {
+                var isAdmin = User.IsInRole("admin");
+                var isTeacher = User.IsInRole("Teacher");
+                var isStudent = User.IsInRole("student");
+                if (isAdmin)
+                {
+                    return RedirectToActionPermanent("Index", "Admin", new { id = User.Identity.GetUserId() });
+                }
+
+                if (isTeacher)
+                {
+                    return RedirectToActionPermanent("Index", "Teacher", new { id = User.Identity.GetUserId() });
+                }
+
+                if (isStudent)
+                {
+                    return RedirectToActionPermanent("Index", "Student", new { id = User.Identity.GetUserId() });
+                }
+            }
             return View();
         }
 
