@@ -19,8 +19,10 @@ namespace LMS_Grupp4.Migrations
 
         protected override void Seed(LMS_Grupp4.Models.ApplicationDbContext context)
         {
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            RoleStore<IdentityRole> roleStore = new RoleStore<IdentityRole>(context);
+            RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(roleStore);
+            UserStore<ApplicationUser> userStore = new UserStore<ApplicationUser>(context);
+            UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(userStore);
 
 
             //At startup, creating a default admin role and a default admin user  
@@ -193,7 +195,7 @@ namespace LMS_Grupp4.Migrations
             classShema1.Courses.Add(course4);
             classShema2.Courses.Add(course1);
             classShema2.Courses.Add(course2);
-            
+
             context.Courses.AddOrUpdate(course1);
             context.Courses.AddOrUpdate(course2);
             context.Courses.AddOrUpdate(course3);
