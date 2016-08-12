@@ -22,7 +22,7 @@ namespace LMS_Grupp4.Repositories
 		}
 
 		public Assignment GetSpecificAssignment(int id)
-		{			
+		{
 			 return db.Assignments.Find(id);             
 		}
 
@@ -118,39 +118,41 @@ namespace LMS_Grupp4.Repositories
 		}
 		#endregion
 
-        #region ClassSchema
-        // Returns all classSchemas from the database
-        public IEnumerable<ClassSchema> GetAllClassSchemas()
-        {
-            return db.ClassSchemas.ToList();
-        }
 
-        public ClassSchema GetSpecificClassSchema(int id)
-        {
-            return db.ClassSchemas.Find(id);
-        }
+		#region ProgramClass
+		public IEnumerable<ProgramClass> GetAllProgramClasses()
+		{
+			return db.ProgramClasses.ToList();
+		}
 
-        // Adds classSchemas to the database
-        public void AddClassSchema(ClassSchema classSchema)
-        {
-            db.ClassSchemas.Add(classSchema);
-            db.SaveChanges();
-        }
+		public ProgramClass GetSpecificProgramClass(int id)
+		{
+			if (id != null)
+			{ return db.ProgramClasses.Find(id); } else return null;
+		}
 
-        // Edits a classSchema in the database
-        public void EditClassSchema(ClassSchema classSchema)
-        {
-            db.Entry(classSchema).State = EntityState.Modified;
-            db.SaveChanges();
-        }
+		// Adds ProgramClass to the database
+		public void AddFile(ProgramClass programClass)
+		{
+			db.ProgramClasses.Add(programClass);
+			db.SaveChanges();
+		}
 
-        // Deletes a classSchema from the database
-        public void DeleteClassSchema(int id)
-        {
-            ClassSchema classSchema = db.ClassSchemas.Find(id);
-            db.ClassSchemas.Remove(classSchema);
-            db.SaveChanges();
-        }
-        #endregion ClassSchema
-    }
+		// Edits an file in the database
+		public void EditFile(File file)
+		{
+			db.Entry(file).State = EntityState.Modified;
+			db.SaveChanges();
+		}
+
+		// Deletes a file from the database
+		public void DeleteFile(int id)
+		{
+			File file = db.Files.Find(id);
+			db.Files.Remove(file);
+			db.SaveChanges();
+		}
+		#endregion
+
+	}
 }
