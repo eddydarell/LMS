@@ -107,5 +107,41 @@ namespace LMS_Grupp4.Repositories
 		}
 		#endregion
 
+
+		#region ProgramClass
+		public IEnumerable<ProgramClass> GetAllProgramClasses()
+		{
+			return db.ProgramClasses.ToList();
+		}
+
+		public ProgramClass GetSpecificProgramClass(int id)
+		{
+			if (id != null)
+			{ return db.ProgramClasses.Find(id); } else return null;
+		}
+
+		// Adds ProgramClass to the database
+		public void AddFile(ProgramClass programClass)
+		{
+			db.ProgramClasses.Add(programClass);
+			db.SaveChanges();
+		}
+
+		// Edits an file in the database
+		public void EditFile(File file)
+		{
+			db.Entry(file).State = EntityState.Modified;
+			db.SaveChanges();
+		}
+
+		// Deletes a file from the database
+		public void DeleteFile(int id)
+		{
+			File file = db.Files.Find(id);
+			db.Files.Remove(file);
+			db.SaveChanges();
+		}
+		#endregion
+
 	}
 }
