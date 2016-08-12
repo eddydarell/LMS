@@ -44,10 +44,4 @@ namespace LMS_Grupp4.Models.LMS_Models
         public virtual Course Course { get; set; }
         public virtual ApplicationUser Student { get; set; }
     }
-
-    //Model Repository
-    public class AssignmentRepository
-    {
-
-    }
 }
