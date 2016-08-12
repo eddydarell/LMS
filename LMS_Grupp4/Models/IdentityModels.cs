@@ -18,6 +18,7 @@ namespace LMS_Grupp4.Models
         [Display(Name = "Name")]
         public string RealName { get; set; }
         public virtual ICollection<Assignment> Assigments { get; set; }
+		public virtual ICollection<ClassSchema> ClassSchemas { get; set; }
         public virtual ICollection<File> Files { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
         public virtual ICollection<ProgramClass> ProgramClasses { get; set; }
@@ -50,7 +51,7 @@ namespace LMS_Grupp4.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<LMS_Grupp4.Models.ApplicationUser> ApplicationUsers { get; set; }
+		//public System.Data.Entity.DbSet<LMS_Grupp4.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 
     //This class in intended to provide extensions to the Use.Identity object
