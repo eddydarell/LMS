@@ -22,9 +22,8 @@ namespace LMS_Grupp4.Repositories
 		}
 
 		public Assignment GetSpecificAssignment(int id)
-		{
-			if (id != null)
-			{ return db.Assignments.Find(id); } else return null;
+		{			
+			 return db.Assignments.Find(id);             
 		}
 
 		// Adds assignments to the database
@@ -59,9 +58,7 @@ namespace LMS_Grupp4.Repositories
 
         public Course GetSpecificCourse(int id)
         {
-            if (id != null)
-            { return db.Courses.Find(id); }
-            else return null;
+            return db.Courses.Find(id);
         }
 
         // Adds courses to the database
@@ -95,8 +92,7 @@ namespace LMS_Grupp4.Repositories
 
 		public File GetSpecificFile(int id)
 		{
-			if (id != null)
-			{ return db.Files.Find(id); } else return null;
+			return db.Files.Find(id);
 		}
 
 		// Adds files to the database
@@ -122,5 +118,39 @@ namespace LMS_Grupp4.Repositories
 		}
 		#endregion
 
-	}
+        #region ClassSchema
+        // Returns all classSchemas from the database
+        public IEnumerable<ClassSchema> GetAllClassSchemas()
+        {
+            return db.ClassSchemas.ToList();
+        }
+
+        public ClassSchema GetSpecificClassSchema(int id)
+        {
+            return db.ClassSchemas.Find(id);
+        }
+
+        // Adds classSchemas to the database
+        public void AddClassSchema(ClassSchema classSchema)
+        {
+            db.ClassSchemas.Add(classSchema);
+            db.SaveChanges();
+        }
+
+        // Edits a classSchema in the database
+        public void EditClassSchema(ClassSchema classSchema)
+        {
+            db.Entry(classSchema).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        // Deletes a classSchema from the database
+        public void DeleteClassSchema(int id)
+        {
+            ClassSchema classSchema = db.ClassSchemas.Find(id);
+            db.ClassSchemas.Remove(classSchema);
+            db.SaveChanges();
+        }
+        #endregion ClassSchema
+    }
 }
