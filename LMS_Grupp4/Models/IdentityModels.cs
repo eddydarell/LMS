@@ -49,6 +49,8 @@ namespace LMS_Grupp4.Models
         {
             return new ApplicationDbContext();
         }
+
+		public System.Data.Entity.DbSet<LMS_Grupp4.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 
     //This class in intended to provide extensions to the Use.Identity object
