@@ -71,9 +71,24 @@ namespace LMS_Grupp4.Repositories
             db.SaveChanges();
         }
 
+        // Edits a course in the database
+        public void EditCourse(Course course)
+        {
+            db.Entry(course).State = EntityState.Modified;
+            db.SaveChanges();
+        }
 
-		#region File
-		public IEnumerable<File> GetAllFiles()
+        // Deletes a course from the database
+        public void DeleteCourse(int id)
+        {
+            Course course = db.Courses.Find(id);
+            db.Courses.Remove(course);
+            db.SaveChanges();
+        }
+        #endregion Course
+
+        #region File
+        public IEnumerable<File> GetAllFiles()
 		{
 			return db.Files.ToList();
 		}
