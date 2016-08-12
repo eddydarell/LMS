@@ -29,27 +29,41 @@ namespace LMS_Grupp4.Migrations
             if (!roleManager.RoleExists("admin"))
             {
 
-                // first we create Admin role   
-                var role = new IdentityRole();
-                role.Name = "admin";
-                roleManager.Create(role);
+                //// first we create Admin role   
+                //var role = new IdentityRole();
+                //role.Name = "admin";
+                //roleManager.Create(role);
 
-                //Here we create a Admin super user who will maintain the website                  
+                ////Here we create a Admin super user who will maintain the website                  
 
-                var user = new ApplicationUser();
-                user.UserName = "admin@admin.com";
-                user.Email = "admin@admin.com";
-                user.RealName = "Administrator";
+                //var user = new ApplicationUser();
+                //user.UserName = "admin@admin.com";
+                //user.Email = "admin@admin.com";
+                //user.RealName = "Administrator";
 
-                string userPWD = "AdminPassword@123";
+                //string userPWD = "AdminPassword@123";
 
-                var chkUser = UserManager.Create(user, userPWD);
+                //var chkUser = UserManager.Create(user, userPWD);
 
-                //Add default User to Role Admin   
-                if (chkUser.Succeeded)
-                {
-                    var result1 = UserManager.AddToRole(user.Id, "admin");
-                }
+                ////Add default User to Role Admin   
+                //if (chkUser.Succeeded)
+                //{
+                //    var result1 = UserManager.AddToRole(user.Id, "admin");
+                //}
+            }
+
+            var user = new ApplicationUser();
+            user.UserName = "teacher@test.com";
+            user.Email = "teacher@test.com";
+            user.RealName = "Tobias Keijser";
+
+            string userPWD = "Teacher@123";
+
+            var chkUser = UserManager.Create(user, userPWD);
+
+            if (chkUser.Succeeded)
+            {
+                var result1 = UserManager.AddToRole(user.Id, "teacher");
             }
 
             //Creating Student role    
@@ -58,7 +72,6 @@ namespace LMS_Grupp4.Migrations
                 var role = new IdentityRole();
                 role.Name = "student";
                 roleManager.Create(role);
-
             }
 
             //Creating Teacher role    

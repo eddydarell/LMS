@@ -205,6 +205,14 @@
     <Compile Include="Migrations\201608111938466_Initial.Designer.cs">
       <DependentUpon>201608111938466_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608121146493_AddedStudent.cs" />
+    <Compile Include="Migrations\201608121146493_AddedStudent.Designer.cs">
+      <DependentUpon>201608121146493_AddedStudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608121148224_AddedTeacher.cs" />
+    <Compile Include="Migrations\201608121148224_AddedTeacher.Designer.cs">
+      <DependentUpon>201608121148224_AddedTeacher.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -280,6 +288,7 @@
     <Content Include="Views\Schema\Index.cshtml" />
     <Content Include="Views\Account\UserIdentification.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\ManageUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -295,6 +304,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201608111938466_Initial.resx">
       <DependentUpon>201608111938466_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608121146493_AddedStudent.resx">
+      <DependentUpon>201608121146493_AddedStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608121148224_AddedTeacher.resx">
+      <DependentUpon>201608121148224_AddedTeacher.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

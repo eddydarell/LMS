@@ -14,6 +14,8 @@ namespace LMS_Grupp4.Repositories
 		/// Database connections
 		private ApplicationDbContext db = new ApplicationDbContext();
 
+        public LMSRepository(){ }
+
         #region Assignment
 		// Returns all assignments from the database
 		public IEnumerable<Assignment> GetAllAssignments()
