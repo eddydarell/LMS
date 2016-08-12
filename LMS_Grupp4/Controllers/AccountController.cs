@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LMS_Grupp4.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace LMS_Grupp4.Controllers
 {
@@ -79,7 +80,8 @@ namespace LMS_Grupp4.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("UserIdentification");
+                    //return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -421,6 +423,29 @@ namespace LMS_Grupp4.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        //This method is here to redirect user to respective controllers
+        public ActionResult UserIdentification()
+        {
+            var isAdmin = User.IsInRole("admin");
+            var isTeacher = User.IsInRole("Teacher");
+            var isStudent = User.IsInRole("student");
+            if (isAdmin)
+            {
+                return RedirectToActionPermanent("Index", "Admin", new { id = User.Identity.GetUserId() });
+            }
+
+            if(isTeacher)
+            {
+                return RedirectToActionPermanent("Index", "Teacher", new { id = User.Identity.GetUserId() });
+            }
+
+            if(isStudent)
+            {
+                return RedirectToActionPermanent("Index", "Student", new { id = User.Identity.GetUserId() });
+            }
+            return View();
         }
 
         #region Helpers

@@ -1,0 +1,23 @@
+﻿@using LMS_Grupp4.Models
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="jumbotron">
+    <h1>You are logged in as Admin: @User.Identity.GetUserRealName()</h1>
+    <small>ID: @ViewBag.UserID</small>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h3>Add User</h3>
+        <hr />
+        <a href="@Url.Action("Register", "Account")" class="btn btn-default btn-md">Create New User</a>
+    </div>
+    <div class="col-md-6">
+        <h3>Manage Users</h3>
+        <hr />
+        <a href="@Url.Action("ManageUsers", "Admin")" class="btn btn-default btn-md">Create New User</a>
+    </div>
+</div>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using LMS_Grupp4.Models;
 
 namespace LMS_Grupp4.Repositories
 {
@@ -11,7 +12,7 @@ namespace LMS_Grupp4.Repositories
     public class AssignmentRepository
     {
         /// Database connections
-        private ApplicationDbContext db = new ApplicationDbContext;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         // Returns all assignments from the database
         public IEnumerable<Assignment> GetAllAssignments()
@@ -34,7 +35,7 @@ namespace LMS_Grupp4.Repositories
         }
 
         // Edits an assignment in the database
-        public void Edit(Assignment item)
+        public void Edit(Assignment assignment)
         {
             db.Entry(assignment).State = EntityState.Modified;
             db.SaveChanges();
