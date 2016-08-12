@@ -11,6 +11,9 @@ namespace LMS_Grupp4.Models.LMS_ViewModels
     //THan the base model classes
     public class Admin_ManageUserViewModel
     {
+        [Key]
+        public int ID { get; set; }
+
         public string UserID { get; set; }
 
         [Display(Name = "Username")]
