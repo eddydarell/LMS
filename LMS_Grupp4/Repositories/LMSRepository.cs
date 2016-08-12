@@ -15,7 +15,7 @@ namespace LMS_Grupp4.Repositories
 		private ApplicationDbContext db = new ApplicationDbContext();
 
         #region Assignment
-        // Returns all assignments from the database
+		// Returns all assignments from the database
 		public IEnumerable<Assignment> GetAllAssignments()
 		{
 			return db.Assignments.ToList();
@@ -47,7 +47,7 @@ namespace LMS_Grupp4.Repositories
 			Assignment assignment = db.Assignments.Find(id);
 			db.Assignments.Remove(assignment);
 			db.SaveChanges();
-        }
+		}
         #endregion Assignment
 
         #region Course
@@ -71,20 +71,41 @@ namespace LMS_Grupp4.Repositories
             db.SaveChanges();
         }
 
-        // Edits a course in the database
-        public void EditCourse(Course course)
-        {
-            db.Entry(course).State = EntityState.Modified;
-            db.SaveChanges();
-        }
 
-        // Deletes a course from the database
-        public void DeleteCourse(int id)
-        {
-            Course course = db.Courses.Find(id);
-            db.Courses.Remove(course);
-            db.SaveChanges();
-        }
-        #endregion Course
-    }
+		#region File
+		public IEnumerable<File> GetAllFiles()
+		{
+			return db.Files.ToList();
+		}
+
+		public File GetSpecificFile(int id)
+		{
+			if (id != null)
+			{ return db.Files.Find(id); } else return null;
+		}
+
+		// Adds files to the database
+		public void AddFile(File file)
+		{
+			db.Files.Add(file);
+			db.SaveChanges();
+		}
+
+		// Edits an file in the database
+		public void EditFile(File file)
+		{
+			db.Entry(file).State = EntityState.Modified;
+			db.SaveChanges();
+		}
+
+		// Deletes a file from the database
+		public void DeleteFile(int id)
+		{
+			File file = db.Files.Find(id);
+			db.Files.Remove(file);
+			db.SaveChanges();
+		}
+		#endregion
+
+	}
 }
