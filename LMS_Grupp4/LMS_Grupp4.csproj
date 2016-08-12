@@ -217,7 +217,7 @@
     <Compile Include="Models\LMS_Models\ProgramClass.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\AssignmentRepository.cs" />
+    <Compile Include="Repositories\LMSRepository.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
