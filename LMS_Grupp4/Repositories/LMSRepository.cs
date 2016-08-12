@@ -48,5 +48,41 @@ namespace LMS_Grupp4.Repositories
 			db.SaveChanges();
 		}
 
+
+		#region File
+		public IEnumerable<File> GetAllFiles()
+		{
+			return db.Files.ToList();
+		}
+
+		public File GetSpecificFile(int id)
+		{
+			if (id != null)
+			{ return db.Files.Find(id); } else return null;
+		}
+
+		// Adds files to the database
+		public void AddFile(File file)
+		{
+			db.Files.Add(file);
+			db.SaveChanges();
+		}
+
+		// Edits an file in the database
+		public void EditFile(File file)
+		{
+			db.Entry(file).State = EntityState.Modified;
+			db.SaveChanges();
+		}
+
+		// Deletes a file from the database
+		public void DeleteFile(int id)
+		{
+			File file = db.Files.Find(id);
+			db.Files.Remove(file);
+			db.SaveChanges();
+		}
+		#endregion
+
 	}
 }
