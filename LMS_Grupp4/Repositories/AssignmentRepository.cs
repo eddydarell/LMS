@@ -34,7 +34,7 @@ namespace LMS_Grupp4.Repositories
         }
 
         // Edits an assignment in the database
-        public void Edit(Assignment item)
+        public void Edit(Assignment assignment)
         {
             db.Entry(assignment).State = EntityState.Modified;
             db.SaveChanges();
