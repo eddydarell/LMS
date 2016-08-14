@@ -90,7 +90,7 @@ namespace LMS_Grupp4.Migrations
                 Assignments = new List<Assignment>(),
                 Classes = new List<ProgramClass>(),
                 ClassSchemes = new List<ClassSchema>(),
-                Files = new List<File>(),
+                Files = new List<LMSFile>(),
                 Users = new List<ApplicationUser>(),
                 Description = "Basic Mathematics and introduction to counting"
             };
@@ -102,7 +102,7 @@ namespace LMS_Grupp4.Migrations
                 Assignments = new List<Assignment>(),
                 Classes = new List<ProgramClass>(),
                 ClassSchemes = new List<ClassSchema>(),
-                Files = new List<File>(),
+                Files = new List<LMSFile>(),
                 Users = new List<ApplicationUser>(),
                 Description = "Swedish ground level"
             };
@@ -114,7 +114,7 @@ namespace LMS_Grupp4.Migrations
                 Assignments = new List<Assignment>(),
                 Classes = new List<ProgramClass>(),
                 ClassSchemes = new List<ClassSchema>(),
-                Files = new List<File>(),
+                Files = new List<LMSFile>(),
                 Users = new List<ApplicationUser>()
             };
 
@@ -125,7 +125,7 @@ namespace LMS_Grupp4.Migrations
                 Assignments = new List<Assignment>(),
                 Classes = new List<ProgramClass>(),
                 ClassSchemes = new List<ClassSchema>(),
-                Files = new List<File>(),
+                Files = new List<LMSFile>(),
                 Users = new List<ApplicationUser>()
             };
             #endregion

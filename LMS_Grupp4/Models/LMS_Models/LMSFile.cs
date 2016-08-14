@@ -4,12 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LMS_Grupp4.Models.LMS_Models
 {
-	public class File
+	public class LMSFile
 	{
 		[Key]
 		public int ID { get; set; }
 
-		[MaxLength(45)]
+		//[MaxLength(45)] Commented this out as it generated validation problems
+        //To-Do: Fix this before deploy
         [Display(Name = "File Name")]
         [Required]
         public string Name { get; set; }
@@ -30,7 +31,7 @@ namespace LMS_Grupp4.Models.LMS_Models
         [Required]
         public DateTime UploadDate { get; set; }
 
-        [Range(0, 9999999999.99)]
+        [Range(0, 99999999999.99)]
         [Display(Name = "Size")]
         public double Size { get; set; }
 		

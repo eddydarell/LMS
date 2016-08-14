@@ -80,7 +80,7 @@ namespace LMS_Grupp4.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("UserIdentification");
+                    return RedirectToAction("UserIdentification", new { returnUrl = returnUrl });
                     //return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -153,7 +153,13 @@ namespace LMS_Grupp4.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    RealName = model.RealName,
+                    Email = model.Email,
+                    PhoneNumber = model.PhoneNumber
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -426,24 +432,33 @@ namespace LMS_Grupp4.Controllers
         }
 
         //This method is here to redirect user to respective controllers
-        public ActionResult UserIdentification()
+        public ActionResult UserIdentification(string returnUrl = "")
         {
             var isAdmin = User.IsInRole("admin");
             var isTeacher = User.IsInRole("Teacher");
             var isStudent = User.IsInRole("student");
             if (isAdmin)
             {
-                return RedirectToActionPermanent("Index", "Admin", new { id = User.Identity.GetUserId() });
+                if(String.IsNullOrWhiteSpace(returnUrl))
+                    return RedirectToActionPermanent("Index", "Admin", new { id = User.Identity.GetUserId() });
+                else
+                    return RedirectToLocal(returnUrl);
             }
 
             if(isTeacher)
             {
-                return RedirectToActionPermanent("Index", "Teacher", new { id = User.Identity.GetUserId() });
+                if (String.IsNullOrWhiteSpace(returnUrl))
+                    return RedirectToActionPermanent("Index", "Teacher", new { id = User.Identity.GetUserId() });
+                else
+                    return RedirectToLocal(returnUrl);
             }
 
             if(isStudent)
             {
-                return RedirectToActionPermanent("Index", "Student", new { id = User.Identity.GetUserId() });
+                if (String.IsNullOrWhiteSpace(returnUrl))
+                    return RedirectToActionPermanent("Index", "Student", new { id = User.Identity.GetUserId() });
+                else
+                    return RedirectToLocal(returnUrl);
             }
             return View();
         }

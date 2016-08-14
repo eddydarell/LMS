@@ -90,26 +90,26 @@ namespace LMS_Grupp4.Repositories
 
         #region File
 		// Returns all files from the database
-        public IEnumerable<File> GetAllFiles()
+        public IEnumerable<LMSFile> GetAllFiles()
 		{
 			return db.Files.ToList();
 		}
 		
 		// Gets a file from the database with a specific id
-		public File GetSpecificFile(int id)
+		public LMSFile GetSpecificFile(int id)
 		{
 			return db.Files.Find(id);
 		}
 
 		// Add a file to the database
-		public void AddFile(File file)
+		public void AddFile(LMSFile file)
 		{
 			db.Files.Add(file);
 			db.SaveChanges();
 		}
 
 		// Edit a file in the database
-		public void EditFile(File file)
+		public void EditFile(LMSFile file)
 		{
 			db.Entry(file).State = EntityState.Modified;
 			db.SaveChanges();
@@ -118,7 +118,7 @@ namespace LMS_Grupp4.Repositories
 		// Delete a file from the database
 		public void DeleteFile(int id)
 		{
-			File file = db.Files.Find(id);
+			LMSFile file = db.Files.Find(id);
 			db.Files.Remove(file);
 			db.SaveChanges();
 		}

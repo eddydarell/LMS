@@ -19,7 +19,7 @@ namespace LMS_Grupp4.Models
         public string RealName { get; set; }
         public virtual ICollection<Assignment> Assigments { get; set; }
 		public virtual ICollection<ClassSchema> ClassSchemas { get; set; }
-        public virtual ICollection<File> Files { get; set; }
+        public virtual ICollection<LMSFile> Files { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
         public virtual ICollection<ProgramClass> ProgramClasses { get; set; }
 
@@ -38,7 +38,7 @@ namespace LMS_Grupp4.Models
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<ClassSchema> ClassSchemas { get; set; }
         public DbSet<Course> Courses { get; set; }
-        public DbSet<File> Files { get; set; }
+        public DbSet<LMSFile> Files { get; set; }
         public DbSet<ProgramClass> ProgramClasses { get; set; }
 
         public ApplicationDbContext()
