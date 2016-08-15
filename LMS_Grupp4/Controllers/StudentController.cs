@@ -1,5 +1,7 @@
 ﻿using LMS_Grupp4.Models;
 using LMS_Grupp4.Repositories;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +19,6 @@ namespace LMS_Grupp4.Controllers
 		static UserStore<ApplicationUser> userStore = new UserStore<ApplicationUser>(context);
 		UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(userStore);
 
-		private LMSRepository LMSRepo = new LMSRepository();
 
         // GET: Student
         public ActionResult Index()
