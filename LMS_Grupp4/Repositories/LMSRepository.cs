@@ -12,9 +12,12 @@ namespace LMS_Grupp4.Repositories
 	public class LMSRepository
 	{
 		/// Database connections
-		private ApplicationDbContext db = new ApplicationDbContext();
+		ApplicationDbContext db = null;
 
-        public LMSRepository(){ }
+        public LMSRepository(ApplicationDbContext dbContext)
+		{
+			db = dbContext;
+		}
 
         #region Assignment
 		// Returns all assignments from the database
