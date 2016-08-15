@@ -435,7 +435,7 @@ namespace LMS_Grupp4.Controllers
         public ActionResult UserIdentification(string returnUrl = "")
         {
             var isAdmin = User.IsInRole("admin");
-            var isTeacher = User.IsInRole("Teacher");
+            var isTeacher = User.IsInRole("teacher");
             var isStudent = User.IsInRole("student");
             if (isAdmin)
             {

@@ -52,51 +52,38 @@ namespace LMS_Grupp4.Migrations
                 //}
             }
 
-			//var user = new ApplicationUser();
-			//user.UserName = "teacher@test.com";
-			//user.Email = "teacher@test.com";
-			//user.RealName = "Tobias Keijser";
+            //var user = new ApplicationUser();
+            //user.UserName = "student@test.com";
+            //user.Email = "student@test.com";
+            //user.RealName = "Sven Svensson";
 
-			//string userPWD = "Teacher@123";
+            //string userPWD = "Student@123";
 
-			//user.UserName = "admin@test.com";
-			//user.Email = "admin@test.com";
-			//user.RealName = "Admin Adminsson";
+            //var chkUser = UserManager.Create(user, userPWD);
 
-			//string userPWD = "Admin@123";
+            //if (chkUser.Succeeded)
+            //{
+            //    var result1 = UserManager.AddToRole(user.Id, "student");
+            //}
 
-			//var user = UserManager.FindById("e06eb141-1bdc-4e13-8603-98b841fb8ea0");
-			var studentUser = UserManager.FindById("7023b4bb-2335-4729-8eed-b9566777ca49");
+            //var user = UserManager.FindById("bb073414-e2b2-4197-9f52-2a9535901341");
+            //UserManager.AddToRole(user.Id, "teacher");
 
-			//var chkUser = UserManager.Create(user, userPWD);
+            //Creating Student role    
+            //if (!roleManager.RoleExists("student"))
+            //{
+            //    var role = new IdentityRole();
+            //    role.Name = "student";
+            //    roleManager.Create(role);
+            //}
 
-          
-			//var result1 = UserManager.AddToRole(user.Id, "admin");
-          
-
-			//Creating Admin role    
-			if (!roleManager.RoleExists("admin"))
-			{
-				var role = new IdentityRole();
-				role.Name = "admin";
-				roleManager.Create(role);
-			}
-			
-			//Creating Student role    
-            if (!roleManager.RoleExists("student"))
-            {
-                var role = new IdentityRole();
-                role.Name = "student";
-                roleManager.Create(role);
-            }
-
-            //Creating Teacher role    
-            if (!roleManager.RoleExists("teacher"))
-            {
-                var role = new IdentityRole();
-                role.Name = "teacher";
-                roleManager.Create(role);
-            }
+            ////Creating Teacher role    
+            //if (!roleManager.RoleExists("teacher"))
+            //{
+            //    var role = new IdentityRole();
+            //    role.Name = "teacher";
+            //    roleManager.Create(role);
+            //}
 
             #region Course Init
             Course course1 = new Course
