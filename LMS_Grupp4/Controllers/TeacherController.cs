@@ -9,7 +9,7 @@ namespace LMS_Grupp4.Controllers
 {
     public class TeacherController : Controller
     {
-        private LMSRepository _repository = new LMSRepository();
+		//private LMSRepository _repository = new LMSRepository();
 
        //Get Teacher
         public ActionResult Index()
