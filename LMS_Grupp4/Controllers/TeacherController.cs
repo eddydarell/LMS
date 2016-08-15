@@ -17,12 +17,20 @@ namespace LMS_Grupp4.Controllers
         static RoleStore<IdentityRole> roleStore = new RoleStore<IdentityRole>(context);
         RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(roleStore);
         static UserStore<ApplicationUser> userStore = new UserStore<ApplicationUser>(context);
-        UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(userStore);
+        UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(userStore);   
 
-       //Get Teacher
-        public ActionResult Index()
+       //Get Student
+        public ActionResult Index(string id = "")
         {
-            return View();
+            var students = roleManager.FindByName("student").Users;
+            var studentList = new List<ApplicationUser>();
+            foreach(var student in students)
+            {
+                studentList.Add(userManager.FindById(student.UserId));
+            }
+            ViewBag.UserID = id;
+          
+            return View(studentList);
         }
 
     }
