@@ -31,14 +31,16 @@ namespace LMS_Grupp4.Controllers
             return View();
         }
 
-		public ActionResult Courses()
+		public ActionResult Courses(string id = "")
 		{
 			return View();
 		}
 
-		public ActionResult ProgramClasses()
+		public ActionResult ProgramClasses(string id = "")
 		{
-			return View();
+			var user = userManager.FindById(id);
+
+			return View(user.ProgramClasses);
 		}
     }
 }

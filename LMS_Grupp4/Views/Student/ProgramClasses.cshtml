@@ -1,7 +1,29 @@
-﻿
+﻿@model IEnumerable<LMS_Grupp4.Models.LMS_Models.ProgramClass>
+
 @{
     ViewBag.Title = "ProgramClasses";
 }
 
 <h2>My Programs</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ClassName)
+        </th>
+       
+        <th></th>
+    </tr>
+
+    @foreach (var cmodel in Model)
+    {
+        <tr>
+            <td>
+                @*@Html.DisplayFor(model => model.ClassName)*@
+            </td>
+         
+        </tr>
+    }
+
+</table>
 

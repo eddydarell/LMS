@@ -67,6 +67,8 @@ namespace LMS_Grupp4.Migrations
             //}
 
             //var user = UserManager.FindById("bb073414-e2b2-4197-9f52-2a9535901341");
+
+			var studentUser = UserManager.FindById("7023b4bb-2335-4729-8eed-b9566777ca49");
             //UserManager.AddToRole(user.Id, "teacher");
 
             //Creating Student role    
