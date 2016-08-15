@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: 70px;
     padding-bottom: 20px;
 }
 
@@ -21,4 +21,29 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+/*Personal CSS*/
+.container{
+   /* background-color: #FCFCFC; //To-Do: Discuss this design
+    border: 1px solid #DDD;*/
+}
+
+body > .container{
+    padding-top: 20px;
+    box-shadow: 0px 5px 10px #888888;
+    background-color: #FCFCFC;
+    border: 1px solid #DDD;
+}
+
+.panel, .jumbotron{
+    box-shadow: 0px 5px 10px #CCC;
+}
+
+dt, dd {
+    padding-bottom:10px;
+}
+
+.alert-danger{
+    padding: 10px;
 }

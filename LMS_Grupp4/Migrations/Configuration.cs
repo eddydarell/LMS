@@ -52,19 +52,21 @@ namespace LMS_Grupp4.Migrations
                 //}
             }
 
-            var user = new ApplicationUser();
-            user.UserName = "teacher@test.com";
-            user.Email = "teacher@test.com";
-            user.RealName = "Tobias Keijser";
+            //var user = new ApplicationUser();
+            //user.UserName = "teacher@test.com";
+            //user.Email = "teacher@test.com";
+            //user.RealName = "Tobias Keijser";
 
-            string userPWD = "Teacher@123";
+            //string userPWD = "Teacher@123";
 
-            var chkUser = UserManager.Create(user, userPWD);
+            //var chkUser = UserManager.Create(user, userPWD);
 
-            if (chkUser.Succeeded)
-            {
-                var result1 = UserManager.AddToRole(user.Id, "teacher");
-            }
+            //if (chkUser.Succeeded)
+            //{
+            //    var result1 = UserManager.AddToRole(user.Id, "teacher");
+            //}
+
+            
 
             //Creating Student role    
             if (!roleManager.RoleExists("student"))
@@ -219,6 +221,10 @@ namespace LMS_Grupp4.Migrations
             context.ClassSchemas.AddOrUpdate(classShema2);
             context.ProgramClasses.AddOrUpdate(programClass1);
             context.ProgramClasses.AddOrUpdate(programClass2);
+
+            var user = UserManager.FindById("19ff353f-e976-426e-bdb1-e41140b04496");
+            user.Courses.Add(course1);
+            user.Courses.Add(course2);
 
             context.SaveChanges();
         }
