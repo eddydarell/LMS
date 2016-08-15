@@ -52,21 +52,37 @@ namespace LMS_Grupp4.Migrations
                 //}
             }
 
-            var user = new ApplicationUser();
-            user.UserName = "teacher@test.com";
-            user.Email = "teacher@test.com";
-            user.RealName = "Tobias Keijser";
+			//var user = new ApplicationUser();
+			//user.UserName = "teacher@test.com";
+			//user.Email = "teacher@test.com";
+			//user.RealName = "Tobias Keijser";
 
-            string userPWD = "Teacher@123";
+			//string userPWD = "Teacher@123";
 
-            var chkUser = UserManager.Create(user, userPWD);
+			//user.UserName = "admin@test.com";
+			//user.Email = "admin@test.com";
+			//user.RealName = "Admin Adminsson";
 
-            if (chkUser.Succeeded)
-            {
-                var result1 = UserManager.AddToRole(user.Id, "teacher");
-            }
+			//string userPWD = "Admin@123";
 
-            //Creating Student role    
+			//var user = UserManager.FindById("e06eb141-1bdc-4e13-8603-98b841fb8ea0");
+			var studentUser = UserManager.FindById("7023b4bb-2335-4729-8eed-b9566777ca49");
+
+			//var chkUser = UserManager.Create(user, userPWD);
+
+          
+			//var result1 = UserManager.AddToRole(user.Id, "admin");
+          
+
+			//Creating Admin role    
+			if (!roleManager.RoleExists("admin"))
+			{
+				var role = new IdentityRole();
+				role.Name = "admin";
+				roleManager.Create(role);
+			}
+			
+			//Creating Student role    
             if (!roleManager.RoleExists("student"))
             {
                 var role = new IdentityRole();
@@ -142,7 +158,7 @@ namespace LMS_Grupp4.Migrations
 
             ProgramClass programClass2 = new ProgramClass
             {
-                ID = 1,
+                ID = 2,
                 ClassName = "Mathematician",
                 Courses = new List<Course>(),
                 ApplicationUsers = new List<ApplicationUser>(),
@@ -165,7 +181,7 @@ namespace LMS_Grupp4.Migrations
 
             ClassSchema classShema2 = new ClassSchema
             {
-                ID = 1,
+                ID = 2,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddMonths(6),
                 ProgramClass = programClass2,
@@ -219,6 +235,9 @@ namespace LMS_Grupp4.Migrations
             context.ClassSchemas.AddOrUpdate(classShema2);
             context.ProgramClasses.AddOrUpdate(programClass1);
             context.ProgramClasses.AddOrUpdate(programClass2);
+
+			programClass1.ApplicationUsers.Add(studentUser);
+			course1.Users.Add(studentUser);
 
             context.SaveChanges();
         }

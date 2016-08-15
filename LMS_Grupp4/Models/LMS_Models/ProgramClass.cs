@@ -15,8 +15,8 @@ namespace LMS_Grupp4.Models.LMS_Models
         public string ClassName { get; set; }
 
         //Navigation properties
-		public ICollection<ApplicationUser> ApplicationUsers { get; set; }
-		public ICollection<ClassSchema> ClassSchemas { get; set; }
-		public ICollection<Course> Courses { get; set; }
+		public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
+		public virtual ICollection<ClassSchema> ClassSchemas { get; set; }
+		public virtual ICollection<Course> Courses { get; set; }
 	}
 }

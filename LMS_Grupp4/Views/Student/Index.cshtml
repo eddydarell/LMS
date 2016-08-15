@@ -1,4 +1,6 @@
 ﻿@using LMS_Grupp4.Models
+@model IEnumerable<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
+
 @{
     ViewBag.Title = "Index";
 }
@@ -9,3 +11,10 @@
     <h1>You are logged in as Student: @User.Identity.GetUserRealName()</h1>
     <small>ID: @ViewBag.UserID</small>
 </div>
+
+   
+<td>
+    @Html.ActionLink("My Courses", "Courses", new { id = Model. }) |
+    @Html.ActionLink("My Programs", "ProgramClasses")
+</td>
+     

@@ -20,9 +20,25 @@ namespace LMS_Grupp4.Controllers
 		UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(userStore);
 
         // GET: Student
-        public ActionResult Index()
+		public ActionResult Index(string id = "")
         {
+			if(String.IsNullOrWhiteSpace(id))
+			{
+				id = User.Identity.GetUserId();
+			}
+
+			ViewBag.UserID = id;
             return View();
         }
+
+		public ActionResult Courses()
+		{
+			return View();
+		}
+
+		public ActionResult ProgramClasses()
+		{
+			return View();
+		}
     }
 }
