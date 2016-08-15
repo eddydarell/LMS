@@ -195,6 +195,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
+    <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SchemaController.cs" />
@@ -215,13 +216,33 @@
     <Compile Include="Migrations\201608121148224_AddedTeacher.Designer.cs">
       <DependentUpon>201608121148224_AddedTeacher.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608131121097_Test.cs" />
+    <Compile Include="Migrations\201608131121097_Test.Designer.cs">
+      <DependentUpon>201608131121097_Test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608131230346_Test2.cs" />
+    <Compile Include="Migrations\201608131230346_Test2.Designer.cs">
+      <DependentUpon>201608131230346_Test2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608141525188_FileModelNameChangedToLMSFile.cs" />
+    <Compile Include="Migrations\201608141525188_FileModelNameChangedToLMSFile.Designer.cs">
+      <DependentUpon>201608141525188_FileModelNameChangedToLMSFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608141537345_ChangedFileSizeRange.cs" />
+    <Compile Include="Migrations\201608141537345_ChangedFileSizeRange.Designer.cs">
+      <DependentUpon>201608141537345_ChangedFileSizeRange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608141556562_Changees.cs" />
+    <Compile Include="Migrations\201608141556562_Changees.Designer.cs">
+      <DependentUpon>201608141556562_Changees.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LMS_Models\Assignment.cs" />
     <Compile Include="Models\LMS_Models\Course.cs" />
     <Compile Include="Models\LMS_Models\ClassSchema.cs" />
-    <Compile Include="Models\LMS_Models\File.cs" />
+    <Compile Include="Models\LMS_Models\LMSFile.cs" />
     <Compile Include="Models\LMS_Models\ProgramClass.cs" />
     <Compile Include="Models\LMS_ViewModels\Admin_ManageUserViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -296,6 +317,9 @@
     <Content Include="Views\Teacher\Index.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Admin\Details.cshtml" />
+    <Content Include="Views\Admin\ManageUserRoles.cshtml" />
+    <Content Include="Views\File\Index.cshtml" />
+    <Content Include="Views\File\UploadView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -317,6 +341,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608121148224_AddedTeacher.resx">
       <DependentUpon>201608121148224_AddedTeacher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608131121097_Test.resx">
+      <DependentUpon>201608131121097_Test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608131230346_Test2.resx">
+      <DependentUpon>201608131230346_Test2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608141525188_FileModelNameChangedToLMSFile.resx">
+      <DependentUpon>201608141525188_FileModelNameChangedToLMSFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608141537345_ChangedFileSizeRange.resx">
+      <DependentUpon>201608141537345_ChangedFileSizeRange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608141556562_Changees.resx">
+      <DependentUpon>201608141556562_Changees.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

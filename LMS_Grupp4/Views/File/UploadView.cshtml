@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "UploadView";
+}
+
+<h2>Upload A file</h2>
+
+@using (Html.BeginForm("Upload", "File", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+{
+    <input type="hidden" value="@User.Identity.GetUserId()" name="uploaderID"/>
+    <div class="form-group">
+        <p class = "col-md-2 control-label">File</p>
+        <div class="col-md-10">
+            <input type="file" name="file" class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <p class="col-md-2 control-label">Public</p>
+        <div class="col-md-10">
+            <input type="checkbox" name="isPublic" value="true"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" name="Submit" id="Submit" value="Upload" class="btn btn-default"/>
+        </div>
+    </div>
+}

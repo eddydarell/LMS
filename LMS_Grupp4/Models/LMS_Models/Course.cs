@@ -20,6 +20,6 @@ namespace LMS_Grupp4.Models.LMS_Models
         public virtual ICollection<ClassSchema> ClassSchemes { get; set; }
         public virtual ICollection<ProgramClass> Classes { get; set; }
         public virtual ICollection<Assignment> Assignments { get; set; }
-        public virtual ICollection<File> Files { get; set; }
+        public virtual ICollection<LMSFile> Files { get; set; }
     }
 }

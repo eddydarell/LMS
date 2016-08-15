@@ -1,23 +1,56 @@
 ﻿@using LMS_Grupp4.Models
+@model IEnumerable<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Index</h2>
-
 <div class="jumbotron">
-    <h1>You are logged in as Admin: @User.Identity.GetUserRealName()</h1>
+    <h1>Index</h1>
+    <h2>You are logged in as Admin: @User.Identity.GetUserRealName()</h2>
     <small>ID: @ViewBag.UserID</small>
 </div>
 <div class="row">
     <div class="col-md-6">
-        <h3>Add User</h3>
+        <h3>Roles</h3>
         <hr />
-        <a href="@Url.Action("Register", "Account")" class="btn btn-default btn-md">Create New User</a>
+        <h4>Create New Role</h4>
+        <div class="well well-sm">
+            <form action="@Url.Action("AddRole")" method="post">
+                Role Name:
+                <input type="text" name="roleName" placeholder="Ex: student"/>
+                <input type="submit" value="Create"/>
+            </form>
+        </div>
+        <h4>Role Table</h4>
+        <p>
+            Click on a role to manage it.
+        </p>
+        <table class="table table-condensed">
+            <tbody>
+                <tr>
+                    <th>Role</th>
+                    <th>User Count</th>
+                    <th>Delete Role</th>
+                </tr>
+
+                @foreach (var role in Model)
+                {
+                    <tr>
+                        <td><a href="@Url.Action("RoleDetails", new { id = role.Id })" title="Details">@role.Name</a></td>
+                        <td>@role.Users.Count</td>
+                        <td><a href="@Url.Action("DeleteRole", new { id = role.Id })" class="btn btn-danger btn-sm">Delete</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
     <div class="col-md-6">
-        <h3>Manage Users</h3>
+        <h3>Users</h3>
         <hr />
-        <a href="@Url.Action("ViewUsers", "Admin")" class="btn btn-default btn-md">Manage Users</a>
+        <p>
+            Manage up all website users. View details to modify user permission by managing the roles.<br />
+            List, Create, delete etc...
+        </p>
+        <hr />
+        <a href="@Url.Action("ViewUsers", "Admin")" class="btn btn-default btn-md">View Users</a>
     </div>
 </div>
