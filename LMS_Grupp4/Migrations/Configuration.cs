@@ -68,21 +68,24 @@ namespace LMS_Grupp4.Migrations
 
             
 
-            //Creating Student role    
-            if (!roleManager.RoleExists("student"))
-            {
-                var role = new IdentityRole();
-                role.Name = "student";
-                roleManager.Create(role);
-            }
+            //var user = UserManager.FindById("bb073414-e2b2-4197-9f52-2a9535901341");
+            //UserManager.AddToRole(user.Id, "teacher");
 
-            //Creating Teacher role    
-            if (!roleManager.RoleExists("teacher"))
-            {
-                var role = new IdentityRole();
-                role.Name = "teacher";
-                roleManager.Create(role);
-            }
+            //Creating Student role    
+            //if (!roleManager.RoleExists("student"))
+            //{
+            //    var role = new IdentityRole();
+            //    role.Name = "student";
+            //    roleManager.Create(role);
+            //}
+
+            ////Creating Teacher role    
+            //if (!roleManager.RoleExists("teacher"))
+            //{
+            //    var role = new IdentityRole();
+            //    role.Name = "teacher";
+            //    roleManager.Create(role);
+            //}
 
             #region Course Init
             Course course1 = new Course
@@ -144,7 +147,7 @@ namespace LMS_Grupp4.Migrations
 
             ProgramClass programClass2 = new ProgramClass
             {
-                ID = 1,
+                ID = 2,
                 ClassName = "Mathematician",
                 Courses = new List<Course>(),
                 ApplicationUsers = new List<ApplicationUser>(),
@@ -167,7 +170,7 @@ namespace LMS_Grupp4.Migrations
 
             ClassSchema classShema2 = new ClassSchema
             {
-                ID = 1,
+                ID = 2,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddMonths(6),
                 ProgramClass = programClass2,
@@ -221,10 +224,6 @@ namespace LMS_Grupp4.Migrations
             context.ClassSchemas.AddOrUpdate(classShema2);
             context.ProgramClasses.AddOrUpdate(programClass1);
             context.ProgramClasses.AddOrUpdate(programClass2);
-
-            var user = UserManager.FindById("19ff353f-e976-426e-bdb1-e41140b04496");
-            user.Courses.Add(course1);
-            user.Courses.Add(course2);
 
             context.SaveChanges();
         }
