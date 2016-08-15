@@ -38,5 +38,6 @@ namespace LMS_Grupp4.Models.LMS_Models
         //Navigation Properties
 		public virtual ApplicationUser Uploader { get; set; }
 		public virtual ICollection<Course> Courses { get; set; }
+        public virtual Assignment Assignment { get; set; }
 	}
 }

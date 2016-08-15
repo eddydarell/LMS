@@ -30,6 +30,7 @@ namespace LMS_Grupp4.Controllers
             return View();
         }
 
+        //To-Do: polish this method if we have time
         [HttpPost]
         public ActionResult Upload(string uploaderID = "", bool isPublic = false)
         {
@@ -53,6 +54,7 @@ namespace LMS_Grupp4.Controllers
                     }
                    catch(Exception)
                     {
+                        //To-Do: Set proper catch block
                         ViewBag.ErrorMessage = "Unable to create folder at this location. Make sure the location is writable.";
                     }
                 }
@@ -68,6 +70,30 @@ namespace LMS_Grupp4.Controllers
                     var fileFormat = file.ContentType;
                     var fileName = Path.GetFileName(file.FileName);
                     var path = Path.Combine(Server.MapPath(location), fileName);
+
+                    //Verifies if the file has already been uploaded
+                    var existingFilesWithSameName = context.Files.Where(f => f.Name == fileName);
+                    var existingFilesWithSameNameCopy = context.Files.Where(f => f.Name.Replace(" - copy", "") == fileName);
+                    if (existingFilesWithSameName != null || existingFilesWithSameNameCopy != null)
+                    {
+                        var existingFilesWithSameNameAndSize = existingFilesWithSameName.Where(ef => ef.Size == fileSize);
+                        if(existingFilesWithSameNameAndSize != null)//Found file with same name and size
+                        {
+                            var existingFilesWithSameNameAndSizeAndFormat = existingFilesWithSameNameAndSize.Where(ef => ef.Format == fileFormat);
+                            if(existingFilesWithSameNameAndSizeAndFormat != null)//Exact same file found
+                            {
+                                return null;//To-Do: proper handling
+                            }
+                            else//File with same name and size found but different format: Change name
+                            {
+                                fileName += " - copy";
+                            }
+                        }
+                        else//If same names but different sizes, Change upload name, add current date
+                        {
+                            fileName += " - copy";
+                        }
+                    }
 
                     //Add file informations in the file object to be saved in the database
                     dbFile.Name = fileName;
@@ -90,17 +116,22 @@ namespace LMS_Grupp4.Controllers
 
             return RedirectToAction("Index");
         }
-
-        //To-Do: Manage "No file found exception"
+        
         [HttpGet]
-        public FileResult Download(int id = 0)
+        public ActionResult Download(int id = 0)
         {
             var file = context.Files.Find(id);
             var fileURL = file.URL;
             string fileName = file.Name;
-            byte[] fileBytes = System.IO.File.ReadAllBytes(@fileURL);
-
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            if(System.IO.File.Exists(fileURL))
+            {
+                byte[] fileBytes = System.IO.File.ReadAllBytes(@fileURL);
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+            else
+            {
+                return null; //To-Do: Handle Error message
+            }
         }
     }
 }
