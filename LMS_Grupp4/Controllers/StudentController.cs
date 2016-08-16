@@ -39,8 +39,9 @@ namespace LMS_Grupp4.Controllers
 		public ActionResult ProgramClasses(string id = "")
 		{
 			var user = userManager.FindById(id);
+			var model = user.ProgramClasses.ToList();
 
-			return View(user.ProgramClasses);
+			return View(model);
 		}
     }
 }
