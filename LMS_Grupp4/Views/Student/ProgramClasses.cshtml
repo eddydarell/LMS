@@ -15,11 +15,11 @@
         <th></th>
     </tr>
 
-    @foreach (var cmodel in Model)
+    @foreach (var item in Model)
     {
         <tr>
             <td>
-                @*@Html.DisplayFor(model => model.ClassName)*@
+                @Html.DisplayFor(programClass => item.ClassName)
             </td>
          
         </tr>

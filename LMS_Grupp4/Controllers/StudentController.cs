@@ -1,4 +1,5 @@
 ﻿using LMS_Grupp4.Models;
+using LMS_Grupp4.Models.LMS_Models;
 using LMS_Grupp4.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -19,6 +20,8 @@ namespace LMS_Grupp4.Controllers
 		static UserStore<ApplicationUser> userStore = new UserStore<ApplicationUser>(context);
 		UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(userStore);
 
+		LMSRepository LMSRepo = new LMSRepository(context);
+
         // GET: Student
 		public ActionResult Index(string id = "")
         {
@@ -31,16 +34,65 @@ namespace LMS_Grupp4.Controllers
             return View();
         }
 
+		public ActionResult Files(string id = "")
+		{
+			var user = userManager.FindById(id);
+			var model = user.Files.ToList();
+			return View(model);
+		}
+
+		public ActionResult Assignments(string id = "")
+		{
+			var user = userManager.FindById(id);
+			var model = user.Assignments.ToList();
+			return View(model);
+		}
+
 		public ActionResult Courses(string id = "")
 		{
-			return View();
+			var user = userManager.FindById(id);
+			var model = user.Courses.ToList();
+
+			return View(model);
 		}
 
 		public ActionResult ProgramClasses(string id = "")
 		{
 			var user = userManager.FindById(id);
+			var model = user.ProgramClasses.ToList();
 
-			return View(user.ProgramClasses);
+			return View(model);
 		}
+
+		public ActionResult ClassSchemas(string id = "")
+		{
+			var user = userManager.FindById(id);
+			var model = user.ClassSchemas.ToList();
+
+			return View(model);
+		}
+
+		//public ActionResult AddCourse(string id = "")
+		//{	
+		//	var user = userManager.FindById(id);
+		//	return View(user);
+		//}
+
+		//[HttpPost]
+		//public ActionResult AddCourse(string id = "", string courseName = "", string courseDescription = "")
+		//{
+		//	var user = userManager.FindById(id);
+		//	var course = context.Courses.Find(courseID);
+
+		//	//Course tmpCourse = new Course();
+		//	//tmpCourse.CourseName = courseName;
+		//	//tmpCourse.Description = courseDescription;
+
+		//	user.Courses.Add(course);
+
+		//	//context.SaveChanges();
+
+		//	return RedirectToAction("Index");
+		//}
     }
 }

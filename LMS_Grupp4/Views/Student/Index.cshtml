@@ -15,7 +15,16 @@
 
    
 <td>
+    @Html.ActionLink("Apply for new Course", "AddCourse", new { id = User.Identity.GetUserId() }) |
+    @Html.ActionLink("Apply for new Program", "AddProgram", new { id = User.Identity.GetUserId() })
+    <br /><br />
+</td>
+
+<td>
+    @Html.ActionLink("My Programs", "ProgramClasses", new { id = User.Identity.GetUserId() }) |
     @Html.ActionLink("My Courses", "Courses", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("My Programs", "ProgramClasses", new { id = User.Identity.GetUserId() })
+    @Html.ActionLink("My Assignments", "Assignments", new { id = User.Identity.GetUserId() }) |
+    @Html.ActionLink("My Files", "Files", new { id = User.Identity.GetUserId() }) |
+    @Html.ActionLink("My Schemas", "ClassSchemas", new { id = User.Identity.GetUserId() })
 </td>
      

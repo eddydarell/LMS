@@ -36,42 +36,42 @@ namespace LMS_Grupp4.Migrations
 
    //             ////Here we create a Admin super user who will maintain the website                  
 
-   //             //var user = new ApplicationUser();
-   //             //user.UserName = "admin@admin.com";
-   //             //user.Email = "admin@admin.com";
-   //             //user.RealName = "Administrator";
+                //var user = new ApplicationUser();
+                //user.UserName = "admin@admin.com";
+                //user.Email = "admin@admin.com";
+                //user.RealName = "Administrator";
 
-   //             //string userPWD = "AdminPassword@123";
+                //string userPWD = "AdminPassword@123";
 
-   //             //var chkUser = UserManager.Create(user, userPWD);
+                //var chkUser = UserManager.Create(user, userPWD);
 
-   //             ////Add default User to Role Admin   
-   //             //if (chkUser.Succeeded)
-   //             //{
-   //             //    var result1 = UserManager.AddToRole(user.Id, "admin");
-   //             //}
-   //         }
+                ////Add default User to Role Admin   
+                //if (chkUser.Succeeded)
+                //{
+                //    var result1 = UserManager.AddToRole(user.Id, "admin");
+                //}
+            }
 
-   //         //var user = new ApplicationUser();
-   //         //user.UserName = "teacher@test.com";
-   //         //user.Email = "teacher@test.com";
-   //         //user.RealName = "Tobias Keijser";
+            //var user = new ApplicationUser();
+            //user.UserName = "teacher@test.com";
+            //user.Email = "teacher@test.com";
+            //user.RealName = "Tobias Keijser";
 
-   //         //string userPWD = "Teacher@123";
+            //string userPWD = "Teacher@123";
 
    //         //var chkUser = UserManager.Create(user, userPWD);
 
-   //         //if (chkUser.Succeeded)
-   //         //{
-   //         //    var result1 = UserManager.AddToRole(user.Id, "teacher");
-   //         //}
+            //if (chkUser.Succeeded)
+            //{
+            //    var result1 = UserManager.AddToRole(user.Id, "teacher");
+            //}
 
             
 
-   //         //var user = UserManager.FindById("bb073414-e2b2-4197-9f52-2a9535901341");
+            //var user = UserManager.FindById("bb073414-e2b2-4197-9f52-2a9535901341");
 
-			////var studentUser = UserManager.FindById("7023b4bb-2335-4729-8eed-b9566777ca49");
-   //         //UserManager.AddToRole(user.Id, "teacher");
+			var studentUser = UserManager.FindById("7023b4bb-2335-4729-8eed-b9566777ca49");
+            //UserManager.AddToRole(user.Id, "teacher");
 
    //         //Creating Student role    
    //         //if (!roleManager.RoleExists("student"))
@@ -81,13 +81,13 @@ namespace LMS_Grupp4.Migrations
    //         //    roleManager.Create(role);
    //         //}
 
-   //         ////Creating Teacher role    
-   //         //if (!roleManager.RoleExists("teacher"))
-   //         //{
-   //         //    var role = new IdentityRole();
-   //         //    role.Name = "teacher";
-   //         //    roleManager.Create(role);
-   //         //}
+            ////Creating Teacher role    
+            //if (!roleManager.RoleExists("teacher"))
+            //{
+            //    var role = new IdentityRole();
+            //    role.Name = "teacher";
+            //    roleManager.Create(role);
+            //}
 
    //         #region Course Init
    //         Course course1 = new Course
@@ -147,14 +147,14 @@ namespace LMS_Grupp4.Migrations
    //             ClassSchemas = new List<ClassSchema>()
    //         };
 
-   //         ProgramClass programClass2 = new ProgramClass
-   //         {
-   //             ID = 2,
-   //             ClassName = "Mathematician",
-   //             Courses = new List<Course>(),
-   //             ApplicationUsers = new List<ApplicationUser>(),
-   //             ClassSchemas = new List<ClassSchema>()
-   //         };
+            ProgramClass programClass2 = new ProgramClass
+            {
+                ID = 2,
+                ClassName = "Mathematician",
+                Courses = new List<Course>(),
+                ApplicationUsers = new List<ApplicationUser>(),
+                ClassSchemas = new List<ClassSchema>()
+            };
 
 
    //         #endregion
@@ -170,16 +170,16 @@ namespace LMS_Grupp4.Migrations
    //             Teachers = new List<ApplicationUser>()
    //         };
 
-   //         ClassSchema classShema2 = new ClassSchema
-   //         {
-   //             ID = 2,
-   //             StartDate = DateTime.Now,
-   //             EndDate = DateTime.Now.AddMonths(6),
-   //             ProgramClass = programClass2,
-   //             Courses = new List<Course>(),
-   //             Teachers = new List<ApplicationUser>()
-   //         };
-   //         #endregion
+            ClassSchema classShema2 = new ClassSchema
+            {
+                ID = 2,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddMonths(6),
+                ProgramClass = programClass2,
+                Courses = new List<Course>(),
+                Teachers = new List<ApplicationUser>()
+            };
+            #endregion
 
    //         #region Assignment Init
    //         Assignment assignment1 = new Assignment
@@ -227,7 +227,7 @@ namespace LMS_Grupp4.Migrations
    //         context.ProgramClasses.AddOrUpdate(programClass1);
    //         context.ProgramClasses.AddOrUpdate(programClass2);
 
-   //         context.SaveChanges();
-   //     }
+            context.SaveChanges();
+        }
     }
 }

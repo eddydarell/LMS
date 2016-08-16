@@ -239,6 +239,9 @@
     <Compile Include="Migrations\201608161125018_AddedCreationDateToCourseModel.cs" />
     <Compile Include="Migrations\201608161125018_AddedCreationDateToCourseModel.Designer.cs">
       <DependentUpon>201608161125018_AddedCreationDateToCourseModel.cs</DependentUpon>
+    <Compile Include="Migrations\201608160725276_AddedCourseToTeacher.cs" />
+    <Compile Include="Migrations\201608160725276_AddedCourseToTeacher.Designer.cs">
+      <DependentUpon>201608160725276_AddedCourseToTeacher.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201608161331019_AddedCourseApplicationModelAndRelation.cs" />
     <Compile Include="Migrations\201608161331019_AddedCourseApplicationModelAndRelation.Designer.cs">
@@ -331,12 +334,6 @@
     <Content Include="Views\File\UploadView.cshtml" />
     <Content Include="Views\Student\Courses.cshtml" />
     <Content Include="Views\Student\ProgramClasses.cshtml" />
-    <Content Include="Views\Course\Details.cshtml" />
-    <Content Include="Views\Course\Create.cshtml" />
-    <Content Include="Views\Course\Edit.cshtml" />
-    <Content Include="Views\Course\_Forbidden.cshtml" />
-    <Content Include="Views\Course\Apply.cshtml" />
-    <Content Include="Views\Course\_ApplicationForbidden.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -373,12 +370,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608141556562_Changees.resx">
       <DependentUpon>201608141556562_Changees.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608161125018_AddedCreationDateToCourseModel.resx">
-      <DependentUpon>201608161125018_AddedCreationDateToCourseModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608161331019_AddedCourseApplicationModelAndRelation.resx">
-      <DependentUpon>201608161331019_AddedCourseApplicationModelAndRelation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
