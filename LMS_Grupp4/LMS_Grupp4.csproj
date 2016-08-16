@@ -236,9 +236,9 @@
     <Compile Include="Migrations\201608141556562_Changees.Designer.cs">
       <DependentUpon>201608141556562_Changees.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608150931088_testadmin.cs" />
-    <Compile Include="Migrations\201608150931088_testadmin.Designer.cs">
-      <DependentUpon>201608150931088_testadmin.cs</DependentUpon>
+    <Compile Include="Migrations\201608160725276_AddedCourseToTeacher.cs" />
+    <Compile Include="Migrations\201608160725276_AddedCourseToTeacher.Designer.cs">
+      <DependentUpon>201608160725276_AddedCourseToTeacher.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -362,6 +362,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608141556562_Changees.resx">
       <DependentUpon>201608141556562_Changees.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608160725276_AddedCourseToTeacher.resx">
+      <DependentUpon>201608160725276_AddedCourseToTeacher.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
