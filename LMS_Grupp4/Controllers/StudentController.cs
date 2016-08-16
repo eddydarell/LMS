@@ -33,6 +33,19 @@ namespace LMS_Grupp4.Controllers
 
 		public ActionResult Courses(string id = "")
 		{
+			var user = userManager.FindById(id);
+			var model = user.Courses.ToList();
+			return View(model);
+		}
+
+		public ActionResult AddCourse(string id = "")
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public ActionResult AddCourse()
+		{
 			return View();
 		}
 

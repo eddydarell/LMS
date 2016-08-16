@@ -84,7 +84,8 @@ namespace LMS_Grupp4.Migrations
             //    role.Name = "teacher";
             //    roleManager.Create(role);
             //}
-            var teacherUser = UserManager.FindById("bb073414-e2b2-4197-9f52-2a9535901341");
+			var teacherUser = UserManager.FindById("6441f058-b0c2-40dc-95ac-9f077c83d476");
+			var studentUser = UserManager.FindById("7023b4bb-2335-4729-8eed-b9566777ca49");
 
             #region Course Init
             Course course1 = new Course
@@ -226,6 +227,8 @@ namespace LMS_Grupp4.Migrations
 
             //course1.Users.Add(teacherUser);
             teacherUser.Courses.Add(course1);
+			studentUser.ProgramClasses.Add(programClass1);
+			studentUser.Courses.Add(course1);
             context.SaveChanges();
         }
     }
