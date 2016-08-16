@@ -232,6 +232,7 @@ namespace LMS_Grupp4.Migrations
             teacherUser.ProgramClasses.Add(programClass1);
 			studentUser.ProgramClasses.Add(programClass1);
 			studentUser.Courses.Add(course1);
+			studentUser.Courses.Add(course2);
             context.SaveChanges();
         }
     }
