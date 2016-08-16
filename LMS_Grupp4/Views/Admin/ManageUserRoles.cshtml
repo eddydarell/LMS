@@ -1,0 +1,50 @@
+﻿@model LMS_Grupp4.Models.LMS_ViewModels.Admin_ManageUserViewModel
+
+@{
+    ViewBag.Title = "Manage User Roles";
+}
+
+<h2>Manage Roles</h2>
+
+<div>
+    <h4>User: @Model.Username</h4>
+    - Assigned roles:
+    <ul>
+        @foreach (var role in Model.UserRoles)
+        {
+            <li>@role</li>
+        }
+    </ul>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <h5>Add Roles</h5>
+            <hr />
+            <form action="@Url.Action("AddUserRole")" method="post">
+                <input type="hidden" value="@Model.UserID" name="id"/>
+                Roles:
+                <select name="role">
+                    <option value="admin">Admin</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="student">Student</option>
+                </select>
+                <input type="submit" value="Add Roles" />
+            </form>
+        </div>
+        <div class="col-md-4">
+            <h5>Remove Roles</h5>
+            <hr />
+            <form action="@Url.Action("RemoveUserRole")" method="post">
+                <input type="hidden" value="@Model.UserID" name="id" />
+                Roles:
+                <select name="role">
+                    @foreach (var role in Model.UserRoles)
+                    {
+                        <option value="@role">@role</option>
+                    }
+                </select>
+                <input type="submit" value="Remove Roles" />
+            </form>
+        </div>
+    </div>
+</div>

@@ -52,35 +52,42 @@ namespace LMS_Grupp4.Migrations
                 //}
             }
 
-            var user = new ApplicationUser();
-            user.UserName = "teacher@test.com";
-            user.Email = "teacher@test.com";
-            user.RealName = "Tobias Keijser";
+            //var user = new ApplicationUser();
+            //user.UserName = "teacher@test.com";
+            //user.Email = "teacher@test.com";
+            //user.RealName = "Tobias Keijser";
 
-            string userPWD = "Teacher@123";
+            //string userPWD = "Teacher@123";
 
-            var chkUser = UserManager.Create(user, userPWD);
+            //var chkUser = UserManager.Create(user, userPWD);
 
-            if (chkUser.Succeeded)
-            {
-                var result1 = UserManager.AddToRole(user.Id, "teacher");
-            }
+            //if (chkUser.Succeeded)
+            //{
+            //    var result1 = UserManager.AddToRole(user.Id, "teacher");
+            //}
+
+            
+
+            //var user = UserManager.FindById("bb073414-e2b2-4197-9f52-2a9535901341");
+
+			var studentUser = UserManager.FindById("7023b4bb-2335-4729-8eed-b9566777ca49");
+            //UserManager.AddToRole(user.Id, "teacher");
 
             //Creating Student role    
-            if (!roleManager.RoleExists("student"))
-            {
-                var role = new IdentityRole();
-                role.Name = "student";
-                roleManager.Create(role);
-            }
+            //if (!roleManager.RoleExists("student"))
+            //{
+            //    var role = new IdentityRole();
+            //    role.Name = "student";
+            //    roleManager.Create(role);
+            //}
 
-            //Creating Teacher role    
-            if (!roleManager.RoleExists("teacher"))
-            {
-                var role = new IdentityRole();
-                role.Name = "teacher";
-                roleManager.Create(role);
-            }
+            ////Creating Teacher role    
+            //if (!roleManager.RoleExists("teacher"))
+            //{
+            //    var role = new IdentityRole();
+            //    role.Name = "teacher";
+            //    roleManager.Create(role);
+            //}
 
             #region Course Init
             Course course1 = new Course
@@ -90,7 +97,7 @@ namespace LMS_Grupp4.Migrations
                 Assignments = new List<Assignment>(),
                 Classes = new List<ProgramClass>(),
                 ClassSchemes = new List<ClassSchema>(),
-                Files = new List<File>(),
+                Files = new List<LMSFile>(),
                 Users = new List<ApplicationUser>(),
                 Description = "Basic Mathematics and introduction to counting"
             };
@@ -102,7 +109,7 @@ namespace LMS_Grupp4.Migrations
                 Assignments = new List<Assignment>(),
                 Classes = new List<ProgramClass>(),
                 ClassSchemes = new List<ClassSchema>(),
-                Files = new List<File>(),
+                Files = new List<LMSFile>(),
                 Users = new List<ApplicationUser>(),
                 Description = "Swedish ground level"
             };
@@ -114,7 +121,7 @@ namespace LMS_Grupp4.Migrations
                 Assignments = new List<Assignment>(),
                 Classes = new List<ProgramClass>(),
                 ClassSchemes = new List<ClassSchema>(),
-                Files = new List<File>(),
+                Files = new List<LMSFile>(),
                 Users = new List<ApplicationUser>()
             };
 
@@ -125,7 +132,7 @@ namespace LMS_Grupp4.Migrations
                 Assignments = new List<Assignment>(),
                 Classes = new List<ProgramClass>(),
                 ClassSchemes = new List<ClassSchema>(),
-                Files = new List<File>(),
+                Files = new List<LMSFile>(),
                 Users = new List<ApplicationUser>()
             };
             #endregion
@@ -142,7 +149,7 @@ namespace LMS_Grupp4.Migrations
 
             ProgramClass programClass2 = new ProgramClass
             {
-                ID = 1,
+                ID = 2,
                 ClassName = "Mathematician",
                 Courses = new List<Course>(),
                 ApplicationUsers = new List<ApplicationUser>(),
@@ -165,7 +172,7 @@ namespace LMS_Grupp4.Migrations
 
             ClassSchema classShema2 = new ClassSchema
             {
-                ID = 1,
+                ID = 2,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now.AddMonths(6),
                 ProgramClass = programClass2,
