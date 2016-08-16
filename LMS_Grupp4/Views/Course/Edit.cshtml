@@ -1,0 +1,81 @@
+﻿@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity
+@model LMS_Grupp4.Models.LMS_Models.Course
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            Teacher ID: @User.Identity.GetUserId()
+        </small>
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Course Creation</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
+<div class="jumbotron">
+
+    <h2><a href="@Url.Action("Index", "Teacher", new { id = User.Identity.GetUserId()})">@User.Identity.GetUserRealName()</a>, welcome to the course edition page!</h2>
+    <p>
+        You are editing the course: <a href="@Url.Action("Details", "Course", new { id = Model.ID} )" title="Course details">@Model.CourseName</a>. <br />
+        Only the name and description can be edited on this page.<br />
+        Note that you cannot enroll student to your course on this page. Instead click <a href="@Url.Action("EnrollStudent")">here</a>.
+    </p>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">Edit</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <h4><b>@Model.CourseName</b></h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.ID)
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CourseName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.CourseName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CourseName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <textarea name="Description" id="Description" rows="5" cols="50" class="form-control">@Model.Description</textarea>
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Save" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

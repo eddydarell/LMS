@@ -236,9 +236,13 @@
     <Compile Include="Migrations\201608141556562_Changees.Designer.cs">
       <DependentUpon>201608141556562_Changees.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608150931088_testadmin.cs" />
-    <Compile Include="Migrations\201608150931088_testadmin.Designer.cs">
-      <DependentUpon>201608150931088_testadmin.cs</DependentUpon>
+    <Compile Include="Migrations\201608161125018_AddedCreationDateToCourseModel.cs" />
+    <Compile Include="Migrations\201608161125018_AddedCreationDateToCourseModel.Designer.cs">
+      <DependentUpon>201608161125018_AddedCreationDateToCourseModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608161331019_AddedCourseApplicationModelAndRelation.cs" />
+    <Compile Include="Migrations\201608161331019_AddedCourseApplicationModelAndRelation.Designer.cs">
+      <DependentUpon>201608161331019_AddedCourseApplicationModelAndRelation.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -246,6 +250,7 @@
     <Compile Include="Models\LMS_Models\Assignment.cs" />
     <Compile Include="Models\LMS_Models\Course.cs" />
     <Compile Include="Models\LMS_Models\ClassSchema.cs" />
+    <Compile Include="Models\LMS_Models\CourseApplication.cs" />
     <Compile Include="Models\LMS_Models\LMSFile.cs" />
     <Compile Include="Models\LMS_Models\ProgramClass.cs" />
     <Compile Include="Models\LMS_ViewModels\Admin_ManageUserViewModel.cs" />
@@ -326,6 +331,12 @@
     <Content Include="Views\File\UploadView.cshtml" />
     <Content Include="Views\Student\Courses.cshtml" />
     <Content Include="Views\Student\ProgramClasses.cshtml" />
+    <Content Include="Views\Course\Details.cshtml" />
+    <Content Include="Views\Course\Create.cshtml" />
+    <Content Include="Views\Course\Edit.cshtml" />
+    <Content Include="Views\Course\_Forbidden.cshtml" />
+    <Content Include="Views\Course\Apply.cshtml" />
+    <Content Include="Views\Course\_ApplicationForbidden.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -362,6 +373,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608141556562_Changees.resx">
       <DependentUpon>201608141556562_Changees.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608161125018_AddedCreationDateToCourseModel.resx">
+      <DependentUpon>201608161125018_AddedCreationDateToCourseModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608161331019_AddedCourseApplicationModelAndRelation.resx">
+      <DependentUpon>201608161331019_AddedCourseApplicationModelAndRelation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
