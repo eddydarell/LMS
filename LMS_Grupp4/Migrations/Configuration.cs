@@ -227,6 +227,9 @@ namespace LMS_Grupp4.Migrations
 
             //course1.Users.Add(teacherUser);
             teacherUser.Courses.Add(course1);
+            teacherUser.Assignments.Add(assignment1);
+            teacherUser.ClassSchemas.Add(classShema1);
+            teacherUser.ProgramClasses.Add(programClass1);
 			studentUser.ProgramClasses.Add(programClass1);
 			studentUser.Courses.Add(course1);
             context.SaveChanges();

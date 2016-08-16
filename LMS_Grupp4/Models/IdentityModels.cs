@@ -17,7 +17,7 @@ namespace LMS_Grupp4.Models
         //To-Do: Add the other properties
         [Display(Name = "Name")]
         public string RealName { get; set; }
-        public virtual ICollection<Assignment> Assigments { get; set; }
+        public virtual ICollection<Assignment> Assignments { get; set; }
 		public virtual ICollection<ClassSchema> ClassSchemas { get; set; }
         public virtual ICollection<LMSFile> Files { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
