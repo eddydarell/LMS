@@ -19,6 +19,13 @@ namespace LMS_Grupp4.Controllers
         static UserStore<ApplicationUser> userStore = new UserStore<ApplicationUser>(context);
         UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(userStore);   
 
+         // GET: /Student/Create
+
+        public ActionResult Create()
+        {
+            return View();
+        } 
+
        //Get Student
         public ActionResult Index(string id = "")
         {

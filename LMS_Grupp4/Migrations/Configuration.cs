@@ -30,26 +30,26 @@ namespace LMS_Grupp4.Migrations
             {
 
                 //// first we create Admin role   
-                //var role = new IdentityRole();
-                //role.Name = "admin";
-                //roleManager.Create(role);
+                var role = new IdentityRole();
+                role.Name = "admin";
+                roleManager.Create(role);
 
                 ////Here we create a Admin super user who will maintain the website                  
 
-                //var user = new ApplicationUser();
-                //user.UserName = "admin@admin.com";
-                //user.Email = "admin@admin.com";
-                //user.RealName = "Administrator";
+                var user = new ApplicationUser();
+                user.UserName = "admin@admin.com";
+                user.Email = "admin@admin.com";
+                user.RealName = "Administrator";
 
-                //string userPWD = "AdminPassword@123";
+                string userPWD = "Admin@123";
 
-                //var chkUser = UserManager.Create(user, userPWD);
+                var chkUser = UserManager.Create(user, userPWD);
 
-                ////Add default User to Role Admin   
-                //if (chkUser.Succeeded)
-                //{
-                //    var result1 = UserManager.AddToRole(user.Id, "admin");
-                //}
+                //Add default User to Role Admin   
+                if (chkUser.Succeeded)
+                {
+                    var result1 = UserManager.AddToRole(user.Id, "admin");
+                }
             }
 
             //var user = new ApplicationUser();
@@ -84,8 +84,8 @@ namespace LMS_Grupp4.Migrations
             //    role.Name = "teacher";
             //    roleManager.Create(role);
             //}
-			var teacherUser = UserManager.FindById("6441f058-b0c2-40dc-95ac-9f077c83d476");
-			var studentUser = UserManager.FindById("7023b4bb-2335-4729-8eed-b9566777ca49");
+//			var teacherUser = UserManager.FindById("6441f058-b0c2-40dc-95ac-9f077c83d476");
+//			var studentUser = UserManager.FindById("7023b4bb-2335-4729-8eed-b9566777ca49");
 
             #region Course Init
             Course course1 = new Course
@@ -226,12 +226,12 @@ namespace LMS_Grupp4.Migrations
             context.ProgramClasses.AddOrUpdate(programClass2);
 
             //course1.Users.Add(teacherUser);
-            teacherUser.Courses.Add(course1);
-            teacherUser.Assignments.Add(assignment1);
-            teacherUser.ClassSchemas.Add(classShema1);
-            teacherUser.ProgramClasses.Add(programClass1);
-			studentUser.ProgramClasses.Add(programClass1);
-			studentUser.Courses.Add(course1);
+            //teacherUser.Courses.Add(course1);
+            //teacherUser.Assignments.Add(assignment1);
+            //teacherUser.ClassSchemas.Add(classShema1);
+            //teacherUser.ProgramClasses.Add(programClass1);
+            //studentUser.ProgramClasses.Add(programClass1);
+            //studentUser.Courses.Add(course1);
             context.SaveChanges();
         }
     }
