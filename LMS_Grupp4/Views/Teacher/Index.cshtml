@@ -13,9 +13,28 @@
     <small>ID: @ViewBag.UserID</small>
 </div>
 
+<td>
+    @Html.ActionLink("Course Applications", "Index", "Course", new { id = User.Identity.GetUserId() }) |
+    @Html.ActionLink("Program Applications", "Index", "ProgramClass", new { id = User.Identity.GetUserId() })
+    <br /><br />
+</td>
+
+<td>
+    @Html.ActionLink("My Assignments", "My Assiggnments", new { id = User.Identity.GetUserId() }) | 
+    @Html.ActionLink("My Files", "Files", new { id = User.Identity.GetUserId() }) |  
+    @Html.ActionLink("My Programs", "ProgramClasses", new { id = User.Identity.GetUserId() }) |
+    @Html.ActionLink("My Schemas", "ClassSchemas", new { id = User.Identity.GetUserId() }) | })
+</td>
+
+
 <p>
     <a href="@Url.Action("Register", "Account")">Add New Student</a>
 </p>
+
+<p>
+    <a href="@Url.Action("Create", "Course")">Create Course</a>
+</p>
+
 
 <td>
     @Html.ActionLink("Apply Student to Course", "AddCourse", new { id = User.Identity.GetUserId() })

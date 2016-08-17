@@ -3,7 +3,7 @@ namespace LMS_Grupp4.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddedCourseApplicationModelAndRelation : DbMigration
+    public partial class AfterAddingCourseApplicationModel : DbMigration
     {
         public override void Up()
         {
@@ -28,6 +28,7 @@ namespace LMS_Grupp4.Migrations
                 .Index(t => t.Student_Id)
                 .Index(t => t.ApplicationUser_Id);
             
+            AddColumn("dbo.Courses", "CreationDate", c => c.DateTime(nullable: false));
             AddColumn("dbo.AspNetUsers", "CourseApplication_ID", c => c.Int());
             CreateIndex("dbo.AspNetUsers", "CourseApplication_ID");
             AddForeignKey("dbo.AspNetUsers", "CourseApplication_ID", "dbo.CourseApplications", "ID");
@@ -46,6 +47,7 @@ namespace LMS_Grupp4.Migrations
             DropIndex("dbo.CourseApplications", new[] { "Course_ID" });
             DropIndex("dbo.AspNetUsers", new[] { "CourseApplication_ID" });
             DropColumn("dbo.AspNetUsers", "CourseApplication_ID");
+            DropColumn("dbo.Courses", "CreationDate");
             DropTable("dbo.CourseApplications");
         }
     }
