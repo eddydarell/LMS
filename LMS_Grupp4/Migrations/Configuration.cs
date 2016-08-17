@@ -30,26 +30,26 @@ namespace LMS_Grupp4.Migrations
             {
 
                 //// first we create Admin role   
-                var role = new IdentityRole();
-                role.Name = "admin";
-                roleManager.Create(role);
+				//var role = new IdentityRole();
+				//role.Name = "admin";
+				//roleManager.Create(role);
 
                 ////Here we create a Admin super user who will maintain the website                  
 
-                var user = new ApplicationUser();
-                user.UserName = "admin@admin.com";
-                user.Email = "admin@admin.com";
-                user.RealName = "Administrator";
+				//var user = new ApplicationUser();
+				//user.UserName = "admin@admin.com";
+				//user.Email = "admin@admin.com";
+				//user.RealName = "Administrator";
 
-                string userPWD = "Admin@123";
+				//string userPWD = "Admin@123";
 
-                var chkUser = UserManager.Create(user, userPWD);
+				//var chkUser = UserManager.Create(user, userPWD);
 
                 //Add default User to Role Admin   
-                if (chkUser.Succeeded)
-                {
-                    var result1 = UserManager.AddToRole(user.Id, "admin");
-                }
+				//if (chkUser.Succeeded)
+				//{
+				//	var result1 = UserManager.AddToRole(user.Id, "admin");
+				//}
             }
 
             //var user = new ApplicationUser();
@@ -226,13 +226,13 @@ namespace LMS_Grupp4.Migrations
             context.ProgramClasses.AddOrUpdate(programClass2);
 
             //course1.Users.Add(teacherUser);
-            teacherUser.Courses.Add(course1);
-            teacherUser.Assignments.Add(assignment1);
-            teacherUser.ClassSchemas.Add(classShema1);
-            teacherUser.ProgramClasses.Add(programClass1);
-			studentUser.ProgramClasses.Add(programClass1);
-			studentUser.Courses.Add(course1);
-			studentUser.Courses.Add(course2);
+			//teacherUser.Courses.Add(course1);
+			//teacherUser.Assignments.Add(assignment1);
+			//teacherUser.ClassSchemas.Add(classShema1);
+			//teacherUser.ProgramClasses.Add(programClass1);
+			//studentUser.ProgramClasses.Add(programClass1);
+			//studentUser.Courses.Add(course1);
+			//studentUser.Courses.Add(course2);
             //teacherUser.Courses.Add(course1);
             //teacherUser.Assignments.Add(assignment1);
             //teacherUser.ClassSchemas.Add(classShema1);

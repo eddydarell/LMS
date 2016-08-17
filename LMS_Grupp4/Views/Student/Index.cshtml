@@ -1,6 +1,6 @@
-﻿@using LMS_Grupp4.Models
+﻿@model LMS_Grupp4.Models.LMS_ViewModels.Student_IndexViewModel
+@using LMS_Grupp4.Models
 @using Microsoft.AspNet.Identity
-@model IEnumerable<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
 
 @{
     ViewBag.Title = "Index";
@@ -15,16 +15,47 @@
 
    
 <td>
-    @Html.ActionLink("Apply for new Course", "AddCourse", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("Apply for new Program", "AddProgram", new { id = User.Identity.GetUserId() })
+    @Html.ActionLink("Apply for new Course", "Index", "Course", new { id = User.Identity.GetUserId() }) |
+    @Html.ActionLink("Apply for new Program", "Index", "ProgramClass", new { id = User.Identity.GetUserId() })
     <br /><br />
 </td>
 
 <td>
     @Html.ActionLink("My Programs", "ProgramClasses", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("My Courses", "Courses", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("My Assignments", "Assignments", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("My Files", "Files", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("My Schemas", "ClassSchemas", new { id = User.Identity.GetUserId() })
+    @Html.ActionLink("My Schemas", "ClassSchemas", new { id = User.Identity.GetUserId() }) |
+    @Html.ActionLink("My Files", "Files", new { id = User.Identity.GetUserId() })  
 </td>
+
+<br />
+<h2>My Courses</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Course
+        </th>
+        <th>
+            Description
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Courses)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(course => item.CourseName)
+            </td>
+            <td>
+                @Html.DisplayFor(course => item.Description)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<h2>Assignments overview</h2>
+
+
      

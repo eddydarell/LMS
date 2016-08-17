@@ -1,5 +1,6 @@
 ﻿using LMS_Grupp4.Models;
 using LMS_Grupp4.Models.LMS_Models;
+using LMS_Grupp4.Models.LMS_ViewModels;
 using LMS_Grupp4.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -29,9 +30,15 @@ namespace LMS_Grupp4.Controllers
 			{
 				id = User.Identity.GetUserId();
 			}
-
 			ViewBag.UserID = id;
-            return View();
+
+			var user = userManager.FindById(id);
+			var assignmentModel = user.Assignments.ToList();
+			var courseModel = user.Courses.ToList();
+			
+			Student_IndexViewModel stud_IVW = new Student_IndexViewModel(assignmentModel, courseModel);
+
+            return View(stud_IVW);
         }
 
 		public ActionResult Files(string id = "")
@@ -56,10 +63,24 @@ namespace LMS_Grupp4.Controllers
 			return View(model);
 		}
 
+		public ActionResult ApplyToCourse()
+		{
+			var model = LMSRepo.GetAllCourses().ToList();
+
+			return View(model);
+		}
+
 		public ActionResult ProgramClasses(string id = "")
 		{
 			var user = userManager.FindById(id);
 			var model = user.ProgramClasses.ToList();
+
+			return View(model);
+		}
+
+		public ActionResult ApplyToProgramClass()
+		{
+			var model = LMSRepo.GetAllProgramClasses().ToList();
 
 			return View(model);
 		}
