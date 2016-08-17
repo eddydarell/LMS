@@ -239,12 +239,13 @@
     <Compile Include="Migrations\201608161125018_AddedCreationDateToCourseModel.cs" />
     <Compile Include="Migrations\201608161125018_AddedCreationDateToCourseModel.Designer.cs">
       <DependentUpon>201608161125018_AddedCreationDateToCourseModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201608160725276_AddedCourseToTeacher.cs" />
     <Compile Include="Migrations\201608160725276_AddedCourseToTeacher.Designer.cs">
       <DependentUpon>201608160725276_AddedCourseToTeacher.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201608161331019_AddedCourseApplicationModelAndRelation.cs" />
-    <Compile Include="Migrations\201608161331019_AddedCourseApplicationModelAndRelation.Designer.cs">
+    <Compile Include="Migrations\201608161331019_AddedCourseApplicationModelAndRelation.Designer.cs" >
       <DependentUpon>201608161331019_AddedCourseApplicationModelAndRelation.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
