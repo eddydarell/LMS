@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace LMS_Grupp4.Models.LMS_Models
 {
+
+    [Bind(Exclude = "CreationDate, ID")]//Added Bind Exclude
     public class Course
     {
         [Key]
@@ -16,6 +19,11 @@ namespace LMS_Grupp4.Models.LMS_Models
         [Display(Name = "Description")]
         public string Description { get; set; }
 
+        [Display(Name = "Created On")] //Added creation date to course
+        public DateTime CreationDate { get; set; }
+
+        //Navigation properties
+        public virtual ICollection<CourseApplication> CourseApplications { get; set; }
         public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<ClassSchema> ClassSchemes { get; set; }
         public virtual ICollection<ProgramClass> Classes { get; set; }

@@ -236,9 +236,17 @@
     <Compile Include="Migrations\201608141556562_Changees.Designer.cs">
       <DependentUpon>201608141556562_Changees.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608161125018_AddedCreationDateToCourseModel.cs" />
+    <Compile Include="Migrations\201608161125018_AddedCreationDateToCourseModel.Designer.cs">
+      <DependentUpon>201608161125018_AddedCreationDateToCourseModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201608160725276_AddedCourseToTeacher.cs" />
     <Compile Include="Migrations\201608160725276_AddedCourseToTeacher.Designer.cs">
       <DependentUpon>201608160725276_AddedCourseToTeacher.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608161331019_AddedCourseApplicationModelAndRelation.cs" />
+    <Compile Include="Migrations\201608161331019_AddedCourseApplicationModelAndRelation.Designer.cs" >
+      <DependentUpon>201608161331019_AddedCourseApplicationModelAndRelation.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -246,9 +254,11 @@
     <Compile Include="Models\LMS_Models\Assignment.cs" />
     <Compile Include="Models\LMS_Models\Course.cs" />
     <Compile Include="Models\LMS_Models\ClassSchema.cs" />
+    <Compile Include="Models\LMS_Models\CourseApplication.cs" />
     <Compile Include="Models\LMS_Models\LMSFile.cs" />
     <Compile Include="Models\LMS_Models\ProgramClass.cs" />
     <Compile Include="Models\LMS_ViewModels\Admin_ManageUserViewModel.cs" />
+    <Compile Include="Models\LMS_ViewModels\Student_IndexViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\LMSRepository.cs" />
@@ -324,14 +334,13 @@
     <Content Include="Views\Admin\ManageUserRoles.cshtml" />
     <Content Include="Views\File\Index.cshtml" />
     <Content Include="Views\File\UploadView.cshtml" />
-    <Content Include="Views\Student\Courses.cshtml" />
     <Content Include="Views\Student\ProgramClasses.cshtml" />
-    <Content Include="Views\Student\AddCourse.cshtml" />
-    <Content Include="Views\Student\Assignments.cshtml" />
+    <Content Include="Views\Student\ApplyToCourse.cshtml" />
     <Content Include="Views\Student\Files.cshtml" />
     <Content Include="Views\Student\ClassSchemas.cshtml" />
     <Content Include="Views\Teacher\AddCourse.cshtml" />
     <Content Include="Views\Teacher\Courses.cshtml" />
+    <Content Include="Views\Student\ApplyToProgramClass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -368,9 +377,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608141556562_Changees.resx">
       <DependentUpon>201608141556562_Changees.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608160725276_AddedCourseToTeacher.resx">
-      <DependentUpon>201608160725276_AddedCourseToTeacher.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

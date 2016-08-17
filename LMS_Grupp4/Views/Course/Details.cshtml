@@ -1,0 +1,90 @@
+﻿@using Microsoft.AspNet.Identity;
+@model LMS_Grupp4.Models.LMS_Models.Course
+
+@{
+    ViewBag.Title = "Details";
+    bool isTeacher = (User.IsInRole("teacher")) ? true : false;
+}
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        @if (isTeacher)
+        {
+            <small>
+                Teacher ID: @User.Identity.GetUserId()
+            </small>
+        }
+        else
+        {
+            <small>
+                Student ID: @User.Identity.GetUserId()
+            </small>
+        }
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Course Details</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
+<div class="jumbotron">
+
+    <h2>@Model.CourseName</h2>
+    <p>
+       @Model.Description
+    </p>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">Details</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CourseName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CourseName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Users)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Users.Count)
+                    </dd>
+                </dl>
+                <hr />
+                <div class="btn-toolbar">
+                    <div class="btn-group">
+                        <!--To-Do: Set differences between teachers and students-->
+                        <a href="@Url.Action("Apply", "Course", new { id = Model.ID })" class="btn btn-default">Apply For Course</a>
+                        <a href="@Url.Action("Edit", "Course", new { id = Model.ID })" class="btn btn-default">Edit This Course</a>
+                        <a href="@Url.Action("Delete", "Course", new { id = Model.ID })" class="btn btn-default">Delete This Course</a>
+                    </div>
+                    <div class="btn-group">
+                        <a href="@Url.Action("EnrollStudent", "Course", new { courseID = Model.ID, studentID = User.Identity.GetUserId() })" class="btn btn-default">Enroll A Student To This Course</a>
+                    </div>
+                    <div class="btn-group">
+                        <a href="@Url.Action("Create", "Course")" class="btn btn-default">Create New Course</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="@Url.Action("Index", "Teacher", new { id = User.Identity.GetUserId()})">Your Homepage</a>
+    </div>
+</div>
