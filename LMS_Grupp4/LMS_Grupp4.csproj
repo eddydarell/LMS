@@ -301,6 +301,10 @@
     <Content Include="Views\Course\_Forbidden.cshtml" />
     <Content Include="Views\Course\EnrollStudent.cshtml" />
     <Content Include="Views\Course\Details_Student.cshtml" />
+    <Content Include="Views\Student\ApplyToCourse.cshtml" />
+    <Content Include="Views\Student\ClassSchemas.cshtml" />
+    <Content Include="Views\Student\ApplyToProgramClass.cshtml" />
+    <Content Include="Views\Student\Files.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
