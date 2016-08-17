@@ -1,4 +1,5 @@
 ﻿using LMS_Grupp4.Models;
+using LMS_Grupp4.Models.LMS_Models;
 using LMS_Grupp4.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -35,10 +36,48 @@ namespace LMS_Grupp4.Controllers
             {
                 studentList.Add(userManager.FindById(student.UserId));
             }
+            if (String.IsNullOrWhiteSpace(id))
+            {
+                id = User.Identity.GetUserId();
+            }
+
+//            var user = userManager.FindById(id);
+
             ViewBag.UserID = id;
           
             return View(studentList);
         }
 
+        public ActionResult Courses(string id = "")
+        {
+            var user = userManager.FindById(id);
+            var model = user.Courses.ToList();
+
+            return View(model);
+        }
+
+        public ActionResult AddCourse(string id = "")
+        {	
+        	var user = userManager.FindById(id);
+        	return View(user);
+        }
+
+        [HttpPost]
+        public ActionResult AddCourse(string id = "", string courseName = "", string courseDescription = "")
+        {
+            var user = userManager.FindById(id);
+            var course = context.Courses.Find(id);
+
+            Course tmpCourse = new Course();
+            tmpCourse.CourseName = courseName;
+            tmpCourse.Description = courseDescription;
+
+            user.Courses.Add(tmpCourse);
+
+            context.SaveChanges();
+
+            return RedirectToAction("Index");
+
+        }
     }
 }

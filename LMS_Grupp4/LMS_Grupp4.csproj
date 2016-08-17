@@ -330,6 +330,8 @@
     <Content Include="Views\Student\Assignments.cshtml" />
     <Content Include="Views\Student\Files.cshtml" />
     <Content Include="Views\Student\ClassSchemas.cshtml" />
+    <Content Include="Views\Teacher\AddCourse.cshtml" />
+    <Content Include="Views\Teacher\Courses.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
