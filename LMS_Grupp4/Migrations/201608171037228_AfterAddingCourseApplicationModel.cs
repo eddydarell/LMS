@@ -3,7 +3,7 @@ namespace LMS_Grupp4.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AterAddingCourseApplicationModel : DbMigration
+    public partial class AfterAddingCourseApplicationModel : DbMigration
     {
         public override void Up()
         {
