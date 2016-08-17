@@ -20,7 +20,7 @@ namespace LMS_Grupp4.Controllers
 		static UserStore<ApplicationUser> userStore = new UserStore<ApplicationUser>(context);
 		UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(userStore);
 
-		LMSRepository LMSRepo = new LMSRepository(context);
+		LMSRepository LMSRepo = new LMSRepository();
 
         // GET: Student
 		public ActionResult Index(string id = "")
@@ -41,12 +41,12 @@ namespace LMS_Grupp4.Controllers
 			return View(model);
 		}
 
-		public ActionResult Assignments(string id = "")
-		{
-			var user = userManager.FindById(id);
-			var model = user.Assignments.ToList();
-			return View(model);
-		}
+		//public ActionResult Assignments(string id = "")
+		//{
+		//	var user = userManager.FindById(id);
+		//	//var model = user.Assignments.ToList();
+		//	return View(model);
+		//}
 
 		public ActionResult Courses(string id = "")
 		{
