@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<LMS_Grupp4.Models.ApplicationUser>
 @using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Index";
 }
@@ -15,6 +16,12 @@
 <p>
     <a href="@Url.Action("Register", "Account")">Add New Student</a>
 </p>
+
+<td>
+    @Html.ActionLink("Apply Student to Course", "AddCourse", new { id = User.Identity.GetUserId() })
+    <br /><br />
+</td>
+
 <table class="table">
     <tr>
         <th>

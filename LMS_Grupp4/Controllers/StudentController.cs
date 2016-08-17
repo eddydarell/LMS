@@ -1,5 +1,6 @@
 ﻿using LMS_Grupp4.Models;
 using LMS_Grupp4.Models.LMS_Models;
+using LMS_Grupp4.Models.LMS_ViewModels;
 using LMS_Grupp4.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -29,9 +30,15 @@ namespace LMS_Grupp4.Controllers
 			{
 				id = User.Identity.GetUserId();
 			}
-
 			ViewBag.UserID = id;
-            return View();
+
+			var user = userManager.FindById(id);
+			var assignmentModel = user.Assignments.ToList();
+			var courseModel = user.Courses.ToList();
+			
+			Student_IndexViewModel stud_IVW = new Student_IndexViewModel(assignmentModel, courseModel);
+
+            return View(stud_IVW);
         }
 
 		public ActionResult Files(string id = "")
@@ -41,20 +48,20 @@ namespace LMS_Grupp4.Controllers
 			return View(model);
 		}
 
-		//public ActionResult Assignments(string id = "")
-		//{
-		//	var user = userManager.FindById(id);
-		//	//var model = user.Assignments.ToList();
-		//	return View(model);
-		//}
-
-		public ActionResult Courses(string id = "")
+		public ActionResult Assignments(string id = "")
 		{
 			var user = userManager.FindById(id);
-			var model = user.Courses.ToList();
-
+			var model = user.Assignments.ToList();
 			return View(model);
 		}
+
+		////Not needed at the moment
+		//public ActionResult ApplyToCourse()
+		//{
+		//	var model = LMSRepo.GetAllCourses().ToList();
+
+		//	return View(model);
+		//}
 
 		public ActionResult ProgramClasses(string id = "")
 		{
@@ -64,6 +71,14 @@ namespace LMS_Grupp4.Controllers
 			return View(model);
 		}
 
+		////Not needed at the moment
+		//public ActionResult ApplyToProgramClass()
+		//{
+		//	var model = LMSRepo.GetAllProgramClasses().ToList();
+
+		//	return View(model);
+		//}
+
 		public ActionResult ClassSchemas(string id = "")
 		{
 			var user = userManager.FindById(id);
@@ -72,27 +87,5 @@ namespace LMS_Grupp4.Controllers
 			return View(model);
 		}
 
-		//public ActionResult AddCourse(string id = "")
-		//{	
-		//	var user = userManager.FindById(id);
-		//	return View(user);
-		//}
-
-		//[HttpPost]
-		//public ActionResult AddCourse(string id = "", string courseName = "", string courseDescription = "")
-		//{
-		//	var user = userManager.FindById(id);
-		//	var course = context.Courses.Find(courseID);
-
-		//	//Course tmpCourse = new Course();
-		//	//tmpCourse.CourseName = courseName;
-		//	//tmpCourse.Description = courseDescription;
-
-		//	user.Courses.Add(course);
-
-		//	//context.SaveChanges();
-
-		//	return RedirectToAction("Index");
-		//}
     }
 }

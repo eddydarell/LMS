@@ -7,13 +7,13 @@ namespace LMS_Grupp4.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ChangedFileSizeRange : IMigrationMetadata
+    public sealed partial class AterAddingCourseApplicationModel : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangedFileSizeRange));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AterAddingCourseApplicationModel));
         
         string IMigrationMetadata.Id
         {
-            get { return "201608141537345_ChangedFileSizeRange"; }
+            get { return "201608171036087_AterAddingCourseApplicationModel"; }
         }
         
         string IMigrationMetadata.Source
