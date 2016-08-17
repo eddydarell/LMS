@@ -14,9 +14,21 @@ namespace LMS_Grupp4.Models.LMS_Models
         public int ID { get; set; }
 
         [Display(Name = "Message")]
-        [MaxLength(250)]
+        [MaxLength(500)]
         [Required]
         public string Message { get; set; }
+
+        [Display(Name = "Status")]
+        public bool Status { get; set; }//False = Pending application, true = Answered application
+
+        [Display(Name = "Acceptance Status")]
+        public bool IsAccepted { get; set; } //True = Accepted, false = rejected
+
+        [Display(Name = "Emission Date")]
+        public DateTime CreationDate { get; set; }
+
+        [Display(Name = "Evaluation Date")]
+        public DateTime EvaluationDate { get; set; }
 
         //Navigation properties
         public ProgramClass ProgramClass { get; set; }

@@ -14,22 +14,20 @@ namespace LMS_Grupp4.Controllers
     [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
-        static ApplicationDbContext context = new ApplicationDbContext();
-        static RoleStore<IdentityRole> roleStore = new RoleStore<IdentityRole>(context);
-        RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(roleStore);
-        static UserStore<ApplicationUser> userStore = new UserStore<ApplicationUser>(context);
-        UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(userStore);
+        LMSRepository LMSRepo = new LMSRepository();
 
         // GET: Admin
         public ActionResult Index(string id = "")
         {
             ViewBag.UserID = id;//To-Do: Delete this
+            var roleManager = LMSRepo.GetRoleManager();
             var model = roleManager.Roles.ToList();
             return View(model);
         }
 
         public ActionResult ViewUsers()
         {
+            var userManager = LMSRepo.GetUserManager();
             var model = userManager.Users.ToList();
 
             return View(model);
@@ -38,6 +36,8 @@ namespace LMS_Grupp4.Controllers
         [HttpGet]
         public ActionResult Details(string id = "")
         {
+            var userManager = LMSRepo.GetUserManager();
+            var roleManager = LMSRepo.GetRoleManager();
             var user = userManager.FindById(id);
             var userRoles = new List<string>();
             foreach(var role in user.Roles)
@@ -56,6 +56,8 @@ namespace LMS_Grupp4.Controllers
         [HttpGet]
         public ActionResult ManageUserRoles(string id = "")
         {
+            var userManager = LMSRepo.GetUserManager();
+            var roleManager = LMSRepo.GetRoleManager();
             var user = userManager.FindById(id);
             var userRoles = new List<string>();
             foreach (var role in user.Roles)
@@ -78,7 +80,9 @@ namespace LMS_Grupp4.Controllers
         [HttpPost]
         public ActionResult AddUserRole(string id = "", string role = "")
         {
-            if(roleManager.RoleExists(role))
+            var userManager = LMSRepo.GetUserManager();
+            var roleManager = LMSRepo.GetRoleManager();
+            if (roleManager.RoleExists(role))
             {
                 userManager.AddToRole(id, role);
             }
@@ -89,14 +93,18 @@ namespace LMS_Grupp4.Controllers
         [HttpPost]
         public ActionResult RemoveUserRole(string id = "", string role = "")
         {
+            var userManager = LMSRepo.GetUserManager();
             userManager.RemoveFromRole(id, role);
+
             return RedirectToAction("Details", new { id = id });
         }
 
         public ActionResult DeleteUser(string id = "")
         {
+            var userManager = LMSRepo.GetUserManager();
             var user = userManager.FindById(id);
             userManager.Delete(user);
+
             return RedirectToAction("ViewUsers");
         }
 
@@ -104,6 +112,7 @@ namespace LMS_Grupp4.Controllers
         [HttpPost]
         public ActionResult AddRole(string roleName = "")
         {
+            var roleManager = LMSRepo.GetRoleManager();
             if (!String.IsNullOrWhiteSpace(roleName))
             {
                 IdentityRole role = new IdentityRole
@@ -118,8 +127,10 @@ namespace LMS_Grupp4.Controllers
 
         public ActionResult DeleteRole(string id = "")
         {
+            var roleManager = LMSRepo.GetRoleManager();
             var role = roleManager.FindById(id);
             roleManager.Delete(role);
+
             return RedirectToAction("Index"); ;
         }
 

@@ -31,7 +31,7 @@
 
     <h2>@Model.CourseName</h2>
     <p>
-       @Model.Description
+        @Model.Description
     </p>
 </div>
 <hr />
@@ -44,6 +44,7 @@
                 </div>
             </div>
             <div class="panel-body">
+
                 <dl class="dl-horizontal">
                     <dt>
                         @Html.DisplayNameFor(model => model.CourseName)
@@ -60,31 +61,14 @@
                     <dd>
                         @Html.DisplayFor(model => model.Description)
                     </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Users)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.Users.Count)
-                    </dd>
                 </dl>
                 <hr />
-                <div class="btn-toolbar">
-                    <div class="btn-group">
-                        <!--To-Do: Set differences between teachers and students-->
-                        <a href="@Url.Action("Apply", "Course", new { id = Model.ID })" class="btn btn-default">Apply For Course</a>
-                        <a href="@Url.Action("Edit", "Course", new { id = Model.ID })" class="btn btn-default">Edit This Course</a>
-                        <a href="@Url.Action("Delete", "Course", new { id = Model.ID })" class="btn btn-default">Delete This Course</a>
-                    </div>
-                    <div class="btn-group">
-                        <a href="@Url.Action("EnrollStudent", "Course", new { courseID = Model.ID, studentID = User.Identity.GetUserId() })" class="btn btn-default">Enroll A Student To This Course</a>
-                    </div>
-                    <div class="btn-group">
-                        <a href="@Url.Action("Create", "Course")" class="btn btn-default">Create New Course</a>
-                    </div>
+                <!--To-Do: Fix apply btn visibility-->
+                <div class="btn-group">
+                    <a href="@Url.Action("Apply", "Course", new { id = Model.ID })" class="btn btn-default">Apply For Course</a>
                 </div>
             </div>
         </div>
-        <a href="@Url.Action("Index", "Teacher", new { id = User.Identity.GetUserId()})">Your Homepage</a>
+        <a href="@Url.Action("Index", "Student", new { id = User.Identity.GetUserId()})">Your Homepage</a>
     </div>
 </div>

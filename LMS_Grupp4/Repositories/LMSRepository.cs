@@ -1,5 +1,7 @@
 ﻿using LMS_Grupp4.Models;
 using LMS_Grupp4.Models.LMS_Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,21 +15,40 @@ namespace LMS_Grupp4.Repositories
 	{
 		/// Database connections
 		ApplicationDbContext db = null;
+        RoleStore<IdentityRole> roleStore = null;
+        RoleManager<IdentityRole> roleManager = null;
+        UserStore<ApplicationUser> userStore = null;
+        UserManager<ApplicationUser> userManager = null;
 
-        public LMSRepository(ApplicationDbContext dbContext)
+        public LMSRepository()
 		{
-			db = dbContext;
+			db = new ApplicationDbContext();
+            roleStore = new RoleStore<IdentityRole>(db);
+            roleManager = new RoleManager<IdentityRole>(roleStore);
+            userStore = new UserStore<ApplicationUser>(db);
+            userManager = new UserManager<ApplicationUser>(userStore);
 		}
 
+        //Returns Identity managers
+        public RoleManager<IdentityRole> GetRoleManager()
+        {
+            return roleManager;
+        }
+
+        public UserManager<ApplicationUser> GetUserManager()
+        {
+            return userManager;
+        }
+
         #region Assignment
-		// Returns all assignments from the database
-		public IEnumerable<Assignment> GetAllAssignments()
+        // Returns all assignments from the database
+        public IEnumerable<Assignment> GetAllAssignments()
 		{
 			return db.Assignments.ToList();
 		}
 
 		// Gets an assignment from the database with a specific id
-		public Assignment GetSpecificAssignment(int id)
+		public Assignment GetAssignmentByID(int id)
 		{
 			 return db.Assignments.Find(id);             
 		}
@@ -63,7 +84,7 @@ namespace LMS_Grupp4.Repositories
         }
 
 		// Gets a course from the database with a specific id
-        public Course GetSpecificCourse(int id)
+        public Course GetCourseByID(int id)
         {
             return db.Courses.Find(id);
         }
@@ -99,7 +120,7 @@ namespace LMS_Grupp4.Repositories
 		}
 		
 		// Gets a file from the database with a specific id
-		public LMSFile GetSpecificFile(int id)
+		public LMSFile GetFileByID(int id)
 		{
 			return db.Files.Find(id);
 		}
@@ -135,7 +156,7 @@ namespace LMS_Grupp4.Repositories
 		}
 
 		// Gets a ProgramClass from the database with a specific id
-		public ProgramClass GetSpecificProgramClass(int id)
+		public ProgramClass GetProgramClassByID(int id)
 		{
 			return db.ProgramClasses.Find(id); 
 		}
@@ -171,7 +192,7 @@ namespace LMS_Grupp4.Repositories
         }
 
 		// Gets a ClassSchema from the database with a specific id
-        public ClassSchema GetSpecificClassSchema(int id)
+        public ClassSchema GetClassSchemaByID(int id)
         {
             return db.ClassSchemas.Find(id);
         }
@@ -195,6 +216,42 @@ namespace LMS_Grupp4.Repositories
         {
             ClassSchema classSchema = db.ClassSchemas.Find(id);
             db.ClassSchemas.Remove(classSchema);
+            db.SaveChanges();
+        }
+        #endregion
+
+        #region CourseApplication
+        // Returns all ClassSchemas from the database
+        public IEnumerable<CourseApplication> GetAllCourseApplications()
+        {
+            return db.CourseApplications.ToList();
+        }
+
+        // Gets a ClassSchema from the database with a specific id
+        public CourseApplication GetCourseApplicationID(int id)
+        {
+            return db.CourseApplications.Find(id);
+        }
+
+        // Add a ClassSchemas to the database
+        public void AddCourseApplication(CourseApplication courseApplication)
+        {
+            db.CourseApplications.Add(courseApplication);
+            db.SaveChanges();
+        }
+
+        // Edit a ClassSchema in the database
+        public void EditCourseApplication(CourseApplication courseApplication)
+        {
+            db.Entry(courseApplication).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        // Delete a ClassSchema from the database
+        public void DeleteCourseApplication(int id)
+        {
+            CourseApplication courseApplication = db.CourseApplications.Find(id);
+            db.CourseApplications.Remove(courseApplication);
             db.SaveChanges();
         }
         #endregion
