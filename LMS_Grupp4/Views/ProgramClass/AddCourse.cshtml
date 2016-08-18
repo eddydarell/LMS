@@ -1,0 +1,26 @@
+﻿@model LMS_Grupp4.Models.LMS_Models.ProgramClass
+
+@{
+    ViewBag.Title = "AddCourse";
+}
+
+<h2>AddCourse</h2>
+
+<p>
+    Adding courses to class: @Model.ClassName<br />
+    Search for a course to add in the form bellow.
+</p>
+<hr />
+
+<form action="@Url.Action("SearchCourseByName", "Search")" method="post">
+    <input type="hidden" value="json" name="resultFormat" />
+    Course Name:
+    
+    <input type="text" name="name" id="name" placeholder="Ex: Mathematics"/>
+    <input type="submit" value="Search" />
+</form>
+<!--To-Do: Javascript for this one-->
+<div id="SearchResult">
+
+</div>
+

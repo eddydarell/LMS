@@ -1,5 +1,6 @@
 ﻿using LMS_Grupp4.Models;
 using LMS_Grupp4.Models.LMS_Models;
+using LMS_Grupp4.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -14,18 +15,16 @@ namespace LMS_Grupp4.Controllers
     [Authorize]
     public class FileController : Controller
     {
-        static ApplicationDbContext context = new ApplicationDbContext();
-        static UserStore<ApplicationUser> userStore = new UserStore<ApplicationUser>(context);
-        UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(userStore);
+        LMSRepository LMSRepo = new LMSRepository();
 
         [HttpGet]
         public ActionResult Index()
         {
-            var model = context.Files.ToList();
-            return View(model);
+            List<LMSFile> files = LMSRepo.GetAllFiles().ToList();
+            return View(files);
         }
 
-        public ActionResult UploadView()
+        public ActionResult Upload()
         {
             return View();
         }
@@ -34,8 +33,9 @@ namespace LMS_Grupp4.Controllers
         [HttpPost]
         public ActionResult Upload(string uploaderID = "", bool isPublic = false)
         {
+            UserManager<ApplicationUser> userManager = LMSRepo.GetUserManager();
             LMSFile dbFile = new LMSFile();
-            var uploader = userManager.FindById(uploaderID);
+            ApplicationUser uploader = userManager.FindById(uploaderID);
             string location = "~/Content/Uploads/Shared/";
 
             //If the file is not public, set it in a user personal folder
@@ -72,8 +72,8 @@ namespace LMS_Grupp4.Controllers
                     var path = Path.Combine(Server.MapPath(location), fileName);
 
                     //Verifies if the file has already been uploaded
-                    var existingFilesWithSameName = context.Files.Where(f => f.Name == fileName);
-                    var existingFilesWithSameNameCopy = context.Files.Where(f => f.Name.Replace(" - copy", "") == fileName);
+                    var existingFilesWithSameName = LMSRepo.GetAllFiles().Where(f => f.Name == fileName);
+                    var existingFilesWithSameNameCopy = LMSRepo.GetAllFiles().Where(f => f.Name.Replace(" - copy", "") == fileName);
                     if (existingFilesWithSameName != null || existingFilesWithSameNameCopy != null)
                     {
                         var existingFilesWithSameNameAndSize = existingFilesWithSameName.Where(ef => ef.Size == fileSize);
@@ -106,8 +106,7 @@ namespace LMS_Grupp4.Controllers
                     dbFile.Courses = new List<Course>();
 
                     //Add file to the database
-                    context.Files.Add(dbFile);
-                    context.SaveChanges();
+                    LMSRepo.AddFile(dbFile);
 
                     //Moves the file to the server
                     file.SaveAs(path);
@@ -120,7 +119,7 @@ namespace LMS_Grupp4.Controllers
         [HttpGet]
         public ActionResult Download(int id = 0)
         {
-            var file = context.Files.Find(id);
+            var file = LMSRepo.GetFileByID(id);
             var fileURL = file.URL;
             string fileName = file.Name;
             if(System.IO.File.Exists(fileURL))
@@ -130,7 +129,8 @@ namespace LMS_Grupp4.Controllers
             }
             else
             {
-                return null; //To-Do: Handle Error message
+                LMSRepo.DeleteFile(id);
+                return RedirectToAction("Index", new { Error = "Broken Link!\nThis file: '" + file.Name + "' does not exist on the server."});
             }
         }
     }

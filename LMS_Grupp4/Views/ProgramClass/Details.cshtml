@@ -1,0 +1,37 @@
+﻿@model LMS_Grupp4.Models.LMS_Models.ProgramClass
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ProgramClass</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClassName)
+        </dd>
+        <dt>
+            Schema count
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClassSchemas.Count)
+        </dd>
+    </dl>
+    <hr />
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Add Course", "AddCourse", new { id = Model.ID }) |
+    @Html.ActionLink("Delete", "Delete", new { id = Model.ID }) |
+    @Html.ActionLink("Add User", "AddUser", new { id = Model.ID }) |
+    <a href="@Url.Action("Create", "Schema", new { programID = Model.ID})">Add Schema</a> |
+    @Html.ActionLink("Back to List", "Index")
+</p>
