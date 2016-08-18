@@ -1,0 +1,73 @@
+﻿@model IEnumerable<LMS_Grupp4.Models.LMS_Models.Assignment>
+
+@{
+    ViewBag.Title = "Assignments";
+}
+
+<h2>My Assignments</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Assignment
+        </th>
+        <th>
+            Due Date
+        </th>
+        <th>
+            Issue Date
+        </th>
+        <th>
+            Mark
+        </th>
+        <th>
+            Passed
+        </th>
+        <th>
+            Expired
+        </th>
+        <th>
+            Score
+        </th>
+        <th>
+            Percentage
+        </th>
+        <th>
+            Max Score
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(file => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(file => item.DueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(file => item.IssueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(file => item.Mark)
+            </td>
+            <td>
+                @Html.DisplayFor(file => item.IsPassed)
+            </td>
+            <td>
+                @Html.DisplayFor(file => item.IsExpired)
+            </td>
+            <td>
+                @Html.DisplayFor(file => item.Score)
+            </td>
+            <td>
+                @Html.DisplayFor(file => item.Percentage)
+            </td>
+            <td>
+                @Html.DisplayFor(file => item.MaxScore)
+            </td>
+        </tr>
+    }
+
+</table>
