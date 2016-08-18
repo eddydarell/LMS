@@ -8,13 +8,16 @@ namespace LMS_Grupp4.Models.LMS_ViewModels
 {
     public class Teacher_IndexViewModel
     {
-        public IEnumerable<Assignment> Assignments { get; set; }
-		public IEnumerable<Course> Courses { get; set; }
+//        public IEnumerable<Assignment> Assignments { get; set; }
+        public IEnumerable<Course> Courses { get; set; }
+//        public IEnumerable<ApplicationUser> ApplicationUser { get; set; }
 
-		public Teacher_IndexViewModel(IEnumerable<Assignment> assignments, IEnumerable<Course> courses)
-		{
-			this.Assignments = assignments;
-			this.Courses = courses;
-		}
+//        public Teacher_IndexViewModel(IEnumerable<Assignment> assignments, IEnumerable<Course> courses, IEnumerable<ApplicationUser> studentList)
+        public Teacher_IndexViewModel(IEnumerable<Course> courses)
+        {
+//           this.Assignments = assignments;
+            this.Courses = courses;
+//            this.ApplicationUser = studentList;
+        }
     }
 }

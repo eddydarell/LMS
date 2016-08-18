@@ -1,0 +1,31 @@
+﻿@model IEnumerable<LMS_Grupp4.Models.LMS_Models.ClassSchema>
+
+@{
+    ViewBag.Title = "ClassSchemas";
+}
+
+<h2>My Schemas</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Start date
+        </th>
+        <th>
+            End date
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(classSchema => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(classSchema => item.EndDate)
+            </td>
+        </tr>
+    }
+
+</table>
