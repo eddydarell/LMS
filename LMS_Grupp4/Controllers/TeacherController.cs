@@ -46,7 +46,7 @@ namespace LMS_Grupp4.Controllers
             var assignmentModel = user.Assignments.ToList();
             var courseModel = user.Courses.ToList();
 
-            Teacher_IndexViewModel teacher_IVW = new Teacher_IndexViewModel(assignmentModel, courseModel);
+            //Teacher_IndexViewModel teacher_IVW = new Teacher_IndexViewModel(assignmentModel, courseModel);
 
             ViewBag.UserID = id;
           

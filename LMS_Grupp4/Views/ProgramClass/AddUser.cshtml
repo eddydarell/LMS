@@ -1,0 +1,26 @@
+﻿@model LMS_Grupp4.Models.LMS_Models.ProgramClass
+
+@{
+    ViewBag.Title = "AddUser";
+}
+
+<h2>AddUser</h2>
+
+<p>
+    Adding users to class: @Model.ClassName<br />
+    Search for a user to add in the form bellow.<br />
+    You can add both teachers and students
+</p>
+<hr />
+
+<form action="@Url.Action("SearchUserByEmail", "Search")" method="post">
+    <input type="hidden" value="json" name="resultFormat" />
+    User Email:
+    
+    <input type="text" name="name" id="name" placeholder="Ex: Mathematics" />
+    <input type="submit" value="Search" />
+</form>
+<!--To-Do: Javascript for this one-->
+<div id="SearchResult">
+
+</div>

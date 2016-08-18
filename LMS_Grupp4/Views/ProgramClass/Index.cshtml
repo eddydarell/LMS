@@ -1,0 +1,183 @@
+﻿@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity;
+@model IEnumerable<LMS_Grupp4.Models.LMS_Models.ProgramClass>
+
+@{
+    ViewBag.Title = " Class Index";
+    bool isTeacher = (User.IsInRole("teacher")) ? true : false;
+    bool isAdmin = (User.IsInRole("admin")) ? true : false;
+    int personalClassesCount = Model.Where(m => m.Users.SingleOrDefault(u => u.Id == User.Identity.GetUserId()) != null).Count();
+}
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        @if (isTeacher)
+        {
+            <small>
+                Teacher ID: @User.Identity.GetUserId()
+            </small>
+        }
+        else if (isAdmin)
+        {
+            <small>
+                Admin ID: @User.Identity.GetUserId()
+            </small>
+        }
+        else
+        {
+            <small>
+                Student ID: @User.Identity.GetUserId()
+            </small>
+        }
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Class Overview</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
+<div class="jumbotron">
+
+    <h2><a href="@Url.Action("Index", "Teacher", new { id = User.Identity.GetUserId()})">@User.Identity.GetUserRealName()</a>, welcome!</h2>
+    <p>
+        Here you can see all your classes and available classes on our Learning platform.<br />
+        Choose a your to view details.<br />
+        <small>You cannot modify class details, refer to the application administrator.</small>
+    </p>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">My Classes</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    This is the list of all your classes with relevant information concerning each one of them.<br />
+                    Click on the links to open different sections.
+                </p>
+                <hr />
+                <table class="table table-bordered">
+                    <tr>
+                        <th class="text-center">
+                            Code
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.ClassName)
+                        </th>
+                        <th class="text-center">
+                            Users
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.ClassSchemas)
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        if (Request.IsAuthenticated && !User.IsInRole("admin") && item.Users.SingleOrDefault(u => u.Id == User.Identity.GetUserId()) != null)
+                        {
+                            <tr>
+                                <td>
+                                    <span>LMS-@item.ID-PC</span>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClassName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Users.Count)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClassSchemas.Count)
+                                </td>
+                                <td>
+                                    <span> @Html.ActionLink("Details", "Details", new { id = item.ID }) </span>
+                                </td>
+                            </tr>
+                        }
+                        else if(Request.IsAuthenticated && User.IsInRole("admin"))
+                        {
+                            <tr>
+                                <td>
+                                    <span>LMS-@item.ID-PC</span>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClassName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Users.Count)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClassSchemas.Count)
+                                </td>
+                                <td>
+                                    <span> @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |</span>
+                                    <span>@Html.ActionLink("Delete", "Delete", new { id = item.ID }) |</span>
+                                    <span> @Html.ActionLink("Details", "Details", new { id = item.ID }) </span>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+
+                @if (personalClassesCount <= 0 && !isAdmin)
+                {
+                    <hr />
+                    <h2 class="alert alert-warning">You belong to no class!</h2>
+                    <p>Consider applying one to one <a href="@Url.Action("Create", "Course")">here</a></p>
+                    <small>All your classes will be displayed in the table above.</small>
+                }
+                else
+                {
+                    <a href="@Url.Action("Create", "ProgramClass")">Create New Class</a>
+                }
+
+            </div>
+        </div>
+        @if (isTeacher)
+        {
+            <a href="@Url.Action("Index", "Teacher", new { id = User.Identity.GetUserId()})">Your Homepage</a>
+        }
+        else
+        {
+            <a href="@Url.Action("Index", "Student", new { id = User.Identity.GetUserId()})">Your Homepage</a>
+        }
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">Available Classes</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    Available classes on our platform as for now.
+                </p>
+                <hr />
+                <table class="table table-condensed table-striped">
+                    <tr>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.ClassName)
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        if (Request.IsAuthenticated)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Details", new { id = item.ID })" title="Details">@Html.DisplayFor(modelItem => item.ClassName)</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

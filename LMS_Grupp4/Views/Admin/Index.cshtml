@@ -9,7 +9,7 @@
     <small>ID: @ViewBag.UserID</small>
 </div>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-3">
         <h3>Roles</h3>
         <hr />
         <h4>Create New Role</h4>
@@ -43,7 +43,7 @@
             </tbody>
         </table>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-3">
         <h3>Users</h3>
         <hr />
         <p>
@@ -51,6 +51,36 @@
             List, Create, delete etc...
         </p>
         <hr />
-        <a href="@Url.Action("ViewUsers", "Admin")" class="btn btn-default btn-md">View Users</a>
+        <a href="@Url.Action("ViewUsers", "Admin")" class="btn btn-default btn-sm">View Users</a>
+    </div>
+    <div class="col-md-3">
+        <h3>Classes</h3>
+        <hr />
+        <p>
+            Manage all classes. <br />
+            You are the only one able to modify these classes.
+        </p>
+        <hr />
+        <div class="btn-group-vertical">
+
+            <a href="@Url.Action("Create", "ProgramClass")" class="btn btn-default btn-sm">Create New Class</a>
+            <a href="@Url.Action("Index", "ProgramClass")" class="btn btn-default btn-sm">View All Classes</a>
+        </div>
+        
+    </div>
+    <div class="col-md-3">
+        <h3>Files</h3>
+        <hr />
+        <p>
+            Manage all files.<br />
+            You can view all the files uploaded by any application user.
+        </p>
+        <hr />
+        <div class="btn-group-vertical">
+
+            <a href="@Url.Action("Index", "File")" class="btn btn-default btn-sm">List Files</a>
+            <a href="@Url.Action("Upload", "File")" class="btn btn-default btn-sm">Upload A File</a>
+        </div>
+
     </div>
 </div>

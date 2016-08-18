@@ -198,12 +198,17 @@
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProgramClassController.cs" />
     <Compile Include="Controllers\SchemaController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608181303211_AddedTitleToClassSChema.cs" />
+    <Compile Include="Migrations\201608181303211_AddedTitleToClassSChema.Designer.cs">
+      <DependentUpon>201608181303211_AddedTitleToClassSChema.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -291,7 +296,7 @@
     <Content Include="Views\Admin\Details.cshtml" />
     <Content Include="Views\Admin\ManageUserRoles.cshtml" />
     <Content Include="Views\File\Index.cshtml" />
-    <Content Include="Views\File\UploadView.cshtml" />
+    <Content Include="Views\File\Upload.cshtml" />
     <Content Include="Views\Student\ProgramClasses.cshtml" />
     <Content Include="Views\Course\Apply.cshtml" />
     <Content Include="Views\Course\Create.cshtml" />
@@ -305,6 +310,13 @@
     <Content Include="Views\Student\ClassSchemas.cshtml" />
     <Content Include="Views\Student\ApplyToProgramClass.cshtml" />
     <Content Include="Views\Student\Files.cshtml" />
+    <Content Include="Views\ProgramClass\Index.cshtml" />
+    <Content Include="Views\ProgramClass\Create.cshtml" />
+    <Content Include="Views\ProgramClass\Edit.cshtml" />
+    <Content Include="Views\ProgramClass\Details.cshtml" />
+    <Content Include="Views\ProgramClass\AddCourse.cshtml" />
+    <Content Include="Views\ProgramClass\AddUser.cshtml" />
+    <Content Include="Views\Schema\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -317,6 +329,11 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201608181303211_AddedTitleToClassSChema.resx">
+      <DependentUpon>201608181303211_AddedTitleToClassSChema.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
