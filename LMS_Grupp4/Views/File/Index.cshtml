@@ -3,62 +3,82 @@
 @{
     ViewBag.Title = "Index";
 }
+<div class="jumbotron">
 
-<h2>Files</h2>
+    <h2>Files</h2>
+    <p>
+        This is a list of all the files you have access to.<br />
+        To view your own files, follow this <a href="#">link</a>.<!--To-Do: Finish this link-->
+    </p>
+    @if (!String.IsNullOrWhiteSpace(Request.QueryString["Error"]))
+    {
+        <div class="alert alert-warning">
+            <h3>@Request.QueryString["Error"]</h3>
+        </div>
+    }
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">My Courses</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    Click on the <span class="glyphicon glyphicon-download"></span> button to download the file from the server to your device.
+                </p>
+                <hr />
+                    <a href="@Url.Action("Upload", "File")" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-upload"></span> Upload A File</a>
+                <hr />
+                <table class="table table-condensed table-bordered">
+                    <tr>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th  class="text-center">
+                            @Html.DisplayNameFor(model => model.Format)
+                        </th>
+                        <th  class="text-center">
+                            @Html.DisplayNameFor(model => model.IsPublicVisible)
+                        </th>
+                        <th  class="text-center">
+                            @Html.DisplayNameFor(model => model.UploadDate)
+                        </th>
+                        <th  class="text-center">
+                            @Html.DisplayNameFor(model => model.Size)
+                        </th>
+                        <th></th>
+                    </tr>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Format)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.URL)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsPublicVisible)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UploadDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Size)
-        </th>
-        <th></th>
-    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Details", new { id = item.ID })"> @Html.DisplayFor(modelItem => item.Name)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Format)
+                            </td>
+                            <td>
+                                @(item.IsPublicVisible ? "Public" : "Private")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UploadDate)
+                            </td>
+                            <td>
+                                @(string.Format("{0:0.00}", item.Size / 1000)) KB
+                            </td>
+                            <td class="text-center">
+                                <a href="@Url.Action("Download", new { id = item.ID })" class="btn btn-primary btn-xs" title="Download @item.Name "><span class="glyphicon glyphicon-download"></span></a>
+                            </td>
+                        </tr>
+                    }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Format)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.URL)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsPublicVisible)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UploadDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Size)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-            @Html.ActionLink("Download", "Download", new { id = item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-        </td>
-    </tr>
-}
-
-</table>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -9,6 +9,9 @@ namespace LMS_Grupp4.Models.LMS_Models
         [Key]
         public int ID { get; set; }
 
+        [Display(Name = "Title")]
+        public string Title { get; set; }
+
         [Required]
         [Display(Name = "Start")]
         public DateTime StartDate { get; set; }
