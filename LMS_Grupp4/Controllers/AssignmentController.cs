@@ -14,6 +14,7 @@ namespace LMS_Grupp4.Controllers
     {
         LMSRepository LMSRepo = new LMSRepository();
 
+
         public ActionResult Index(string id = "")
         {
 			if (String.IsNullOrWhiteSpace(id))
@@ -22,7 +23,17 @@ namespace LMS_Grupp4.Controllers
 			}
 			ViewBag.UserID = id;
 
-            return View();
+			var user = LMSRepo.GetUserManager().FindById(id);
+			var assignmentModelList = user.Assignments.ToList();
+
+            return View(assignmentModelList);
         }
+
+		public ActionResult Details(int? id)
+		{
+			var assignment = LMSRepo.GetAssignmentByID(id);
+
+			return View(assignment);
+		}
     }
 }

@@ -207,6 +207,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201608171037228_AfterAddingCourseApplicationModel.cs" />
+    <Compile Include="Migrations\201608171418243_lastversion.cs" />
+    <Compile Include="Migrations\201608171418243_lastversion.Designer.cs">
+      <DependentUpon>201608171418243_lastversion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201608171424055_migration.cs" />
     <Compile Include="Migrations\201608171424055_migration.Designer.cs">
       <DependentUpon>201608171424055_migration.cs</DependentUpon>
@@ -403,6 +407,14 @@
     <Content Include="Views\Assignment\Create.cshtml" />
     <Content Include="Views\Assignment\Edit.cshtml" />
     <Content Include="Views\Assignment\Details.cshtml" />
+    <Content Include="Views\Teacher\Students.cshtml" />
+    <Content Include="Views\Teacher\ProgramClasses.cshtml" />
+    <Content Include="Views\Teacher\Assignments.cshtml" />
+    <Content Include="Views\Teacher\ClassSchemas.cshtml" />
+    <Content Include="Views\Teacher\CourseApplication.cshtml" />
+    <Content Include="Views\Teacher\Files.cshtml" />
+    <Content Include="Views\Teacher\ProgramClassApplication.cshtml" />
+    <Content Include="Views\Assignment\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -419,6 +431,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201608171037228_AfterAddingCourseApplicationModel.resx">
       <DependentUpon>201608171037228_AfterAddingCourseApplicationModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608171418243_lastversion.resx">
+      <DependentUpon>201608171418243_lastversion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608171424055_migration.resx">
       <DependentUpon>201608171424055_migration.cs</DependentUpon>

@@ -1,13 +1,11 @@
 ﻿@using LMS_Grupp4.Models
 @using Microsoft.AspNet.Identity;
-@model IEnumerable<LMS_Grupp4.Models.LMS_Models.Course>
+@model IEnumerable<LMS_Grupp4.Models.LMS_Models.Assignment>
 
 @{
     ViewBag.Title = "Index";
     bool isTeacher = (User.IsInRole("teacher")) ? true : false;
 }
-
-<h2>Index</h2>
 
 
 <div class="jumbotron">
@@ -22,4 +20,47 @@
         <small>ID: @ViewBag.UserID</small>
     } 
 </div>
+
+<h2>Assignments overview</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Due date
+        </th>
+        <th>
+            Completed
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Name, "Details", new { id = item.ID })
+            </td>
+            <td>
+                @Html.DisplayFor(course => item.DueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(course => item.IsPassed)
+            </td>
+
+            @if(isTeacher)
+            {
+                <td>
+                    @Html.ActionLink("Create", "Create") |
+                    @Html.ActionLink("Edit", "Edit") |   
+                    @Html.ActionLink("Delete", "Delete")
+                </td>
+            } 
+        </tr>
+    }
+
+</table>
 

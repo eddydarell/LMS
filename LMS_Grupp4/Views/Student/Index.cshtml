@@ -80,7 +80,8 @@
         {
             <tr>
                 <td>
-                    @Html.ActionLink(Model.Assignments.ElementAt(i).Name, "Details", "Assignment", new { id = Model.Assignments.ElementAt(i).ID })
+                    <a href="@Url.Action("Details", "Assignment", new { id = Model.Assignments.ElementAt(i).ID })">@Model.Assignments.ElementAt(i).Name</a>
+                    @*@Html.ActionLink(Model.Assignments.ElementAt(i).Name, "Details", "Assignment", new { id = Model.Assignments.ElementAt(i).ID })*@
                 </td>
                 <td>
                     @Html.DisplayFor(assignment => Model.Assignments.ElementAt(i).DueDate)
