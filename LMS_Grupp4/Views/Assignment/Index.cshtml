@@ -1,0 +1,25 @@
+﻿@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity;
+@model IEnumerable<LMS_Grupp4.Models.LMS_Models.Course>
+
+@{
+    ViewBag.Title = "Index";
+    bool isTeacher = (User.IsInRole("teacher")) ? true : false;
+}
+
+<h2>Index</h2>
+
+
+<div class="jumbotron">
+    @if (isTeacher)
+    {
+        <h1>You are logged in as Teacher: @User.Identity.GetUserRealName()</h1>
+        <small>ID: @ViewBag.UserID</small>
+    } 
+    else
+    {
+        <h1>You are logged in as Student: @User.Identity.GetUserRealName()</h1>
+        <small>ID: @ViewBag.UserID</small>
+    } 
+</div>
+
