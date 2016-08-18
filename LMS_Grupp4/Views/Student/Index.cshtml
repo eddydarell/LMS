@@ -1,0 +1,93 @@
+﻿@model LMS_Grupp4.Models.LMS_ViewModels.Student_IndexViewModel
+@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="jumbotron">
+    <h1>You are logged in as Student: @User.Identity.GetUserRealName()</h1>
+    <small>ID: @ViewBag.UserID</small>
+</div>
+
+   
+<td>
+    @Html.ActionLink("Apply for new Course", "Index", "Course") |
+    @Html.ActionLink("Apply for new Program", "Index", "ProgramClass")
+    <br /><br />
+</td>
+
+<td>
+    @Html.ActionLink("My Programs", "ProgramClasses", new { id = User.Identity.GetUserId() }) |
+    @Html.ActionLink("My Schemas", "ClassSchemas", new { id = User.Identity.GetUserId() }) |
+    @Html.ActionLink("My Files", "Files", new { id = User.Identity.GetUserId() })  
+</td>
+
+<br /><br />
+<h2>My Courses</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Course
+        </th>
+        <th>
+            Description
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Courses)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(course => item.CourseName)
+            </td>
+            <td>
+                @Html.DisplayFor(course => item.Description)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<h2>Assignments overview</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Due date
+        </th>
+        <th>
+            Completed
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Assignments)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Name, "Index", "Assignment", new { id = item.ID })
+            </td>
+            <td>
+                @Html.DisplayFor(course => item.DueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(course => item.IsPassed)
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+     

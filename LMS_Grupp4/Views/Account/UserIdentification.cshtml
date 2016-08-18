@@ -1,0 +1,12 @@
+﻿@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "UserIdentification";
+}
+
+<h2>UserIdentification</h2>
+<p>
+    You've been identified as: @User.Identity.GetUserRealName() <br />
+    ID: @User.Identity.GetUserId()
+</p>
+

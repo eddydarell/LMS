@@ -1,0 +1,73 @@
+﻿@using Microsoft.AspNet.Identity;
+@using LMS_Grupp4.Models;
+@model LMS_Grupp4.Models.LMS_ViewModels.Course_ApplicationViewModel
+
+@{
+    ViewBag.Title = "Course Application";
+}
+
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            Student ID: @User.Identity.GetUserId()
+        </small>
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Course Application</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
+<div class="jumbotron">
+    <h2><a href="@Url.Action("Index", "Student", new { id = User.Identity.GetUserId()})">@User.Identity.GetUserRealName()</a> welcome to the course application form.</h2>
+    <p>
+        You are actually applying for the course "<a href="@Url.Action("Details", "Course")" title="@Model.CourseName details">@Model.CourseName</a>".<br />
+        You need to specify the class, program or semester you are applying for.<br />
+        If nothing no class is specified, the course is considered as a free study course.
+    </p>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">Application</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <h4>Applying For <b>@Model.CourseName</b></h4>
+                        <hr />
+                        @Html.HiddenFor(model => model.CourseID)
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <textarea name="Message" id="Message" rows="5" cols="50" class="form-control"></textarea>
+                                @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <!--To-Do: Use this elsewhere
+                            
+                        -->
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Apply" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

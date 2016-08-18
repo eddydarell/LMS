@@ -66,9 +66,18 @@ namespace LMS_Grupp4.Models
     public class RegisterViewModel
     {
         [Required]
+        [MaxLength(50)]
+        [Display(Name = "Real Name")]
+        public string RealName { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+        
+        [Phone]
+        [Display(Name = "Phone Number *")]
+        public string PhoneNumber { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

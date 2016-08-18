@@ -1,0 +1,212 @@
+﻿@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity;
+@model IEnumerable<LMS_Grupp4.Models.LMS_Models.Course>
+
+@{
+    ViewBag.Title = "Index";
+    bool isTeacher = (User.IsInRole("teacher")) ? true : false;
+    int personalCourseCount = Model.Where(m => m.Users.SingleOrDefault(u => u.Id == User.Identity.GetUserId()) != null).Count();
+}
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        @if (isTeacher)
+        {
+            <small>
+                Teacher ID: @User.Identity.GetUserId()
+            </small>
+        }
+        else
+        {
+            <small>
+                Student ID: @User.Identity.GetUserId()
+            </small>
+        }
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Courses Overview</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
+<div class="jumbotron">
+
+    <h2><a href="@Url.Action("Index", "Teacher", new { id = User.Identity.GetUserId()})">@User.Identity.GetUserRealName()</a>, welcome!</h2>
+    <p>
+        Here you can see all your courses and available courses on our Learning platform.<br />
+        Choose a course to view details.<br />
+        @if (isTeacher)
+        {
+            <small>
+                You can manage all your courses here.<br />
+                Edit them, add new, remove obsolete, view all assignments, students etc...
+            </small>
+        }
+        else
+        {
+            <small>
+                You can view all your courses here.<br />
+                View your assignments, new assignments, score and more...
+            </small>
+        }
+
+    </p>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">My Courses</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    This is the list of all your courses with relevant information concerning each course.<br />
+                    Click on the links to open different sections.
+                </p>
+                <hr />
+                <table class="table table-bordered">
+                    <tr>
+                        <th class="text-center">
+                            Code
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.CourseName)
+                        </th>
+                        <th class="text-center">
+                            Files
+                        </th>
+                        <th class="text-center">
+                            Users
+                        </th>
+                        <th class="text-center">
+                            Assignments
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
+                            Applications
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        if (Request.IsAuthenticated && User.IsInRole("teacher") && item.Users.SingleOrDefault(u => u.Id == User.Identity.GetUserId()) != null)
+                        {
+                            <tr>
+                                <td>
+                                    <span>LMS-@item.ID</span>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CourseName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Files.Count)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Users.Count)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Assignments.Count)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @item.CourseApplications.Count
+                                </td>
+                                <td>
+                                    <span> @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |</span>
+                                    <span>@Html.ActionLink("Delete", "Delete", new { id = item.ID }) |</span>
+                                    <span> @Html.ActionLink("Details", "Details", new { id = item.ID }) </span>
+                                </td>
+                            </tr>
+                        }
+                        else if (Request.IsAuthenticated && User.IsInRole("student") && item.Users.SingleOrDefault(u => u.Id == User.Identity.GetUserId()) != null)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CourseName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @item.CourseApplications.Count
+                                </td>
+                                <td>
+                                    <span> @Html.ActionLink("Details", "Details", new { id = item.ID }) </span>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+
+                @if (personalCourseCount <= 0 && isTeacher)
+                {
+                    <hr />
+                    <h2 class="alert alert-warning">You have no courses!</h2>
+                    <p>Consider creating one <a href="@Url.Action("Create", "Course")">here</a></p>
+                    <small>All your course will be displayed in the table above.</small>
+                }
+                else if (personalCourseCount <= 0 && !isTeacher)
+                {
+                    <hr />
+                    <h2 class="alert alert-warning">You have no courses!</h2>
+                    <p>
+                        Consider applying for one. <br />
+                        Or simply view a course details to apply.
+                    </p>
+                    <small>All your course will be displayed in the table above.</small>
+                }
+            </div>
+        </div>
+        @if (isTeacher)
+        {
+            <a href="@Url.Action("Index", "Teacher", new { id = User.Identity.GetUserId()})">Your Homepage</a>
+            <a href="@Url.Action("Create", "Course")">Create New Course</a>
+        }
+        else
+        {
+            <a href="@Url.Action("Index", "Student", new { id = User.Identity.GetUserId()})">Your Homepage</a>
+        }
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">Available Courses</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    Available courses on our platform.
+                </p>
+                <hr />
+                <table class="table table-condensed table-striped">
+                    <tr>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.CourseName)
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        if (Request.IsAuthenticated)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Details", new { id = item.ID })" title="Details">@Html.DisplayFor(modelItem => item.CourseName)</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
