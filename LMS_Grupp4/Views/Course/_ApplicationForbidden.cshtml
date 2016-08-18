@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Action Forbidden";
+}
+<div class="alert alert-warning">
+    <h2>Action Forbidden!</h2>
+    <p>
+        You are already enrolled in this course.<br />
+        Please follow the link bellow to view your courses.
+    </p>
+    <hr />
+    <a href="@Url.Action("Index", "Course")">Return To Course List</a>
+</div>
+
+

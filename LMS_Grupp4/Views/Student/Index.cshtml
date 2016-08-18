@@ -1,6 +1,6 @@
-﻿@using LMS_Grupp4.Models
+﻿@model LMS_Grupp4.Models.LMS_ViewModels.Student_IndexViewModel
+@using LMS_Grupp4.Models
 @using Microsoft.AspNet.Identity
-@model IEnumerable<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
 
 @{
     ViewBag.Title = "Index";
@@ -15,7 +15,79 @@
 
    
 <td>
-    @Html.ActionLink("My Courses", "Courses", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("My Programs", "ProgramClasses", new { id = User.Identity.GetUserId() })
+    @Html.ActionLink("Apply for new Course", "Index", "Course") |
+    @Html.ActionLink("Apply for new Program", "Index", "ProgramClass")
+    <br /><br />
 </td>
+
+<td>
+    @Html.ActionLink("My Programs", "ProgramClasses", new { id = User.Identity.GetUserId() }) |
+    @Html.ActionLink("My Schemas", "ClassSchemas", new { id = User.Identity.GetUserId() }) |
+    @Html.ActionLink("My Files", "Files", new { id = User.Identity.GetUserId() })  
+</td>
+
+<br /><br />
+<h2>My Courses</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Course
+        </th>
+        <th>
+            Description
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Courses)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(course => item.CourseName)
+            </td>
+            <td>
+                @Html.DisplayFor(course => item.Description)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<h2>Assignments overview</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Due date
+        </th>
+        <th>
+            Completed
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Assignments)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Name, "Index", "Assignment", new { id = item.ID })
+            </td>
+            <td>
+                @Html.DisplayFor(course => item.DueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(course => item.IsPassed)
+            </td>
+        </tr>
+    }
+
+</table>
+
+
      

@@ -1,0 +1,74 @@
+﻿@using Microsoft.AspNet.Identity;
+@model LMS_Grupp4.Models.LMS_Models.Course
+
+@{
+    ViewBag.Title = "Details";
+    bool isTeacher = (User.IsInRole("teacher")) ? true : false;
+}
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        @if (isTeacher)
+        {
+            <small>
+                Teacher ID: @User.Identity.GetUserId()
+            </small>
+        }
+        else
+        {
+            <small>
+                Student ID: @User.Identity.GetUserId()
+            </small>
+        }
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Course Details</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
+<div class="jumbotron">
+
+    <h2>@Model.CourseName</h2>
+    <p>
+        @Model.Description
+    </p>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">Details</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CourseName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CourseName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+                </dl>
+                <hr />
+                <!--To-Do: Fix apply btn visibility-->
+                <div class="btn-group">
+                    <a href="@Url.Action("Apply", "Course", new { id = Model.ID })" class="btn btn-default">Apply For Course</a>
+                </div>
+            </div>
+        </div>
+        <a href="@Url.Action("Index", "Student", new { id = User.Identity.GetUserId()})">Your Homepage</a>
+    </div>
+</div>

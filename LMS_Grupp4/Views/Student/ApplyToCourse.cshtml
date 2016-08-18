@@ -1,0 +1,54 @@
+﻿@model IEnumerable<LMS_Grupp4.Models.LMS_Models.Course>
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "AddCourse";
+}
+
+<h2>Apply to Course</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseName)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(course => item.CourseName) |
+                @Html.ActionLink("Apply", "ApplyToCourse", new { id = User.Identity.GetUserId() })
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+
+
+
+
+
+@*<div>
+    <h5>Apply to Course</h5>
+    <hr />
+    <form action="@Url.Action("AddCourse")" method="post">
+        <input type="hidden" value="@User.Identity.GetUserId()" name="id" />
+        Courses:
+        <select name="courseName">
+            <option value="Mathematics">Mathematics</option>
+            <option value="Swedish">Swedish</option>
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+        </select>
+        <br />
+        Course description: (Optional)
+        <input type="text" name="courseDescription" />
+        <input type="submit" value="Add Course" />
+    </form>
+</div>*@

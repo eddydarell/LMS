@@ -17,7 +17,8 @@ namespace LMS_Grupp4.Models
         //To-Do: Add the other properties
         [Display(Name = "Name")]
         public string RealName { get; set; }
-        public virtual ICollection<Assignment> Assigments { get; set; }
+        public virtual ICollection<CourseApplication> CourseApplications { get; set; }
+        public virtual ICollection<Assignment> Assignments { get; set; }
 		public virtual ICollection<ClassSchema> ClassSchemas { get; set; }
         public virtual ICollection<LMSFile> Files { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
@@ -40,6 +41,7 @@ namespace LMS_Grupp4.Models
         public DbSet<Course> Courses { get; set; }
         public DbSet<LMSFile> Files { get; set; }
         public DbSet<ProgramClass> ProgramClasses { get; set; }
+        public DbSet<CourseApplication> CourseApplications { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
