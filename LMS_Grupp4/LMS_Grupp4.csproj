@@ -205,62 +205,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608111938466_Initial.cs" />
-    <Compile Include="Migrations\201608111938466_Initial.Designer.cs">
-      <DependentUpon>201608111938466_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608121146493_AddedStudent.cs" />
-    <Compile Include="Migrations\201608121146493_AddedStudent.Designer.cs">
-      <DependentUpon>201608121146493_AddedStudent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608121148224_AddedTeacher.cs" />
-    <Compile Include="Migrations\201608121148224_AddedTeacher.Designer.cs">
-      <DependentUpon>201608121148224_AddedTeacher.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608131121097_Test.cs" />
-    <Compile Include="Migrations\201608131121097_Test.Designer.cs">
-      <DependentUpon>201608131121097_Test.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608131230346_Test2.cs" />
-    <Compile Include="Migrations\201608131230346_Test2.Designer.cs">
-      <DependentUpon>201608131230346_Test2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608141525188_FileModelNameChangedToLMSFile.cs" />
-    <Compile Include="Migrations\201608141525188_FileModelNameChangedToLMSFile.Designer.cs">
-      <DependentUpon>201608141525188_FileModelNameChangedToLMSFile.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608141537345_ChangedFileSizeRange.cs" />
-    <Compile Include="Migrations\201608141537345_ChangedFileSizeRange.Designer.cs">
-      <DependentUpon>201608141537345_ChangedFileSizeRange.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608141556562_Changees.cs" />
-    <Compile Include="Migrations\201608141556562_Changees.Designer.cs">
-      <DependentUpon>201608141556562_Changees.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608150919029_Changes2.cs" />
-    <Compile Include="Migrations\201608150919029_Changes2.Designer.cs">
-      <DependentUpon>201608150919029_Changes2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608161125018_AddedCreationDateToCourseModel.cs" />
-    <Compile Include="Migrations\201608161125018_AddedCreationDateToCourseModel.Designer.cs">
-      <DependentUpon>201608161125018_AddedCreationDateToCourseModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608161331019_AddedCourseApplicationModelAndRelation.cs" />
-    <Compile Include="Migrations\201608161331019_AddedCourseApplicationModelAndRelation.Designer.cs">
-      <DependentUpon>201608161331019_AddedCourseApplicationModelAndRelation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608171037503_AddedCOurse_ApplicationViewModel.cs" />
-    <Compile Include="Migrations\201608171037503_AddedCOurse_ApplicationViewModel.Designer.cs">
-      <DependentUpon>201608171037503_AddedCOurse_ApplicationViewModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608171134062_AddedStatusToCourseApplication.cs" />
-    <Compile Include="Migrations\201608171134062_AddedStatusToCourseApplication.Designer.cs">
-      <DependentUpon>201608171134062_AddedStatusToCourseApplication.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608171201044_AddedEmissionDateEvalDateAndAcceptanceToCourseApplication.cs" />
-    <Compile Include="Migrations\201608171201044_AddedEmissionDateEvalDateAndAcceptanceToCourseApplication.Designer.cs">
-      <DependentUpon>201608171201044_AddedEmissionDateEvalDateAndAcceptanceToCourseApplication.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -272,6 +216,7 @@
     <Compile Include="Models\LMS_Models\ProgramClass.cs" />
     <Compile Include="Models\LMS_ViewModels\Admin_ManageUserViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Course_ApplicationViewModel.cs" />
+    <Compile Include="Models\LMS_ViewModels\Student_IndexViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\LMSRepository.cs" />
@@ -347,7 +292,6 @@
     <Content Include="Views\Admin\ManageUserRoles.cshtml" />
     <Content Include="Views\File\Index.cshtml" />
     <Content Include="Views\File\UploadView.cshtml" />
-    <Content Include="Views\Student\Courses.cshtml" />
     <Content Include="Views\Student\ProgramClasses.cshtml" />
     <Content Include="Views\Course\Apply.cshtml" />
     <Content Include="Views\Course\Create.cshtml" />
@@ -357,6 +301,10 @@
     <Content Include="Views\Course\_Forbidden.cshtml" />
     <Content Include="Views\Course\EnrollStudent.cshtml" />
     <Content Include="Views\Course\Details_Student.cshtml" />
+    <Content Include="Views\Student\ApplyToCourse.cshtml" />
+    <Content Include="Views\Student\ClassSchemas.cshtml" />
+    <Content Include="Views\Student\ApplyToProgramClass.cshtml" />
+    <Content Include="Views\Student\Files.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -369,20 +317,6 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608150919029_Changes2.resx">
-      <DependentUpon>201608150919029_Changes2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608171037503_AddedCOurse_ApplicationViewModel.resx">
-      <DependentUpon>201608171037503_AddedCOurse_ApplicationViewModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608171134062_AddedStatusToCourseApplication.resx">
-      <DependentUpon>201608171134062_AddedStatusToCourseApplication.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608171201044_AddedEmissionDateEvalDateAndAcceptanceToCourseApplication.resx">
-      <DependentUpon>201608171201044_AddedEmissionDateEvalDateAndAcceptanceToCourseApplication.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
