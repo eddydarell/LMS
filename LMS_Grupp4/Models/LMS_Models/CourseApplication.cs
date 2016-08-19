@@ -28,12 +28,12 @@ namespace LMS_Grupp4.Models.LMS_Models
         public DateTime CreationDate { get; set; }
 
         [Display(Name = "Evaluation Date")]
-        public DateTime EvaluationDate { get; set; }
+        public DateTime? EvaluationDate { get; set; }
 
         //Navigation properties
-        public ProgramClass ProgramClass { get; set; }
-        public Course Course { get; set; }
-        public ApplicationUser Student { get; set; }
+        public virtual ProgramClass ProgramClass { get; set; }
+        public virtual Course Course { get; set; }
+        public virtual ApplicationUser Student { get; set; }
         public virtual ICollection<ApplicationUser> Teachers { get; set; }
     }
 }
