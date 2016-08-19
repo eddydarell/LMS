@@ -20,7 +20,10 @@ namespace LMS_Grupp4.Models.LMS_ViewModels
 
         [Display(Name = "Message")]
         [MaxLength(500)]
-        public String Message { get; set; }
+        public string Message { get; set; }
+
+        [Display(Name = "Student Name")]
+        public string StudentRealName { get; set; }
 
         public int CourseID { get; set; }
 
