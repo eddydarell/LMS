@@ -1,10 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 
 namespace LMS_Grupp4.Models.LMS_Models
 {
-	[Bind(Exclude = "ID")]
     public class Assignment
     {
         [Key]
