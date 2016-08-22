@@ -220,6 +220,7 @@
     <Compile Include="Models\LMS_Models\LMSFile.cs" />
     <Compile Include="Models\LMS_Models\ProgramClass.cs" />
     <Compile Include="Models\LMS_ViewModels\Admin_ManageUserViewModel.cs" />
+    <Compile Include="Models\LMS_ViewModels\Assignment_CreateViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Course_ApplicationViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Student_IndexViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Teacher_IndexViewModel.cs" />
@@ -321,6 +322,13 @@
     <Content Include="Views\Teacher\Assignments.cshtml" />
     <Content Include="Views\Teacher\CourseApplication.cshtml" />
     <Content Include="Views\Teacher\ProgramClassApplication.cshtml" />
+    <Content Include="Views\Assignment\Create.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Assignment\Delete.cshtml" />
+    <Content Include="Views\Assignment\Details.cshtml" />
+    <Content Include="Views\Assignment\Edit.cshtml" />
+    <Content Include="Views\Assignment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
