@@ -41,18 +41,25 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model.Courses)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(course => item.CourseName)
-            </td>
-            <td>
-                @Html.DisplayFor(course => item.Description)
-            </td>
-        </tr>
+    @{try
+        {
+            foreach (var item in Model.Courses)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(course => item.CourseName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(course => item.Description)
+                    </td>
+                </tr>
+            }
+        }
+        catch(NullReferenceException)
+        {
+        }
     }
-
+    
 </table>
 
 <h2>Assignments overview</h2>
@@ -73,7 +80,8 @@
     </tr>
 
 @{int maxRenderedRows = 3;
-
+try
+{
     for (int i = 0; i < Model.Assignments.Count(); i++)
     {
         if (i < maxRenderedRows)
@@ -90,8 +98,14 @@
                     @Html.DisplayFor(assignment => Model.Assignments.ElementAt(i).IsPassed)
                 </td>
             </tr>
-        } 
+        }
     }
+}
+catch(NullReferenceException)
+{
+
+}
+
 }
 
 </table>

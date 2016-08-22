@@ -45,16 +45,15 @@
                 @Html.ActionLink(item.Name, "Details", new { id = item.ID })
             </td>
             <td>
-                @Html.DisplayFor(course => item.DueDate)
+                @Html.DisplayFor(assignment => item.DueDate)
             </td>
             <td>
-                @Html.DisplayFor(course => item.IsPassed)
+                @Html.DisplayFor(assignment => item.IsPassed)
             </td>
 
             @if(isTeacher)
             {
                 <td>
-                    @Html.ActionLink("Create", "Create") |
                     @Html.ActionLink("Edit", "Edit") |   
                     @Html.ActionLink("Delete", "Delete")
                 </td>
@@ -63,4 +62,8 @@
     }
 
 </table>
+
+
+
+
 
