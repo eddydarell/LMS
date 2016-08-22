@@ -11,23 +11,40 @@ namespace LMS_Grupp4.Controllers
     {
         LMSRepository LMSRepo = new LMSRepository();
 
+        
+        
         [Authorize]
         [HttpGet]
-        public ActionResult SearchUserByEmail(string email, string resultFormat = "")
+        public ActionResult SearchUserByEmail(string email, string resultFormat)
         {
             var userManager = LMSRepo.GetUserManager();
             var roleManager = LMSRepo.GetRoleManager();
             var studentRole = roleManager.Roles.FirstOrDefault(r => r.Name == "student");
-            var students = userManager.Users.SingleOrDefault(u => u.Roles.FirstOrDefault(rr => rr.RoleId == studentRole.Id) != null && u.Email == email.ToLower());
+            var student = userManager.Users.SingleOrDefault(u => u.Roles.FirstOrDefault(rr => rr.RoleId == studentRole.Id) != null && u.Email == email.ToLower());
 
-            if(resultFormat == "json")
+            try
             {
-                return Json(students);
+                if (resultFormat == "json")
+                {
+                    return Json(new { ID = student.Id, Name = student.RealName, Email = student.Email }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return View(student);//To-Do: Create views for this controller
+                }
             }
-            else
+            catch(Exception e)
             {
-                return View(students);//To-Do: Create views for this controller
+                if(e is NullReferenceException)
+                {
+                    return Json(new { error = "Error, student not found" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { error = "Error: " + e.ToString() }, JsonRequestBehavior.AllowGet);
+                }
             }
+            
         }
 
         [Authorize]
