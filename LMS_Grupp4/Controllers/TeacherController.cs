@@ -79,9 +79,9 @@ namespace LMS_Grupp4.Controllers
             var user = userManager.FindById(id);
             var courseModel = user.Courses.ToList();
 
-            //Teacher_IndexViewModel teacher_IVW = new Teacher_IndexViewModel(courseModel);
-            //teacher_IVW
-            return View();
+            Teacher_IndexViewModel teacher_IVW = new Teacher_IndexViewModel(courseModel);
+
+            return View(teacher_IVW);
         }
 
 		public ActionResult Assignments(string id = "")

@@ -14,7 +14,7 @@ namespace LMS_Grupp4.Controllers
             if(User.Identity.IsAuthenticated)
             {
                 var isAdmin = User.IsInRole("admin");
-                var isTeacher = User.IsInRole("Teacher");
+                var isTeacher = User.IsInRole("teacher");
                 var isStudent = User.IsInRole("student");
                 if (isAdmin)
                 {

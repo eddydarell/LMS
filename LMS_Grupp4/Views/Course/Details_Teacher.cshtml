@@ -93,7 +93,7 @@
         </div>
         <a href="@Url.Action("Index", "Teacher", new { id = User.Identity.GetUserId()})">Your Homepage</a>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" ng-controller="enrollStudentCtrl">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <div class="panel-title">
@@ -106,25 +106,58 @@
                 </p>
                 <hr />
                 <!--To-Do: Fix autocomplete-->
-                <form action="@Url.Action("SearchByEmail", "Search")" method="get">
+                <form>
                     <div class="form-group">
-                        <input type="hidden" value="json" name="resultFormat" />
+                        <input type="hidden" value="json" name="resultFormat" ng-model="searchDetails.resultFormat" />
                         <label class="control-label col-md-2">Email:</label>
                         <div class="col-md-10">
-                            <input type="text" name="email" id="email" class="form-control" />
+                            <input type="text" name="email" id="email" class="form-control" ng-model="searchDetails.email" />
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <hr />
-                            <input type="submit" value="Search" class="btn btn-default btn-sm" />
+                            <button class="btn btn-default btn-sm" ng-click="searchStudentByEmail()">Search</button>
                         </div>
                     </div>
                 </form>
-                <hr />
-                <div class="Enroll-Field">
+            </div>
+            <div class="panel-footer">
+                <small>
+                    The result will appear under this card.<br />
+                    Simply click the result card to enroll the student.
+                </small>
+            </div>
+        </div>
 
-                </div>
+        <div ng-show="studentFound">
+            <hr />
+            <div class="well well-sm well" ng-click="enrollStudent(@Model.ID)" style="cursor:pointer; background-color: white;box-shadow: 0px 5px 10px #CCC">
+                <blockquote>
+                    <h3>{{ student.name }}</h3>
+                    <small>{{ student.email }}</small>
+                </blockquote>
+            </div>
+        </div>
+        <div ng-show="enrollSuccessful">
+            <hr />
+            <div class="well well-sm well" style="cursor:pointer; background-color: lawngreen;box-shadow: 0px 5px 10px #CCC">
+                <h3>Success</h3>
+                <hr />
+                <p>
+                    Student {{ student.name }} successfully enrolled to this course.
+                </p>
+            </div>
+        </div>
+        <div ng-show="studentNotFound">
+            <hr />
+            <div class="well well-sm well" style="cursor:pointer; background-color: salmon;box-shadow: 0px 5px 10px #CCC">
+                <h3>No Result</h3>
+                <hr />
+                <p>
+                    No student found with this email. <br />
+                    This must mean the email was misspelled or the email does not belong to the student.
+                </p>
             </div>
         </div>
     </div>
