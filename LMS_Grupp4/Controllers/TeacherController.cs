@@ -15,11 +15,12 @@ namespace LMS_Grupp4.Controllers
     [Authorize(Roles = "teacher")]
     public class TeacherController : Controller
     {
-        static ApplicationDbContext context = new ApplicationDbContext();
-        static RoleStore<IdentityRole> roleStore = new RoleStore<IdentityRole>(context);
-        RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(roleStore);
-        static UserStore<ApplicationUser> userStore = new UserStore<ApplicationUser>(context);
-        UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(userStore);   
+        LMSRepository LMSRepo = new LMSRepository();
+        //static ApplicationDbContext context = new ApplicationDbContext();
+        //static RoleStore<IdentityRole> roleStore = new RoleStore<IdentityRole>(context);
+        //RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(roleStore);
+        //static UserStore<ApplicationUser> userStore = new UserStore<ApplicationUser>(context);
+        //UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(userStore);   
 
          // GET: /Student/Create
 
@@ -56,11 +57,11 @@ namespace LMS_Grupp4.Controllers
 //        Get Student
         public ActionResult Students(string id = "")
         {
-            var students = roleManager.FindByName("student").Users;
+            var students = LMSRepo.GetRoleManager().FindByName("student").Users;           
             var studentList = new List<ApplicationUser>();
             foreach(var student in students)
             {
-                studentList.Add(userManager.FindById(student.UserId));
+                studentList.Add(LMSRepo.GetUserManager().FindById(student.UserId));
             }           
 
             ViewBag.UserID = id;
@@ -76,19 +77,20 @@ namespace LMS_Grupp4.Controllers
             }
             ViewBag.UserID = id;
 
-            var user = userManager.FindById(id);
+            var user = LMSRepo.GetUserManager().FindById(id);
             var courseModel = user.Courses.ToList();
+            var students = LMSRepo.GetUserManager().Users;
 
-           //Teacher_IndexViewModel teacher_IVW = new Teacher_IndexViewModel(courseModel);
+            Teacher_IndexViewModel teacher_IVW = new Teacher_IndexViewModel(courseModel, students);
             //teacher_IVW
            return View(courseModel);
         }
 
 		public ActionResult Assignments(string id = "")
 		{
-			var user = userManager.FindById(id);
-			var model = user.Assignments.ToList();
-			return View(model);
+            var user = LMSRepo.GetUserManager().FindById(id);
+            var assignmentModelList = user.Assignments.ToList();
+            return View(assignmentModelList);
 		}
 
         ////Not needed at the moment
@@ -101,10 +103,9 @@ namespace LMS_Grupp4.Controllers
 
         public ActionResult Courses(string id = "")
         {
-            var user = userManager.FindById(id);
-            var model = user.Courses.ToList();
-
-            return View(model);
+            var user = LMSRepo.GetUserManager().FindById(id);
+            var courseModelList = user.Courses.ToList();
+            return View(courseModelList);
         }
 
         ////Not needed at the moment
@@ -149,17 +150,16 @@ namespace LMS_Grupp4.Controllers
 
         public ActionResult Files(string id = "")
 		{
-			var user = userManager.FindById(id);
-			var model = user.Files.ToList();
-			return View(model);
+            var user = LMSRepo.GetUserManager().FindById(id);
+            var filesModelList = user.Files.ToList();
+            return View(filesModelList);
 		}
 
         public ActionResult ProgramClasses(string id = "")
         {
-            var user = userManager.FindById(id);
-            var model = user.ProgramClasses.ToList();
-
-            return View(model);
+            var user = LMSRepo.GetUserManager().FindById(id);
+            var programClassModelList = user.ProgramClasses.ToList();
+            return View(programClassModelList);
         }
 
     }

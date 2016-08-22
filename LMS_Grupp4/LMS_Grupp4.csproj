@@ -194,12 +194,16 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AssignmentController.cs" />
+    <Compile Include="Controllers\CourseApplicationController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProgramClassController.cs" />
     <Compile Include="Controllers\SchemaController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Global.asax.cs">
@@ -209,6 +213,14 @@
     <Compile Include="Migrations\201608171418243_lastversion.cs" />
     <Compile Include="Migrations\201608171418243_lastversion.Designer.cs">
       <DependentUpon>201608171418243_lastversion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608190633414_Aftermerge.cs" />
+    <Compile Include="Migrations\201608190633414_Aftermerge.Designer.cs">
+      <DependentUpon>201608190633414_Aftermerge.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608191140518_MadeEvaluationDateNullableInCourseApplication.cs" />
+    <Compile Include="Migrations\201608191140518_MadeEvaluationDateNullableInCourseApplication.Designer.cs">
+      <DependentUpon>201608191140518_MadeEvaluationDateNullableInCourseApplication.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -230,6 +242,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-LMS_Grupp4-20160810015608.mdf" />
+    <Content Include="App_Data\aspnet-LMS_Grupp4-20160810015608_log.ldf">
+      <DependentUpon>aspnet-LMS_Grupp4-20160810015608.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Uploads\Shared\wolf.jpg" />
@@ -329,10 +345,23 @@
     <Content Include="Views\Assignment\Details.cshtml" />
     <Content Include="Views\Assignment\Edit.cshtml" />
     <Content Include="Views\Assignment\Index.cshtml" />
+    <Content Include="Views\CourseApplication\Apply.cshtml" />
+    <Content Include="Views\CourseApplication\Index.cshtml" />
+    <Content Include="Views\CourseApplication\RespondToApplication.cshtml" />
+    <Content Include="Views\Error\ErrorHandler400.cshtml" />
+    <Content Include="Views\Error\ErrorHandler401.cshtml" />
+    <Content Include="Views\Error\ErrorHandler403.cshtml" />
+    <Content Include="Views\Error\ErrorHandler404.cshtml" />
+    <Content Include="Views\Error\ErrorHandler500.cshtml" />
+    <Content Include="Views\ProgramClass\AddCourse.cshtml" />
+    <Content Include="Views\ProgramClass\AddUser.cshtml" />
+    <Content Include="Views\ProgramClass\Create.cshtml" />
+    <Content Include="Views\ProgramClass\Details.cshtml" />
+    <Content Include="Views\ProgramClass\Edit.cshtml" />
+    <Content Include="Views\ProgramClass\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Views\Error\" />
+    <Folder Include="Views\Search\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -348,6 +377,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608171418243_lastversion.resx">
       <DependentUpon>201608171418243_lastversion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608190633414_Aftermerge.resx">
+      <DependentUpon>201608190633414_Aftermerge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608191140518_MadeEvaluationDateNullableInCourseApplication.resx">
+      <DependentUpon>201608191140518_MadeEvaluationDateNullableInCourseApplication.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
