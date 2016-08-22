@@ -1,4 +1,4 @@
-﻿@model LMS_Grupp4.Models.LMS_ViewModels.Teacher_IndexViewModel
+﻿@model IEnumerable<LMS_Grupp4.Models.LMS_Models.Course>
 @using LMS_Grupp4.Models
 @using Microsoft.AspNet.Identity
 @{
@@ -41,7 +41,7 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model.Courses)
+    @foreach (var item in Model)
     {
         <tr>
             <td>
