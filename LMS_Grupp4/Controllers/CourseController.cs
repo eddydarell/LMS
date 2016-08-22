@@ -139,7 +139,8 @@ namespace LMS_Grupp4.Controllers
         }
 
         [Authorize(Roles = "teacher")]
-        public ActionResult EnrollStudent(string studentID = "", int courseID = 0)
+        [HttpGet]
+        public ActionResult EnrollStudent(string studentID = "", int courseID = 0, string resultFormat = "")
         {
             var userManager = LMSRepo.GetUserManager();
             var student = userManager.FindById(studentID);
@@ -148,6 +149,10 @@ namespace LMS_Grupp4.Controllers
             course.Users.Add(student);
             LMSRepo.EditCourse(course);
 
+            if(resultFormat == "json")
+            {
+                return Json(new { status = "Success"}, JsonRequestBehavior.AllowGet);
+            }
             return View();
         }
 

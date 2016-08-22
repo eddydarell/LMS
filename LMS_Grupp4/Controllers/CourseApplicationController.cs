@@ -142,9 +142,13 @@ namespace LMS_Grupp4.Controllers
             var course = application.Course;
             var student = application.Student;
 
-            course.Users.Add(student);
-
-            LMSRepo.EditCourse(course);
+            //If the application is accepted, Add the student to the course
+            if(isAccepted)
+            {
+                course.Users.Add(student);
+                LMSRepo.EditCourse(course);
+            }
+            
             LMSRepo.EditCourseApplication(application);
 
             return RedirectToAction("Details", "Course", new { id = course.ID });
