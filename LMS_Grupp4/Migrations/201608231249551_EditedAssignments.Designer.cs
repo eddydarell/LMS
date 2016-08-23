@@ -7,13 +7,13 @@ namespace LMS_Grupp4.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Aftermerge : IMigrationMetadata
+    public sealed partial class EditedAssignments : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Aftermerge));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(EditedAssignments));
         
         string IMigrationMetadata.Id
         {
-            get { return "201608190633414_Aftermerge"; }
+            get { return "201608231249551_EditedAssignments"; }
         }
         
         string IMigrationMetadata.Source

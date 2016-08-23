@@ -209,9 +209,21 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608191140518_MadeEvaluationDateNullableInCourseApplication.cs" />
-    <Compile Include="Migrations\201608191140518_MadeEvaluationDateNullableInCourseApplication.Designer.cs">
-      <DependentUpon>201608191140518_MadeEvaluationDateNullableInCourseApplication.cs</DependentUpon>
+    <Compile Include="Migrations\201608231126234_Init.cs" />
+    <Compile Include="Migrations\201608231126234_Init.Designer.cs">
+      <DependentUpon>201608231126234_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608231206561_AddedSeparateTeacherAndStudentListsInCourse.cs" />
+    <Compile Include="Migrations\201608231206561_AddedSeparateTeacherAndStudentListsInCourse.Designer.cs">
+      <DependentUpon>201608231206561_AddedSeparateTeacherAndStudentListsInCourse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608231220530_EditedClassShema.cs" />
+    <Compile Include="Migrations\201608231220530_EditedClassShema.Designer.cs">
+      <DependentUpon>201608231220530_EditedClassShema.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608231249551_EditedAssignments.cs" />
+    <Compile Include="Migrations\201608231249551_EditedAssignments.Designer.cs">
+      <DependentUpon>201608231249551_EditedAssignments.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -224,6 +236,7 @@
     <Compile Include="Models\LMS_Models\ProgramClass.cs" />
     <Compile Include="Models\LMS_ViewModels\Admin_ManageUserViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Course_ApplicationViewModel.cs" />
+    <Compile Include="Models\LMS_ViewModels\Course_CreateViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Student_IndexViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Teacher_IndexViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -232,6 +245,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-LMS_Grupp4-20160810015608.mdf" />
+    <Content Include="App_Data\aspnet-LMS_Grupp4-20160810015608_log.ldf">
+      <DependentUpon>aspnet-LMS_Grupp4-20160810015608.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Uploads\Shared\wolf.jpg" />
@@ -1096,7 +1113,6 @@
     <Content Include="Views\Course\_Forbidden.cshtml" />
     <Content Include="Views\CourseApplication\Apply.cshtml" />
     <Content Include="Views\Course\Create.cshtml" />
-    <Content Include="Views\Course\Details.cshtml" />
     <Content Include="Views\Course\Edit.cshtml" />
     <Content Include="Views\Course\Details_Student.cshtml" />
     <Content Include="Views\Course\Details_Teacher.cshtml" />
@@ -1123,9 +1139,9 @@
     <Content Include="Views\CourseApplication\Index.cshtml" />
     <Content Include="Views\CourseApplication\RespondToApplication.cshtml" />
     <Content Include="Scripts\version.json" />
+    <Content Include="Views\CourseApplication\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Views\Error\" />
     <Folder Include="Views\Search\" />
   </ItemGroup>
@@ -1138,8 +1154,17 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608191140518_MadeEvaluationDateNullableInCourseApplication.resx">
-      <DependentUpon>201608191140518_MadeEvaluationDateNullableInCourseApplication.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608231126234_Init.resx">
+      <DependentUpon>201608231126234_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608231206561_AddedSeparateTeacherAndStudentListsInCourse.resx">
+      <DependentUpon>201608231206561_AddedSeparateTeacherAndStudentListsInCourse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608231220530_EditedClassShema.resx">
+      <DependentUpon>201608231220530_EditedClassShema.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608231249551_EditedAssignments.resx">
+      <DependentUpon>201608231249551_EditedAssignments.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

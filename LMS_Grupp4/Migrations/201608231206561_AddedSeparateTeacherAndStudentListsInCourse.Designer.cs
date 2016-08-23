@@ -7,13 +7,13 @@ namespace LMS_Grupp4.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class MadeEvaluationDateNullableInCourseApplication : IMigrationMetadata
+    public sealed partial class AddedSeparateTeacherAndStudentListsInCourse : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(MadeEvaluationDateNullableInCourseApplication));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedSeparateTeacherAndStudentListsInCourse));
         
         string IMigrationMetadata.Id
         {
-            get { return "201608191140518_MadeEvaluationDateNullableInCourseApplication"; }
+            get { return "201608231206561_AddedSeparateTeacherAndStudentListsInCourse"; }
         }
         
         string IMigrationMetadata.Source

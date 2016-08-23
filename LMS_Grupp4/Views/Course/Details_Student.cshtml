@@ -63,9 +63,9 @@
                     </dd>
                 </dl>
                 <hr />
-                <!--To-Do: Fix apply btn visibility-->
                 <div class="btn-group">
-                    <a href="@Url.Action("Apply", "CourseApplication", new { id = Model.ID })" class="btn btn-default">Apply For Course</a>
+                    <a href="@Url.Action("Apply", "CourseApplication", new { id = Model.ID })" class="btn btn-default">Apply For Course <span class="glyphicon glyphicon-save"></span></a>
+                    <a href="@Url.Action("Upload", "File", new { id = Model.ID })" class="btn btn-default">Upload File <span class="glyphicon glyphicon-upload"></span></a>
                 </div>
             </div>
         </div>
