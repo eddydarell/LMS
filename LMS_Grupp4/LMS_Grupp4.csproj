@@ -209,18 +209,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608171037228_AfterAddingCourseApplicationModel.cs" />
-    <Compile Include="Migrations\201608171418243_lastversion.cs" />
-    <Compile Include="Migrations\201608171418243_lastversion.Designer.cs">
-      <DependentUpon>201608171418243_lastversion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608190633414_Aftermerge.cs" />
-    <Compile Include="Migrations\201608190633414_Aftermerge.Designer.cs">
-      <DependentUpon>201608190633414_Aftermerge.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608191140518_MadeEvaluationDateNullableInCourseApplication.cs" />
-    <Compile Include="Migrations\201608191140518_MadeEvaluationDateNullableInCourseApplication.Designer.cs">
-      <DependentUpon>201608191140518_MadeEvaluationDateNullableInCourseApplication.cs</DependentUpon>
+    <Compile Include="Migrations\201608221403561_initial.cs" />
+    <Compile Include="Migrations\201608221403561_initial.Designer.cs">
+      <DependentUpon>201608221403561_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -242,9 +233,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\aspnet-LMS_Grupp4-20160810015608.mdf" />
-    <Content Include="App_Data\aspnet-LMS_Grupp4-20160810015608_log.ldf">
-      <DependentUpon>aspnet-LMS_Grupp4-20160810015608.mdf</DependentUpon>
+    <Content Include="App_Data\LMS.mdf" />
+    <Content Include="App_Data\LMS_log.ldf">
+      <DependentUpon>LMS.mdf</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -372,17 +363,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608171037228_AfterAddingCourseApplicationModel.resx">
-      <DependentUpon>201608171037228_AfterAddingCourseApplicationModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608171418243_lastversion.resx">
-      <DependentUpon>201608171418243_lastversion.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608190633414_Aftermerge.resx">
-      <DependentUpon>201608190633414_Aftermerge.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608191140518_MadeEvaluationDateNullableInCourseApplication.resx">
-      <DependentUpon>201608191140518_MadeEvaluationDateNullableInCourseApplication.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608221403561_initial.resx">
+      <DependentUpon>201608221403561_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

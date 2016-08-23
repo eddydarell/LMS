@@ -24,6 +24,80 @@ namespace LMS_Grupp4.Migrations
             UserStore<ApplicationUser> userStore = new UserStore<ApplicationUser>(context);
             UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(userStore);
 
+			if (!roleManager.RoleExists("admin"))
+ 			{
+ 				var role = new IdentityRole();
+ 				role.Name = "admin";
+ 				roleManager.Create(role);
+ 
+ 				var user = new ApplicationUser();
+ 				user.UserName = "admin@test.com";
+				user.Email = "admin@test.com";
+ 				user.RealName = "Administrator Administratorsson";
+ 
+ 				string userPWD = "Admin@123";
+
+ 				var chkUser = UserManager.Create(user, userPWD);
+ 
+ 				if (chkUser.Succeeded)
+ 				{
+ 					var result1 = UserManager.AddToRole(user.Id, "admin");
+ 				}
+ 			}
+
+			var student = UserManager.FindById("12ed45f7-526a-45ff-90d4-a9dc227eda4a");
+
+
+			#region Course Init
+ 			Course course1 = new Course
+ 			{
+ 				ID = 1,
+ 				CourseName = "Mathematics 1",
+ 				Assignments = new List<Assignment>(),
+ 				Classes = new List<ProgramClass>(),
+ 				ClassSchemes = new List<ClassSchema>(),
+ 				Files = new List<LMSFile>(),
+ 				Users = new List<ApplicationUser>(),
+ 				Description = "Basic Mathematics and introduction to counting",
+ 				CreationDate = DateTime.Now
+ 			};
+ 
+ 			Course course2 = new Course
+ 			{
+ 				ID = 4,
+ 				CourseName = "English 1",
+ 				Assignments = new List<Assignment>(),
+ 				Classes = new List<ProgramClass>(),
+ 				ClassSchemes = new List<ClassSchema>(),
+ 				Files = new List<LMSFile>(),
+ 				Users = new List<ApplicationUser>(),
+ 				Description = "Basic English",
+ 				CreationDate = DateTime.Now
+ 			};
+ 			#endregion
+
+			#region Assignment Init
+			Assignment assignment1 = new Assignment
+			{
+				ID = 1,
+				MaxScore = 10,
+				IsPassed = true,
+				Name = "Math Quiz 1",
+				DueDate = DateTime.Now.AddDays(7),
+				IssueDate = DateTime.Now,
+				Mark = "F",
+				Course = course1,
+				IsExpired = false
+			};
+			#endregion
+
+			course1.Users.Add(student);
+			course2.Users.Add(student);
+			context.Courses.AddOrUpdate(course1);
+			context.Courses.AddOrUpdate(course2);
+			context.Assignments.AddOrUpdate(assignment1);
+		
+			context.SaveChanges();
         }
     }
 }
