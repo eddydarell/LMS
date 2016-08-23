@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
@@ -43,7 +44,7 @@ namespace LMS_Grupp4.Models.LMS_Models
 		[Required]
 		public int MaxScore { get; set; }
 
-		public virtual Course Course { get; set; }
-		public virtual ApplicationUser Student { get; set; }
-	}
+        public virtual Course Course { get; set; }
+        public virtual ICollection<ApplicationUser> Students { get; set; }
+    }
 }
