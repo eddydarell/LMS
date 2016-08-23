@@ -1,4 +1,4 @@
-﻿@model LMS_Grupp4.Models.LMS_ViewModels.Teacher_IndexViewModel
+﻿@model IEnumerable<LMS_Grupp4.Models.LMS_Models.Course>
 @using LMS_Grupp4.Models
 @using Microsoft.AspNet.Identity
 @{
@@ -14,17 +14,10 @@
 </div>
 
 <td>
-    @Html.ActionLink("Course Applications", "Index", "Course", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("Program Applications", "Index", "ProgramClass", new { id = User.Identity.GetUserId() })
-    <br /><br />
-</td>
-
-<td>
-    @Html.ActionLink("My Assignments", "Assignments", new { id = User.Identity.GetUserId() })
-    @Html.ActionLink("My Courses", "Courses", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("My Files", "Files", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("My Programs", "ProgramClasses", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("My Students", "Students", new { id = User.Identity.GetUserId() }) 
+    <a href="@Url.Action("Index", "CourseApplication")">Course Application</a>|
+    <a href="@Url.Action("Index", "Assignment")">My Assignments</a>|
+    <a href="@Url.Action("Index", "Course")">My Courses</a>|
+    <a href="@Url.Action("Students", "Teacher")">My Students</a>
 </td>
 
 <h2>My Courses</h2>
@@ -41,7 +34,7 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model.Courses)
+    @foreach (var item in Model)
     {
         <tr>
             <td>
