@@ -11,21 +11,25 @@ namespace LMS_Grupp4.Models.LMS_ViewModels
 {
 	public class Assignment_CreateViewModel
 	{
-		public Assignment Assignment { get; set; }
+		//public Assignment Assignment { get; set; }
+		public string Name { get; set; }
+		public DateTime DueDate { get; set; }
+		public int MaxScore { get; set; }
+
 		public IEnumerable<ApplicationUser> Students { get; set; }
-
-
 		[Display(Name = "Students")]
 		public int SelectStudentID { get; set; }
+		public int CourseID;
 		public IEnumerable<SelectListItem> SelectedStudent
 		{
-			get { return new SelectList(Students, "Id", "Email"); }
+			get { return new SelectList(Students, "Id", "RealName"); }
 		}
 
-		public Assignment_CreateViewModel(IEnumerable<ApplicationUser> students)
+		public Assignment_CreateViewModel(IEnumerable<ApplicationUser> students, int courseID)
 		{
-			this.Assignment = new Assignment();
+			//this.Assignment = new Assignment();
 			this.Students = students;
+			this.CourseID = courseID;
 		}
 	}
 
@@ -42,7 +46,7 @@ namespace LMS_Grupp4.Models.LMS_ViewModels
 						  new SelectListItem
 						  {
 							  Selected = (stu.Id == selectedId),
-							  Text = stu.RealName + "(" + stu.Email + ")",
+							  Text = stu.RealName,
 							  Value = stu.Id.ToString()
 						  });
 		}

@@ -18,7 +18,7 @@ namespace LMS_Grupp4.Models.LMS_Models
 
 		[Display(Name = "Due Date")]
 		[Required]
-		public DateTime DueDate { get; set; }
+		public DateTime? DueDate { get; set; }
 
 		[Display(Name = "Issue Date")]
 		[Required]
