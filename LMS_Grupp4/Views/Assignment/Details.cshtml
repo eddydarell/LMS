@@ -1,0 +1,87 @@
+﻿@model LMS_Grupp4.Models.LMS_Models.Assignment
+@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details for Assignment @Model.Name</h2>
+
+<div>
+    <dl>
+        <dt>
+            @Html.DisplayNameFor(model => Model.DueDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.DueDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.IssueDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.IssueDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.Mark)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.Mark)
+        </dd>
+
+        <dt>
+            Completed
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.IsPassed)
+        </dd>
+
+        <dt>
+            Over due
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.IsExpired)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.Score)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.Score)
+        </dd>
+
+        <dt>
+            Max Score
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.MaxScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.Percentage)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.Percentage)
+        </dd>
+
+        <dt>
+            Course
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.Course.CourseName)
+        </dd>
+
+        <dt>
+            Student
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.Student.Email)
+        </dd>
+    </dl>
+</div>
+
+
+
+

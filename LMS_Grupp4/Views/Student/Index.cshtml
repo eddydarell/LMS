@@ -13,7 +13,7 @@
     <small>ID: @ViewBag.UserID</small>
 </div>
 
-   
+
 <td>
     @Html.ActionLink("Apply for new Course", "Index", "Course") |
     @Html.ActionLink("Apply for new Program", "Index", "ProgramClass")
@@ -23,7 +23,7 @@
 <td>
     @Html.ActionLink("My Programs", "ProgramClasses", new { id = User.Identity.GetUserId() }) |
     @Html.ActionLink("My Schemas", "ClassSchemas", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("My Files", "Files", new { id = User.Identity.GetUserId() })  
+    @Html.ActionLink("My Files", "Files", new { id = User.Identity.GetUserId() })
 </td>
 
 <br /><br />
@@ -41,16 +41,22 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model.Courses)
+    @{try
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(course => item.CourseName)
-            </td>
-            <td>
-                @Html.DisplayFor(course => item.Description)
-            </td>
-        </tr>
+        foreach (var item in Model.Courses)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(course => item.CourseName)
+                </td>
+                <td>
+                    @Html.DisplayFor(course => item.Description)
+                </td>
+            </tr>
+        }
+    } catch (NullReferenceException)
+    {
+    }
     }
 
 </table>
@@ -72,22 +78,39 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model.Assignments)
+    @{int maxRenderedRows = 3;
+    try
     {
-        <tr>
-            <td>
-                @Html.ActionLink(item.Name, "Index", "Assignment", new { id = item.ID })
-            </td>
-            <td>
-                @Html.DisplayFor(course => item.DueDate)
-            </td>
-            <td>
-                @Html.DisplayFor(course => item.IsPassed)
-            </td>
-        </tr>
+        for (int i = 0; i < Model.Assignments.Count(); i++)
+        {
+            if (i < maxRenderedRows)
+            {
+                <tr>
+                    <td>
+                        <a href="@Url.Action("Details", "Assignment", new { id = Model.Assignments.ElementAt(i).ID })">@Model.Assignments.ElementAt(i).Name</a>
+                        @*@Html.ActionLink(Model.Assignments.ElementAt(i).Name, "Details", "Assignment", new { id = Model.Assignments.ElementAt(i).ID })*@
+                    </td>
+                    <td>
+                        @Html.DisplayFor(assignment => Model.Assignments.ElementAt(i).DueDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(assignment => Model.Assignments.ElementAt(i).IsPassed)
+                    </td>
+                </tr>
+            }
+        }
+    } catch (NullReferenceException)
+    {
+
+    }
+
     }
 
 </table>
+
+<td>
+    @Html.ActionLink("Show all assignments", "Index", "Assignment")
+</td>
 
 
      

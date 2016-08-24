@@ -1,0 +1,66 @@
+﻿@model IEnumerable<LMS_Grupp4.Models.LMS_Models.Assignment>
+@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity;
+
+
+    @{
+    ViewBag.Title = "Index";
+    bool isTeacher = (User.IsInRole("teacher")) ? true : false;
+    }
+
+
+    <div class="jumbotron">
+        @if (isTeacher)
+        {
+        <h1>You are logged in as Teacher: @User.Identity.GetUserRealName()</h1>
+        <small>ID: @ViewBag.UserID</small>
+        }
+        else
+        {
+        <h1>You are logged in as Student: @User.Identity.GetUserRealName()</h1>
+        <small>ID: @ViewBag.UserID</small>
+        }
+    </div>
+
+    <h2>Assignments overview</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Due date
+            </th>
+            <th>
+                Completed
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Name, "Details", new { id = item.ID })
+            </td>
+            <td>
+                @Html.DisplayFor(assignment => item.DueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(assignment => item.IsPassed)
+            </td>
+
+            @if(isTeacher)
+            {
+            <td>
+                @Html.ActionLink("Edit", "Edit") |
+                @Html.ActionLink("Delete", "Delete")
+            </td>
+            }
+        </tr>
+        }
+
+    </table>
+

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LMS_Grupp4.Models.ApplicationUser>
+﻿@model IEnumerable<LMS_Grupp4.Models.LMS_Models.Course>
 @using LMS_Grupp4.Models
 @using Microsoft.AspNet.Identity
 @{
@@ -14,41 +14,23 @@
 </div>
 
 <td>
-    @Html.ActionLink("Course Applications", "Index", "Course", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("Program Applications", "Index", "ProgramClass", new { id = User.Identity.GetUserId() })
-    <br /><br />
+    <a href="@Url.Action("Index", "CourseApplication")">Course Application</a>|
+    <a href="@Url.Action("Index", "Assignment")">My Assignments</a>|
+    <a href="@Url.Action("Index", "Course")">My Courses</a>|
+    <a href="@Url.Action("Students", "Teacher")">My Students</a>
 </td>
 
-<td>
-    @Html.ActionLink("My Assignments", "My Assiggnments", new { id = User.Identity.GetUserId() }) | 
-    @Html.ActionLink("My Files", "Files", new { id = User.Identity.GetUserId() }) |  
-    @Html.ActionLink("My Programs", "ProgramClasses", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("My Schemas", "ClassSchemas", new { id = User.Identity.GetUserId() }) | })
-</td>
-
-
-<p>
-    <a href="@Url.Action("Register", "Account")">Add New Student</a>
-</p>
-
-<p>
-    <a href="@Url.Action("Create", "Course")">Create Course</a>
-</p>
-
-
-<td>
-    @Html.ActionLink("Apply Student to Course", "AddCourse", new { id = User.Identity.GetUserId() })
-    <br /><br />
-</td>
+<h2>My Courses</h2>
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.RealName)
+            Course
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            Description
         </th>
+
         <th></th>
     </tr>
 
@@ -56,15 +38,10 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.RealName)
+                @Html.DisplayFor(course => item.CourseName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.DisplayFor(course => item.Description)
             </td>
         </tr>
     }

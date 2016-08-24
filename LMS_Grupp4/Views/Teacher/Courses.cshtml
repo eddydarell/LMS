@@ -5,14 +5,15 @@
     ViewBag.Title = "Courses";
 }
 
-@Html.ActionLink("Add new Course", "AddCourse", new { id = User.Identity.GetUserId() })
-
-<h2>My Courses</h2>
+<h1>My Courses</h1>
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CourseName)
+            Course
+        </th>
+        <th>
+            Description
         </th>
 
         <th></th>
@@ -22,11 +23,16 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(course => item.CourseName) |
-                @Html.ActionLink("Remove", "RemoveCourse", new { id = User.Identity.GetUserId() })
+                @Html.DisplayFor(course => item.CourseName)
             </td>
-
+            <td>
+                @Html.DisplayFor(course => item.Description)
+            </td>
         </tr>
     }
 
 </table>
+
+<p>
+    <a href="@Url.Action("Create", "Course")">Create Course</a>
+</p>

@@ -38,90 +38,6 @@ namespace LMS_Grupp4.Controllers
             }
         }
 
-        [Authorize(Roles = "student")]
-        [HttpGet]
-        public ActionResult Apply(int id = 0)
-        {
-            var userManager = LMSRepo.GetUserManager();
-            var course = LMSRepo.GetCourseByID(id);
-            var student = userManager.FindById(User.Identity.GetUserId());
-
-            var model = new Course_ApplicationViewModel
-            {
-                CourseID = course.ID,
-                CourseName = course.CourseName, 
-            };
-
-            //If the student is already enrolled in a course
-            if (course.Users.Contains(student))
-            {
-                return View("_ApplicationForbidden");
-            }
-
-            return View(model);
-        }
-
-        [Authorize(Roles = "student")]
-        [HttpPost]
-        public ActionResult Apply(int id = 0, string message = "")
-        {
-            var course = LMSRepo.GetCourseByID(id);
-            var userManager = LMSRepo.GetUserManager();
-            var roleManager = LMSRepo.GetRoleManager();
-            var student = userManager.FindById(User.Identity.GetUserId());
-            var users = userManager.Users.ToList();
-            var teachers = new List<ApplicationUser>();
-
-            //If the student is already enrolled in a course
-            if (course.Users.Contains(student))
-            {
-                return View("_ApplicationForbidden");
-            }
-
-            //Filters only course teachers
-            foreach (var teacher in users)
-            {
-                if(userManager.IsInRole(teacher.Id, "teacher") && teacher.Courses.Contains(course))
-                {
-                    teachers.Add(teacher);
-                }
-            }
-
-            CourseApplication application = new CourseApplication
-            {
-                Message = message,
-                Course = course,
-                ProgramClass = null,
-                Student = student,
-                Teachers = teachers,
-                CreationDate = DateTime.Now,
-                Status = false // Pending application by default
-            };
-
-            LMSRepo.AddCourseApplication(application);
-
-            return RedirectToAction("Index");
-        }
-
-        //To-Do: Test and evaluate this method
-        [Authorize(Roles = "teacher")]
-        [HttpGet]
-        public ActionResult RespondToApplication(int id = 0, string comment = "", bool isAccepted = false)
-        {
-            var application = LMSRepo.GetCourseApplicationID(id);
-            string tempMessage = "Your message:\n" + application.Message +"\nEnd Of Your Message"+
-                "\n\nApplication evaluated by: " + User.Identity.GetUserRealName() + ".\nTeacher's Comment:\n";
-            application.Message = tempMessage + comment + "\nEnd Of Comment.";
-
-            application.IsAccepted = isAccepted;
-            application.Status = true;
-            application.EvaluationDate = DateTime.Now;
-
-            LMSRepo.EditCourseApplication(application);
-
-            return RedirectToAction("Index");
-        }
-
         [Authorize(Roles = "teacher")]
         [HttpGet]
         public ActionResult Create()
@@ -140,17 +56,23 @@ namespace LMS_Grupp4.Controllers
                 CourseName = CourseName,
                 Description = description,
                 CreationDate = DateTime.Now,
-                Users = new List<ApplicationUser>(),
+                Students = new List<ApplicationUser>(),
+                Teachers = new List<ApplicationUser>(),
 
                 //Important to declare these empty lists to get a 0 count in the view
                 //The declared lists create relationships between the Course model and the others
+                CourseApplications = new List<CourseApplication>(),
                 Assignments = new List<Assignment>(),
                 Classes = new List<ProgramClass>(),
-                ClassSchemes = new List<ClassSchema>(),
-                Files = new List<LMSFile>(),
+                ClassSchema = new ClassSchema
+                {
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now.AddMonths(6)
+                },
+                Files = new List<LMSFile>()
             };
 
-            model.Users.Add(teacher);
+            model.Teachers.Add(teacher);
             
             if(ModelState.IsValid)
             {
@@ -173,7 +95,7 @@ namespace LMS_Grupp4.Controllers
 
             //security check
             //Verifies if the teacher attempting to edit the course is one of the owners of the course
-            var courseTeachers = model.Users.Where(u => u.Roles.Where(r => r.RoleId == roleManager.FindByName("teacher").Id) != null);
+            var courseTeachers = model.Teachers.Where(u => u.Roles.Where(r => r.RoleId == roleManager.FindByName("teacher").Id) != null);
             if(courseTeachers.Contains(teacher))
             {
                 return View(model);
@@ -195,7 +117,7 @@ namespace LMS_Grupp4.Controllers
 
             //security check
             //Verifies if the teacher attempting to edit the course is one of the owners of the course
-            var courseTeachers = course.Users.Where(u => u.Roles.Where(r => r.RoleId == roleManager.FindByName("teacher").Id) != null);
+            var courseTeachers = course.Teachers.Where(u => u.Roles.Where(r => r.RoleId == roleManager.FindByName("teacher").Id) != null);
             if (courseTeachers.Contains(teacher))
             {
                 if (ModelState.IsValid)
@@ -223,15 +145,20 @@ namespace LMS_Grupp4.Controllers
         }
 
         [Authorize(Roles = "teacher")]
-        public ActionResult EnrollStudent(string studentID = "", int courseID = 0)
+        [HttpGet]
+        public ActionResult EnrollStudent(string studentID = "", int courseID = 0, string resultFormat = "")
         {
             var userManager = LMSRepo.GetUserManager();
             var student = userManager.FindById(studentID);
             var course = LMSRepo.GetCourseByID(courseID);
 
-            course.Users.Add(student);
+            course.Students.Add(student);
             LMSRepo.EditCourse(course);
 
+            if(resultFormat == "json")
+            {
+                return Json(new { status = "Success"}, JsonRequestBehavior.AllowGet);
+            }
             return View();
         }
 
@@ -246,7 +173,7 @@ namespace LMS_Grupp4.Controllers
 
             //security check
             //Verifies if the teacher attempting to edit the course is one of the owners of the course
-            var courseTeachers = course.Users.Where(u => u.Roles.Where(r => r.RoleId == roleManager.FindByName("teacher").Id) != null);
+            var courseTeachers = course.Teachers.Where(u => u.Roles.Where(r => r.RoleId == roleManager.FindByName("teacher").Id) != null);
             if (courseTeachers.Contains(teacher))
             {
                 LMSRepo.DeleteCourse(id);

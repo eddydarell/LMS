@@ -9,8 +9,7 @@ namespace LMS_Grupp4.Models.LMS_Models
 		[Key]
 		public int ID { get; set; }
 
-		//[MaxLength(45)] Commented this out as it generated validation problems
-        //To-Do: Fix this before deploy
+		[MaxLength(50)]
         [Display(Name = "File Name")]
         [Required]
         public string Name { get; set; }
@@ -37,7 +36,7 @@ namespace LMS_Grupp4.Models.LMS_Models
 		
         //Navigation Properties
 		public virtual ApplicationUser Uploader { get; set; }
-		public virtual ICollection<Course> Courses { get; set; }
+		public virtual Course Course { get; set; }
         public virtual Assignment Assignment { get; set; }
 	}
 }

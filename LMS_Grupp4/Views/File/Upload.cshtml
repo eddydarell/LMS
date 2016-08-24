@@ -1,0 +1,63 @@
+﻿@using Microsoft.AspNet.Identity;
+@model LMS_Grupp4.Models.LMS_Models.Course
+@using LMS_Grupp4.Models;
+@{
+    ViewBag.Title = "File Upload";
+}
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            User ID: @User.Identity.GetUserId()
+        </small>
+    </div>
+    <div class="col-md-4 text-center">
+        <small>File Upload</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
+<div class="jumbotron">
+
+    <h2>You are on the upload page!</h2>
+    <p>
+        From here you can uploa files to your course. <br />
+        You can choose your file to be visible by only you and your teacher or public.<br />
+        The file will be accessible from this course and nowhere else.
+    </p>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">Upload File</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("Upload", "File", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+                {
+                    <input type="hidden" value="@Model.ID" name="courseID" />
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">File</label>
+                        <div class="col-md-10">
+                            <input type="file" name="file" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Share Public</label>
+                        <div class="col-md-10">
+                            <input type="checkbox" name="isPublic" value="true" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" name="Submit" id="Submit" value="Upload" class="btn btn-default" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

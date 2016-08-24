@@ -9,6 +9,11 @@ namespace LMS_Grupp4.Models.LMS_Models
         [Key]
         public int ID { get; set; }
 
+        [Display(Name = "Title")]
+        public string Title { get; set; }
+
+        public string Schedule { get; set; }
+
         [Required]
         [Display(Name = "Start")]
         public DateTime StartDate { get; set; }
@@ -17,8 +22,6 @@ namespace LMS_Grupp4.Models.LMS_Models
         public DateTime EndDate { get; set; }
         
         //Navigation Properties
-        public ProgramClass ProgramClass { get; set; }
-        public virtual ICollection<ApplicationUser> Teachers { get; set; }
-        public virtual ICollection<Course> Courses { get; set; }
+        public virtual Course Course { get; set; }
     }
 }

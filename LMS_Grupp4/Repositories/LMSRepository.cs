@@ -44,11 +44,19 @@ namespace LMS_Grupp4.Repositories
         // Returns all assignments from the database
         public IEnumerable<Assignment> GetAllAssignments()
 		{
-			return db.Assignments.ToList();
+            try
+            {
+                return db.Assignments.ToList();
+            }
+            catch(Exception)
+            {
+                return null;//Proper handling
+            }
+			
 		}
 
 		// Gets an assignment from the database with a specific id
-		public Assignment GetAssignmentByID(int id)
+		public Assignment GetAssignmentByID(int? id)
 		{
 			 return db.Assignments.Find(id);             
 		}

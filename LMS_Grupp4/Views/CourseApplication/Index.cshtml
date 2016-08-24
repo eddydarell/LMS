@@ -1,0 +1,141 @@
+﻿@using LMS_Grupp4.Models;
+@using Microsoft.AspNet.Identity;
+@model IEnumerable<LMS_Grupp4.Models.LMS_Models.CourseApplication>
+
+@{
+    ViewBag.Title = "Index";
+    bool isTeacher = (User.IsInRole("teacher")) ? true : false;
+}
+
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        @if (isTeacher)
+        {
+            <small>
+                Teacher ID: @User.Identity.GetUserId()
+            </small>
+        }
+        else
+        {
+            <small>
+                Student ID: @User.Identity.GetUserId()
+            </small>
+        }
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Applications</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
+<div class="jumbotron">
+
+    <h2><a href="@Url.Action("Index", "Teacher", new { id = User.Identity.GetUserId()})">@User.Identity.GetUserRealName()</a>, welcome!</h2>
+    <p>
+        A list of application to this course.<br />
+    </p>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-7">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">Pending Applications</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    A list of all pending applications for this course.<br />
+                    Click "Respond" to handle an application.
+                </p>
+                <hr />
+                <table class="table table-bordered">
+                    <tr>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.Message)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.Status)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.CreationDate)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        if (!item.Status)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Message)
+                                </td>
+                                <td>
+                                    @(item.Status ? "Resolved" : "Pending")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreationDate)
+                                </td>
+                                <td class="text-center">
+                                    <a href="@Url.Action("RespondToApplication", new { id = item.ID})">Respond</a> |
+                                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">Resolved Applications</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    A list of all resolved applications for this course.<br />
+                    Select the student's name to view more details about this application.
+                </p>
+                <hr />
+                <table class="table table-condensed table-striped">
+                    <tr>
+                        <th>
+                            Student
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IsAccepted)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.EvaluationDate)
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        if (item.Status)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Details", new { id = item.ID})" title="Details">@Html.DisplayFor(modelItem => item.Student.RealName)</a>
+                                </td>
+                                <td>
+                                    @(item.IsAccepted ? "Accepted" : "Rejected")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EvaluationDate)
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
