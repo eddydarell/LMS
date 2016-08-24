@@ -38,7 +38,7 @@ namespace LMS_Grupp4.Controllers
 			var roleManager = LMSRepo.GetRoleManager();
 			var studentRole = roleManager.FindByName("student");
 			var course = LMSRepo.GetCourseByID(courseID);
-			var students = course.Users.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
+			var students = course.Students.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
 
 
 			Assignment_CreateViewModel a_CVM = new Assignment_CreateViewModel(students);
