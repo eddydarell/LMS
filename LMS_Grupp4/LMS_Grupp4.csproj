@@ -209,21 +209,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608231126234_Init.cs" />
-    <Compile Include="Migrations\201608231126234_Init.Designer.cs">
-      <DependentUpon>201608231126234_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608231206561_AddedSeparateTeacherAndStudentListsInCourse.cs" />
-    <Compile Include="Migrations\201608231206561_AddedSeparateTeacherAndStudentListsInCourse.Designer.cs">
-      <DependentUpon>201608231206561_AddedSeparateTeacherAndStudentListsInCourse.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608231220530_EditedClassShema.cs" />
-    <Compile Include="Migrations\201608231220530_EditedClassShema.Designer.cs">
-      <DependentUpon>201608231220530_EditedClassShema.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608231249551_EditedAssignments.cs" />
-    <Compile Include="Migrations\201608231249551_EditedAssignments.Designer.cs">
-      <DependentUpon>201608231249551_EditedAssignments.cs</DependentUpon>
+    <Compile Include="Migrations\201608231321103_initial.cs" />
+    <Compile Include="Migrations\201608231321103_initial.Designer.cs">
+      <DependentUpon>201608231321103_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -273,7 +261,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -368,7 +358,6 @@
     <Content Include="Views\CourseApplication\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Error\" />
     <Folder Include="Views\Search\" />
   </ItemGroup>
   <ItemGroup>
@@ -380,17 +369,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608231126234_Init.resx">
-      <DependentUpon>201608231126234_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608231206561_AddedSeparateTeacherAndStudentListsInCourse.resx">
-      <DependentUpon>201608231206561_AddedSeparateTeacherAndStudentListsInCourse.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608231220530_EditedClassShema.resx">
-      <DependentUpon>201608231220530_EditedClassShema.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608231249551_EditedAssignments.resx">
-      <DependentUpon>201608231249551_EditedAssignments.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608231321103_initial.resx">
+      <DependentUpon>201608231321103_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

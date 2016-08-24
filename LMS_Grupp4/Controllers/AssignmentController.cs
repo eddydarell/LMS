@@ -48,7 +48,7 @@ namespace LMS_Grupp4.Controllers
 			var roleManager = LMSRepo.GetRoleManager();
 			var studentRole = roleManager.FindByName("student");
 			var course = LMSRepo.GetCourseByID(courseID);
-			var students = course.Users.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
+			var students = course.Students.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
 
 
 			Assignment_CreateViewModel a_CVM = new Assignment_CreateViewModel(students, courseID);
@@ -60,28 +60,26 @@ namespace LMS_Grupp4.Controllers
 		[HttpPost]
 		public ActionResult Create(int CourseID = 0, string Name = "", DateTime? DueDate = null, int MaxScore = 0)
 		{
+			Assignment assignment = new Assignment();
 			Course course = LMSRepo.GetCourseByID(CourseID);
 
-			var roleManager = LMSRepo.GetRoleManager();
-			var studentRole = roleManager.FindByName("student");
-			string id = User.Identity.GetUserId();
-			var teacher = LMSRepo.GetUserManager().FindById(id);
+			assignment.Name = Name;
+			assignment.DueDate = DueDate;
+			assignment.MaxScore = MaxScore;
+			assignment.DueDate = DueDate;
+			assignment.IssueDate = DateTime.Now;
+			assignment.Course = course;
+			assignment.Students = new List<ApplicationUser>();
 
-			var students = course.Users.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
+			LMSRepo.AddAssignment(assignment);
+			
+		
+			//var roleManager = LMSRepo.GetRoleManager();
+			//var studentRole = roleManager.FindByName("student");
+			//string id = User.Identity.GetUserId();
+			//var teacher = LMSRepo.GetUserManager().FindById(id);
 
-			foreach (ApplicationUser student in students)
-			{
-				Assignment assignment = new Assignment();
-				assignment.Name = Name;
-				assignment.DueDate = DueDate;
-				assignment.MaxScore = MaxScore;
-				assignment.Course = course;
-				assignment.Student = student;
-				assignment.IssueDate = DateTime.Now;
-				student.Assignments.Add(assignment);
-				//teacher.Assignments.Add(assignment);
-				LMSRepo.AddAssignment(assignment);
-			}
+			//var students = course.Students.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
 
 			return RedirectToAction("Index");
 		}
@@ -90,8 +88,6 @@ namespace LMS_Grupp4.Controllers
 		[HttpGet]
 		public ActionResult Edit(int assignmentID = 0)
 		{
-			
-
 			return View();
 		}
 
@@ -99,8 +95,6 @@ namespace LMS_Grupp4.Controllers
 		[HttpPost]
 		public ActionResult Edit()
 		{
-
-
 			return View();
 		}
 
