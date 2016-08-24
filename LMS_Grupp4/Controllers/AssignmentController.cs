@@ -67,7 +67,7 @@ namespace LMS_Grupp4.Controllers
 			string id = User.Identity.GetUserId();
 			var teacher = LMSRepo.GetUserManager().FindById(id);
 
-			var students = course.Users.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
+			var students = course.Students.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
 
 			foreach (ApplicationUser student in students)
 			{
@@ -76,7 +76,7 @@ namespace LMS_Grupp4.Controllers
 				assignment.DueDate = DueDate;
 				assignment.MaxScore = MaxScore;
 				assignment.Course = course;
-				assignment.Student = student;
+				assignment.Students = new List<ApplicationUser>();
 				assignment.IssueDate = DateTime.Now;
 				student.Assignments.Add(assignment);
 				//teacher.Assignments.Add(assignment);

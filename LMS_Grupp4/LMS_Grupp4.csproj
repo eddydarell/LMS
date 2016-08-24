@@ -209,22 +209,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608231126234_Init.cs" />
-    <Compile Include="Migrations\201608231126234_Init.Designer.cs">
-      <DependentUpon>201608231126234_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608231206561_AddedSeparateTeacherAndStudentListsInCourse.cs" />
-    <Compile Include="Migrations\201608231206561_AddedSeparateTeacherAndStudentListsInCourse.Designer.cs">
-      <DependentUpon>201608231206561_AddedSeparateTeacherAndStudentListsInCourse.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608231220530_EditedClassShema.cs" />
-    <Compile Include="Migrations\201608231220530_EditedClassShema.Designer.cs">
-      <DependentUpon>201608231220530_EditedClassShema.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608231249551_EditedAssignments.cs" />
-    <Compile Include="Migrations\201608231249551_EditedAssignments.Designer.cs">
-      <DependentUpon>201608231249551_EditedAssignments.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -366,9 +350,9 @@
     <Content Include="Views\CourseApplication\RespondToApplication.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\CourseApplication\Details.cshtml" />
+    <Content Include="Views\File\Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Error\" />
     <Folder Include="Views\Search\" />
   </ItemGroup>
   <ItemGroup>
@@ -378,20 +362,6 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608231126234_Init.resx">
-      <DependentUpon>201608231126234_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608231206561_AddedSeparateTeacherAndStudentListsInCourse.resx">
-      <DependentUpon>201608231206561_AddedSeparateTeacherAndStudentListsInCourse.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608231220530_EditedClassShema.resx">
-      <DependentUpon>201608231220530_EditedClassShema.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608231249551_EditedAssignments.resx">
-      <DependentUpon>201608231249551_EditedAssignments.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
