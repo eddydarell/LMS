@@ -69,19 +69,19 @@ namespace LMS_Grupp4.Controllers
 
 			var students = course.Users.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
 
-			foreach (ApplicationUser student in students)
-			{
-				Assignment assignment = new Assignment();
-				assignment.Name = Name;
-				assignment.DueDate = DueDate;
-				assignment.MaxScore = MaxScore;
-				assignment.Course = course;
-				assignment.Student = student;
-				assignment.IssueDate = DateTime.Now;
-				student.Assignments.Add(assignment);
-				//teacher.Assignments.Add(assignment);
-				LMSRepo.AddAssignment(assignment);
-			}
+            //foreach (ApplicationUser student in students)
+            //{
+            //    Assignment assignment = new Assignment();
+            //    assignment.Name = Name;
+            //    assignment.DueDate = DueDate;
+            //    assignment.MaxScore = MaxScore;
+            //    assignment.Course = course;
+            //    assignment.Students = student;
+            //    assignment.IssueDate = DateTime.Now;
+            //    student.Assignments.Add(assignment);
+            //    teacher.Assignments.Add(assignment);
+            //    LMSRepo.AddAssignment(assignment);
+            //}
 
 			return RedirectToAction("Index");
 		}

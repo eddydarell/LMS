@@ -22,14 +22,14 @@ namespace LMS_Grupp4.Controllers
         //static UserStore<ApplicationUser> userStore = new UserStore<ApplicationUser>(context);
         //UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(userStore);   
 
-         // GET: /Student/Create
+        // GET: /Student/Create
 
         //public ActionResult Create()
         //{
         //    return View();
         //} 
 
-       //Get Student
+        //Get Student
         //public ActionResult Index(string id = "")
         //{
         //    var students = roleManager.FindByName("student").Users;
@@ -54,15 +54,15 @@ namespace LMS_Grupp4.Controllers
         //    return View(teacher_IVW);
         //}
 
-//        Get Student
+        //        Get Student
         public ActionResult Students(string id = "")
         {
-            var students = LMSRepo.GetRoleManager().FindByName("student").Users;           
+            var students = LMSRepo.GetRoleManager().FindByName("student").Users;
             var studentList = new List<ApplicationUser>();
-            foreach(var student in students)
+            foreach (var student in students)
             {
                 studentList.Add(LMSRepo.GetUserManager().FindById(student.UserId));
-            }           
+            }
 
             ViewBag.UserID = id;
 
@@ -78,20 +78,32 @@ namespace LMS_Grupp4.Controllers
             ViewBag.UserID = id;
 
             var user = LMSRepo.GetUserManager().FindById(id);
-            var courseModel = user.Courses.ToList();
-            var students = LMSRepo.GetUserManager().Users;
+            var coursesWithPendingApplications = user.Courses.Where(c => c.CourseApplications.Where(ca => ca.Status == false) != null);
 
-            Teacher_IndexViewModel teacher_IVW = new Teacher_IndexViewModel(courseModel, students);
+            List<CourseApplication> applications = new List<CourseApplication>();
+            foreach(var course in coursesWithPendingApplications)
+            {
+                foreach(var application in course.CourseApplications)
+                {
+                    applications.Add(application);
+                }
+            }
+
+            var assignmentModel = user.Assignments.ToList();
+            var courseModel = user.Courses.ToList();
+            //var students = LMSRepo.GetUserManager().Users.ToList();
+
+            Teacher_IndexViewModel teacher_IVW = new Teacher_IndexViewModel(assignmentModel, courseModel, applications);
             //teacher_IVW
-           return View(courseModel);
+            return View(teacher_IVW);
         }
 
-		public ActionResult Assignments(string id = "")
-		{
+        public ActionResult Assignments(string id = "")
+        {
             var user = LMSRepo.GetUserManager().FindById(id);
             var assignmentModelList = user.Assignments.ToList();
             return View(assignmentModelList);
-		}
+        }
 
         ////Not needed at the moment
         //public ActionResult CourseApplication()
@@ -149,11 +161,11 @@ namespace LMS_Grupp4.Controllers
         //}
 
         public ActionResult Files(string id = "")
-		{
+        {
             var user = LMSRepo.GetUserManager().FindById(id);
             var filesModelList = user.Files.ToList();
             return View(filesModelList);
-		}
+        }
 
         public ActionResult ProgramClasses(string id = "")
         {

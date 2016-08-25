@@ -53,7 +53,7 @@ namespace LMS_Grupp4.Controllers
             };
 
             //If the student is already enrolled in a course
-            if (course.Students.Contains(student))
+            if (course.Users.Contains(student))
             {
                 return View("_ApplicationForbidden");
             }
@@ -73,7 +73,7 @@ namespace LMS_Grupp4.Controllers
             var teachers = new List<ApplicationUser>();
 
             //If the student is already enrolled in a course
-            if (course.Students.Contains(student))
+            if (course.Users.Contains(student))
             {
                 return View("_ApplicationForbidden");
             }
@@ -145,7 +145,7 @@ namespace LMS_Grupp4.Controllers
             //If the application is accepted, Add the student to the course
             if(isAccepted)
             {
-                course.Students.Add(student);
+                course.Users.Add(student);
                 LMSRepo.EditCourse(course);
             }
             
