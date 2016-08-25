@@ -31,17 +31,17 @@ namespace LMS_Grupp4.Controllers
 
 			if(User.IsInRole("student"))
 			{
-				try
-				{
-					assignmentModelList = user.Assignments.ToList();
+			try
+			{
+				assignmentModelList = user.Assignments.ToList();
 				} 
 				catch (NullReferenceException)
-				{
-					return View();
-				}
-
-				return View(assignmentModelList);
+			{
+				return View();
 			}
+
+			return View(assignmentModelList);
+		}
 			else
 			{
 				var teacherCourses = user.Courses;
