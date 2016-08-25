@@ -118,7 +118,7 @@ namespace LMS_Grupp4.Controllers
 
 			//var students = course.Students.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
 
-			return RedirectToAction("Index");
+            return RedirectToAction("IndexCourse", new { courseID = course.ID });
 		}
 
 		[Authorize(Roles = "teacher")]

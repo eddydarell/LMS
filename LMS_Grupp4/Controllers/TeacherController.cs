@@ -89,11 +89,19 @@ namespace LMS_Grupp4.Controllers
                 }
             }
 
-            var assignmentModel = user.Assignments.ToList();
+            //var assignmentModel = user.Assignments.ToList();
             var courseModel = user.Courses.ToList();
+            List<Assignment> teacherAssignments = new List<Assignment>();
+            foreach (Course course in courseModel) 
+            {
+                foreach (Assignment assignment in course.Assignments) 
+                {
+                    teacherAssignments.Add(assignment);
+                }
+            }
             //var students = LMSRepo.GetUserManager().Users.ToList();
 
-            Teacher_IndexViewModel teacher_IVW = new Teacher_IndexViewModel(assignmentModel, courseModel, applications);
+            Teacher_IndexViewModel teacher_IVW = new Teacher_IndexViewModel(teacherAssignments, courseModel, applications);
             //teacher_IVW
             return View(teacher_IVW);
         }
