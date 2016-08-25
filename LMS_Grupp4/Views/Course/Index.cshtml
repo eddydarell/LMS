@@ -5,7 +5,7 @@
 @{
     ViewBag.Title = "Index";
     bool isTeacher = (User.IsInRole("teacher")) ? true : false;
-    int personalCourseCount = Model.Where(m => m.Teachers.SingleOrDefault(u => u.Id == User.Identity.GetUserId()) != null).Count();
+    int personalCourseCount = Model.Where(m => m.Users.SingleOrDefault(u => u.Id == User.Identity.GetUserId()) != null).Count();
 }
 <div class="row" style="padding-bottom: 20px">
     <div class="col-md-4">

@@ -87,6 +87,7 @@
                     </div>
                     <div class="btn-group">
                         <a href="@Url.Action("Index", "CourseApplication", new { id = Model.ID })" class="btn btn-default btn-sm" title="Applications for @Model.CourseName">View Applications</a>
+                        <a href="@Url.Action("IndexCourse", "Assignment", new { courseID = Model.ID })" class="btn btn-default btn-sm">View assignments</a>
                         <a href="@Url.Action("Create", "Assignment", new { courseID = Model.ID })" class="btn btn-default btn-sm">Create new assignment</a>
                     </div>
                 </div>

@@ -16,28 +16,65 @@ namespace LMS_Grupp4.Controllers
 	{
 		LMSRepository LMSRepo = new LMSRepository();
 
-
-		public ActionResult Index(string id = "")
+		[Authorize(Roles = "teacher, student")]
+		public ActionResult IndexUser(string userId = "")
 		{
-			if (String.IsNullOrWhiteSpace(id))
+			if (String.IsNullOrWhiteSpace(userId))
 			{
-				id = User.Identity.GetUserId();
+				userId = User.Identity.GetUserId();
 			}
-			ViewBag.UserID = id;
+			ViewBag.UserID = userId;
 
-			var user = LMSRepo.GetUserManager().FindById(id);
+			var user = LMSRepo.GetUserManager().FindById(userId);
 
 			List<Assignment> assignmentModelList;
 
-			try
+			if(User.IsInRole("student"))
 			{
-				assignmentModelList = user.Assignments.ToList();
-			} catch (NullReferenceException)
-			{
-				return View();
-			}
+				try
+				{
+					assignmentModelList = user.Assignments.ToList();
+				} 
+				catch (NullReferenceException)
+				{
+					return View();
+				}
 
-			return View(assignmentModelList);
+				return View(assignmentModelList);
+			}
+			else
+			{
+				var teacherCourses = user.Courses;
+				List<Assignment> teacherAssignments = new List<Assignment>();
+
+				try
+				{
+					foreach (Course course in teacherCourses)
+					{
+						foreach (Assignment assignment in course.Assignments)
+						{
+							teacherAssignments.Add(assignment);
+						}
+					}
+				} 
+				catch(NullReferenceException) 
+				{
+					 return View();
+				}
+				
+				return View(teacherAssignments); 
+			}	
+		}
+
+		public ActionResult IndexCourse(int courseID = 0)
+		{
+			Course course = LMSRepo.GetCourseByID(courseID);
+			string courseName = course.CourseName;
+			var courseAssignmentList = course.Assignments;
+
+			Assignment_IndexCourseViewModel aICVM = new Assignment_IndexCourseViewModel(courseName, courseAssignmentList);
+
+			return View(aICVM);
 		}
 
 		[Authorize(Roles = "teacher")]
@@ -71,8 +108,6 @@ namespace LMS_Grupp4.Controllers
 			assignment.Course = course;
 			assignment.Students = new List<ApplicationUser>();
 
-			//Adding the assignment to the course
-			//course.Assignments.Add(assignment);
 			LMSRepo.AddAssignment(assignment);
 
 
