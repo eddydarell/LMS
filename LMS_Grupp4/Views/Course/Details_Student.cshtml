@@ -66,6 +66,7 @@
                 <div class="btn-group">
                     <a href="@Url.Action("Apply", "CourseApplication", new { id = Model.ID })" class="btn btn-default">Apply For Course <span class="glyphicon glyphicon-save"></span></a>
                     <a href="@Url.Action("Upload", "File", new { id = Model.ID })" class="btn btn-default">Upload File <span class="glyphicon glyphicon-upload"></span></a>
+                    <a href="@Url.Action("IndexCourse", "Assignment", new { courseID = Model.ID })" class="btn btn-default btn-sm">View assignments</a>
                 </div>
             </div>
         </div>

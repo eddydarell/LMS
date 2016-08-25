@@ -102,7 +102,6 @@ namespace LMS_Grupp4.Controllers
 			assignment.Name = Name;
 			assignment.DueDate = DueDate;
 			assignment.MaxScore = MaxScore;
-			assignment.DueDate = DueDate;
 			assignment.IssueDate = DateTime.Now;
 			//Connects the course to the assignment
 			assignment.Course = course;
@@ -118,7 +117,7 @@ namespace LMS_Grupp4.Controllers
 
 			//var students = course.Students.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
 
-			return RedirectToAction("Index");
+			return RedirectToAction("IndexCourse", new { courseID = course.ID }); 
 		}
 
 		[Authorize(Roles = "teacher")]
@@ -140,7 +139,20 @@ namespace LMS_Grupp4.Controllers
 
 			LMSRepo.EditAssignment(assignment);
 
-			return RedirectToAction("Index");
+			return RedirectToAction("IndexUser");
+		}
+
+		public ActionResult ConfirmAssignment(int id = 0)
+		{
+			string userId = User.Identity.GetUserId();
+			var user = LMSRepo.GetUserManager().FindById(userId);
+
+			Assignment assignment = LMSRepo.GetAssignmentByID(id);
+			user.Assignments.Add(assignment);
+
+			LMSRepo.SaveChanges();
+
+			return RedirectToAction("IndexUser");
 		}
 
 		public ActionResult Details(int? id)

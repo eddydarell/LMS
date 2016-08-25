@@ -40,6 +40,11 @@ namespace LMS_Grupp4.Repositories
             return userManager;
         }
 
+		public void SaveChanges()
+		{
+			db.SaveChanges();
+		}
+
         #region Assignment
         // Returns all assignments from the database
         public IEnumerable<Assignment> GetAllAssignments()

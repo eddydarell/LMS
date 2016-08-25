@@ -23,6 +23,7 @@
 
 <h2>Assignments for course @Model.CourseName</h2>
 
+
 <table class="table">
     <tr>
         <th>
@@ -31,9 +32,9 @@
         <th>
             Due date
         </th>
-        <th>
+        @*<th>
             Completed
-        </th>
+        </th>*@
 
         <th></th>
     </tr>
@@ -47,15 +48,22 @@
             <td>
                 @Html.DisplayFor(assignment => item.DueDate)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(assignment => item.IsPassed)
-            </td>
+            </td>*@
 
             @if (isTeacher)
             {
                 <td>
                     @Html.ActionLink("Edit", "Edit") |
                     @Html.ActionLink("Delete", "Delete")
+                </td>
+            }
+            else
+            {
+                <td>
+                    @*@Html.ActionLink("Confirm assignment", "ConfirmAssignment", new {id = item.ID})*@
+                    <a href="@Url.Action("ConfirmAssignment", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Confirm assignment</a>
                 </td>
             }
         </tr>
