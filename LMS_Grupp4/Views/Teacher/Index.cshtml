@@ -111,7 +111,7 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(assignment => item.Name)
+                                <a href="@Url.Action("Details", "Assignment", new { id = item.ID})">@Html.DisplayFor(assignment => item.Name)</a>
                             </td>
                             <td>
                                 @Html.DisplayFor(assignment => item.DueDate)
@@ -121,7 +121,7 @@
 
                 </table>
                 <p>
-                    <a href="@Url.Action("Index", "Assignment")">My Assignments</a>
+                    <a href="@Url.Action("IndexUser", "Assignment")">My Assignments</a>
                 </p>
             </div>
         </div>
