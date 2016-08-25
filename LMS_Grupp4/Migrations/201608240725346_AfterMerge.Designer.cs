@@ -7,16 +7,13 @@ namespace LMS_Grupp4.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class initial : IMigrationMetadata
-    public sealed partial class Init : IMigrationMetadata
+    public sealed partial class AfterMerge : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Init));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AfterMerge));
         
         string IMigrationMetadata.Id
         {
-            get { return "201608221403561_initial"; }
-            get { return "201608231126234_Init"; }
+            get { return "201608240725346_AfterMerge"; }
         }
         
         string IMigrationMetadata.Source

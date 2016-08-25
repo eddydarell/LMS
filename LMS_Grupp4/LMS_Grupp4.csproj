@@ -209,21 +209,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608231126234_Init.cs" />
-    <Compile Include="Migrations\201608231126234_Init.Designer.cs">
-      <DependentUpon>201608231126234_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201608240725346_AfterMerge.cs" />
+    <Compile Include="Migrations\201608240725346_AfterMerge.Designer.cs">
+      <DependentUpon>201608240725346_AfterMerge.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608231206561_AddedSeparateTeacherAndStudentListsInCourse.cs" />
-    <Compile Include="Migrations\201608231206561_AddedSeparateTeacherAndStudentListsInCourse.Designer.cs">
-      <DependentUpon>201608231206561_AddedSeparateTeacherAndStudentListsInCourse.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608231220530_EditedClassShema.cs" />
-    <Compile Include="Migrations\201608231220530_EditedClassShema.Designer.cs">
-      <DependentUpon>201608231220530_EditedClassShema.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608231249551_EditedAssignments.cs" />
-    <Compile Include="Migrations\201608231249551_EditedAssignments.Designer.cs">
-      <DependentUpon>201608231249551_EditedAssignments.cs</DependentUpon>
+    <Compile Include="Migrations\201608241238567_ChangedTechStudtoUser.cs" />
+    <Compile Include="Migrations\201608241238567_ChangedTechStudtoUser.Designer.cs">
+      <DependentUpon>201608241238567_ChangedTechStudtoUser.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -323,8 +315,6 @@
     <Content Include="Views\Student\ApplyToCourse.cshtml" />
     <Content Include="Views\Student\Files.cshtml" />
     <Content Include="Views\Student\ClassSchemas.cshtml" />
-    <Content Include="Views\Teacher\AddCourse.cshtml" />
-    <Content Include="Views\Teacher\Courses.cshtml" />
     <Content Include="Views\Student\ApplyToProgramClass.cshtml" />
     <Content Include="Views\Course\_ApplicationForbidden.cshtml" />
     <Content Include="Views\Course\_Forbidden.cshtml" />
@@ -334,12 +324,6 @@
     <Content Include="Views\Course\Details_Student.cshtml" />
     <Content Include="Views\Course\Details_Teacher.cshtml" />
     <Content Include="Views\Teacher\Students.cshtml" />
-    <Content Include="Views\Teacher\ProgramClasses.cshtml" />
-    <Content Include="Views\Teacher\ClassSchemas.cshtml" />
-    <Content Include="Views\Teacher\Files.cshtml" />
-    <Content Include="Views\Teacher\Assignments.cshtml" />
-    <Content Include="Views\Teacher\CourseApplication.cshtml" />
-    <Content Include="Views\Teacher\ProgramClassApplication.cshtml" />
     <Content Include="Views\Assignment\Create.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -368,7 +352,6 @@
     <Content Include="Views\CourseApplication\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Error\" />
     <Folder Include="Views\Search\" />
   </ItemGroup>
   <ItemGroup>
@@ -380,17 +363,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608231126234_Init.resx">
-      <DependentUpon>201608231126234_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608240725346_AfterMerge.resx">
+      <DependentUpon>201608240725346_AfterMerge.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608231206561_AddedSeparateTeacherAndStudentListsInCourse.resx">
-      <DependentUpon>201608231206561_AddedSeparateTeacherAndStudentListsInCourse.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608231220530_EditedClassShema.resx">
-      <DependentUpon>201608231220530_EditedClassShema.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608231249551_EditedAssignments.resx">
-      <DependentUpon>201608231249551_EditedAssignments.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608241238567_ChangedTechStudtoUser.resx">
+      <DependentUpon>201608241238567_ChangedTechStudtoUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

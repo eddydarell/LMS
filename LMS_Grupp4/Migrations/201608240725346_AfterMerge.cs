@@ -3,7 +3,7 @@ namespace LMS_Grupp4.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Init : DbMigration
+    public partial class AfterMerge : DbMigration
     {
         public override void Up()
         {
@@ -22,13 +22,10 @@ namespace LMS_Grupp4.Migrations
                         Percentage = c.Double(),
                         MaxScore = c.Int(nullable: false),
                         Course_ID = c.Int(),
-                        Student_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.Courses", t => t.Course_ID)
-                .ForeignKey("dbo.AspNetUsers", t => t.Student_Id)
-                .Index(t => t.Course_ID)
-                .Index(t => t.Student_Id);
+                .Index(t => t.Course_ID);
             
             CreateTable(
                 "dbo.Courses",
@@ -38,10 +35,13 @@ namespace LMS_Grupp4.Migrations
                         CourseName = c.String(nullable: false),
                         Description = c.String(),
                         CreationDate = c.DateTime(nullable: false),
+                        ApplicationUser_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id)
                 .ForeignKey("dbo.ClassSchemas", t => t.ID)
-                .Index(t => t.ID);
+                .Index(t => t.ID)
+                .Index(t => t.ApplicationUser_Id);
             
             CreateTable(
                 "dbo.ProgramClasses",
@@ -95,11 +95,17 @@ namespace LMS_Grupp4.Migrations
                         AccessFailedCount = c.Int(nullable: false),
                         UserName = c.String(nullable: false, maxLength: 256),
                         CourseApplication_ID = c.Int(),
+                        Course_ID = c.Int(),
+                        Course_ID1 = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.CourseApplications", t => t.CourseApplication_ID)
+                .ForeignKey("dbo.Courses", t => t.Course_ID)
+                .ForeignKey("dbo.Courses", t => t.Course_ID1)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex")
-                .Index(t => t.CourseApplication_ID);
+                .Index(t => t.CourseApplication_ID)
+                .Index(t => t.Course_ID)
+                .Index(t => t.Course_ID1);
             
             CreateTable(
                 "dbo.AspNetUserClaims",
@@ -123,10 +129,13 @@ namespace LMS_Grupp4.Migrations
                         Schedule = c.String(),
                         StartDate = c.DateTime(nullable: false),
                         EndDate = c.DateTime(nullable: false),
+                        ApplicationUser_Id = c.String(maxLength: 128),
                         ProgramClass_ID = c.Int(),
                     })
                 .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id)
                 .ForeignKey("dbo.ProgramClasses", t => t.ProgramClass_ID)
+                .Index(t => t.ApplicationUser_Id)
                 .Index(t => t.ProgramClass_ID);
             
             CreateTable(
@@ -188,30 +197,17 @@ namespace LMS_Grupp4.Migrations
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
             CreateTable(
-                "dbo.ClassSchemaApplicationUsers",
-                c => new
-                    {
-                        ClassSchema_ID = c.Int(nullable: false),
-                        ApplicationUser_Id = c.String(nullable: false, maxLength: 128),
-                    })
-                .PrimaryKey(t => new { t.ClassSchema_ID, t.ApplicationUser_Id })
-                .ForeignKey("dbo.ClassSchemas", t => t.ClassSchema_ID, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id, cascadeDelete: true)
-                .Index(t => t.ClassSchema_ID)
-                .Index(t => t.ApplicationUser_Id);
-            
-            CreateTable(
-                "dbo.ApplicationUserCourses",
+                "dbo.ApplicationUserAssignments",
                 c => new
                     {
                         ApplicationUser_Id = c.String(nullable: false, maxLength: 128),
-                        Course_ID = c.Int(nullable: false),
+                        Assignment_ID = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.ApplicationUser_Id, t.Course_ID })
+                .PrimaryKey(t => new { t.ApplicationUser_Id, t.Assignment_ID })
                 .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id, cascadeDelete: true)
-                .ForeignKey("dbo.Courses", t => t.Course_ID, cascadeDelete: true)
+                .ForeignKey("dbo.Assignments", t => t.Assignment_ID, cascadeDelete: true)
                 .Index(t => t.ApplicationUser_Id)
-                .Index(t => t.Course_ID);
+                .Index(t => t.Assignment_ID);
             
             CreateTable(
                 "dbo.ApplicationUserProgramClasses",
@@ -244,9 +240,12 @@ namespace LMS_Grupp4.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.AspNetUsers", "Course_ID1", "dbo.Courses");
+            DropForeignKey("dbo.AspNetUsers", "Course_ID", "dbo.Courses");
             DropForeignKey("dbo.Courses", "ID", "dbo.ClassSchemas");
             DropForeignKey("dbo.ProgramClassCourses", "Course_ID", "dbo.Courses");
             DropForeignKey("dbo.ProgramClassCourses", "ProgramClass_ID", "dbo.ProgramClasses");
+            DropForeignKey("dbo.ClassSchemas", "ProgramClass_ID", "dbo.ProgramClasses");
             DropForeignKey("dbo.AspNetUsers", "CourseApplication_ID", "dbo.CourseApplications");
             DropForeignKey("dbo.CourseApplications", "Student_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
@@ -256,14 +255,12 @@ namespace LMS_Grupp4.Migrations
             DropForeignKey("dbo.LMSFiles", "Uploader_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.LMSFiles", "Course_ID", "dbo.Courses");
             DropForeignKey("dbo.LMSFiles", "Assignment_ID", "dbo.Assignments");
-            DropForeignKey("dbo.ApplicationUserCourses", "Course_ID", "dbo.Courses");
-            DropForeignKey("dbo.ApplicationUserCourses", "ApplicationUser_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Courses", "ApplicationUser_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.CourseApplications", "ApplicationUser_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.ClassSchemaApplicationUsers", "ApplicationUser_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.ClassSchemaApplicationUsers", "ClassSchema_ID", "dbo.ClassSchemas");
-            DropForeignKey("dbo.ClassSchemas", "ProgramClass_ID", "dbo.ProgramClasses");
+            DropForeignKey("dbo.ClassSchemas", "ApplicationUser_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Assignments", "Student_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.ApplicationUserAssignments", "Assignment_ID", "dbo.Assignments");
+            DropForeignKey("dbo.ApplicationUserAssignments", "ApplicationUser_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.CourseApplications", "ProgramClass_ID", "dbo.ProgramClasses");
             DropForeignKey("dbo.CourseApplications", "Course_ID", "dbo.Courses");
             DropForeignKey("dbo.Assignments", "Course_ID", "dbo.Courses");
@@ -271,10 +268,8 @@ namespace LMS_Grupp4.Migrations
             DropIndex("dbo.ProgramClassCourses", new[] { "ProgramClass_ID" });
             DropIndex("dbo.ApplicationUserProgramClasses", new[] { "ProgramClass_ID" });
             DropIndex("dbo.ApplicationUserProgramClasses", new[] { "ApplicationUser_Id" });
-            DropIndex("dbo.ApplicationUserCourses", new[] { "Course_ID" });
-            DropIndex("dbo.ApplicationUserCourses", new[] { "ApplicationUser_Id" });
-            DropIndex("dbo.ClassSchemaApplicationUsers", new[] { "ApplicationUser_Id" });
-            DropIndex("dbo.ClassSchemaApplicationUsers", new[] { "ClassSchema_ID" });
+            DropIndex("dbo.ApplicationUserAssignments", new[] { "Assignment_ID" });
+            DropIndex("dbo.ApplicationUserAssignments", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
@@ -283,20 +278,22 @@ namespace LMS_Grupp4.Migrations
             DropIndex("dbo.LMSFiles", new[] { "Course_ID" });
             DropIndex("dbo.LMSFiles", new[] { "Assignment_ID" });
             DropIndex("dbo.ClassSchemas", new[] { "ProgramClass_ID" });
+            DropIndex("dbo.ClassSchemas", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
+            DropIndex("dbo.AspNetUsers", new[] { "Course_ID1" });
+            DropIndex("dbo.AspNetUsers", new[] { "Course_ID" });
             DropIndex("dbo.AspNetUsers", new[] { "CourseApplication_ID" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.CourseApplications", new[] { "Student_Id" });
             DropIndex("dbo.CourseApplications", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.CourseApplications", new[] { "ProgramClass_ID" });
             DropIndex("dbo.CourseApplications", new[] { "Course_ID" });
+            DropIndex("dbo.Courses", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.Courses", new[] { "ID" });
-            DropIndex("dbo.Assignments", new[] { "Student_Id" });
             DropIndex("dbo.Assignments", new[] { "Course_ID" });
             DropTable("dbo.ProgramClassCourses");
             DropTable("dbo.ApplicationUserProgramClasses");
-            DropTable("dbo.ApplicationUserCourses");
-            DropTable("dbo.ClassSchemaApplicationUsers");
+            DropTable("dbo.ApplicationUserAssignments");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetUserLogins");

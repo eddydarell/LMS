@@ -7,13 +7,13 @@ namespace LMS_Grupp4.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddedSeparateTeacherAndStudentListsInCourse : IMigrationMetadata
+    public sealed partial class ChangedTechStudtoUser : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedSeparateTeacherAndStudentListsInCourse));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangedTechStudtoUser));
         
         string IMigrationMetadata.Id
         {
-            get { return "201608231206561_AddedSeparateTeacherAndStudentListsInCourse"; }
+            get { return "201608241238567_ChangedTechStudtoUser"; }
         }
         
         string IMigrationMetadata.Source
