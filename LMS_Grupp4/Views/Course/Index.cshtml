@@ -95,7 +95,7 @@
 
                     @foreach (var item in Model)
                     {
-                        if (Request.IsAuthenticated && User.IsInRole("teacher") && item.Teachers.SingleOrDefault(u => u.Id == User.Identity.GetUserId()) != null)
+                        if (Request.IsAuthenticated && User.IsInRole("teacher") && item.Users.SingleOrDefault(u => u.Id == User.Identity.GetUserId()) != null)
                         {
                             <tr>
                                 <td>
@@ -108,7 +108,7 @@
                                     @Html.DisplayFor(modelItem => item.Files.Count)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Students.Count)
+                                    @Html.DisplayFor(modelItem => item.Users.Count)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Assignments.Count)
@@ -126,7 +126,7 @@
                                 </td>
                             </tr>
                         }
-                        else if (Request.IsAuthenticated && User.IsInRole("student") && item.Students.SingleOrDefault(u => u.Id == User.Identity.GetUserId()) != null)
+                        else if (Request.IsAuthenticated && User.IsInRole("student") && item.Users.SingleOrDefault(u => u.Id == User.Identity.GetUserId()) != null)
                         {
                             <tr>
                                 <td>

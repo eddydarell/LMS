@@ -6,25 +6,26 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
-<div class="jumbotron">
-    <h1>You are logged in as Student: @User.Identity.GetUserRealName()</h1>
-    <small>ID: @ViewBag.UserID</small>
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            Student ID: @User.Identity.GetUserId()
+        </small>
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Student Overview</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
 </div>
 
 
-<td>
-    @Html.ActionLink("Apply for new Course", "Index", "Course") |
-    @Html.ActionLink("Apply for new Program", "Index", "ProgramClass")
-    <br /><br />
-</td>
-
-<td>
-    @Html.ActionLink("My Programs", "ProgramClasses", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("My Schemas", "ClassSchemas", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("My Files", "Files", new { id = User.Identity.GetUserId() })
-</td>
+@*<td>
+        @Html.ActionLink("Apply for new Course", "Index", "Course") |
+        @Html.ActionLink("My Files", "Files", new { id = User.Identity.GetUserId() })
+        <br /><br />
+    </td>*@
 
 <br /><br />
 <h2>My Courses</h2>

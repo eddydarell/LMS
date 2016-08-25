@@ -26,8 +26,7 @@ namespace LMS_Grupp4.Models.LMS_Models
         //Navigation properties
         public virtual ClassSchema ClassSchema { get; set; }
         public virtual ICollection<CourseApplication> CourseApplications { get; set; }
-        public virtual ICollection<ApplicationUser> Teachers { get; set; }
-        public virtual ICollection<ApplicationUser> Students { get; set; }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<ProgramClass> Classes { get; set; }
         public virtual ICollection<Assignment> Assignments { get; set; }
         public virtual ICollection<LMSFile> Files { get; set; }
