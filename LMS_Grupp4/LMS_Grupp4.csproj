@@ -209,13 +209,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608240725346_AfterMerge.cs" />
-    <Compile Include="Migrations\201608240725346_AfterMerge.Designer.cs">
-      <DependentUpon>201608240725346_AfterMerge.cs</DependentUpon>
+    <Compile Include="Migrations\201608250806132_initial.cs" />
+    <Compile Include="Migrations\201608250806132_initial.Designer.cs">
+      <DependentUpon>201608250806132_initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608241238567_ChangedTechStudtoUser.cs" />
-    <Compile Include="Migrations\201608241238567_ChangedTechStudtoUser.Designer.cs">
-      <DependentUpon>201608241238567_ChangedTechStudtoUser.cs</DependentUpon>
+    <Compile Include="Migrations\201608250835217_initialTwo.cs" />
+    <Compile Include="Migrations\201608250835217_initialTwo.Designer.cs">
+      <DependentUpon>201608250835217_initialTwo.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -228,6 +228,7 @@
     <Compile Include="Models\LMS_Models\ProgramClass.cs" />
     <Compile Include="Models\LMS_ViewModels\Admin_ManageUserViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Assignment_CreateViewModel.cs" />
+    <Compile Include="Models\LMS_ViewModels\Assignment_IndexCourseViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Course_ApplicationViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Course_CreateViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Student_IndexViewModel.cs" />
@@ -238,9 +239,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\aspnet-LMS_Grupp4-20160810015608.mdf" />
-    <Content Include="App_Data\aspnet-LMS_Grupp4-20160810015608_log.ldf">
-      <DependentUpon>aspnet-LMS_Grupp4-20160810015608.mdf</DependentUpon>
+    <Content Include="App_Data\LMS.mdf" />
+    <Content Include="App_Data\LMS_log.ldf">
+      <DependentUpon>LMS.mdf</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -265,7 +266,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -312,10 +315,10 @@
     <Content Include="Views\File\Index.cshtml" />
     <Content Include="Views\File\UploadView.cshtml" />
     <Content Include="Views\Student\ProgramClasses.cshtml" />
-    <Content Include="Views\Student\ApplyToCourse.cshtml" />
     <Content Include="Views\Student\Files.cshtml" />
     <Content Include="Views\Student\ClassSchemas.cshtml" />
-    <Content Include="Views\Student\ApplyToProgramClass.cshtml" />
+    <Content Include="Views\Teacher\AddCourse.cshtml" />
+    <Content Include="Views\Teacher\Courses.cshtml" />
     <Content Include="Views\Course\_ApplicationForbidden.cshtml" />
     <Content Include="Views\Course\_Forbidden.cshtml" />
     <Content Include="Views\Course\Apply.cshtml" />
@@ -324,13 +327,19 @@
     <Content Include="Views\Course\Details_Student.cshtml" />
     <Content Include="Views\Course\Details_Teacher.cshtml" />
     <Content Include="Views\Teacher\Students.cshtml" />
+    <Content Include="Views\Teacher\ProgramClasses.cshtml" />
+    <Content Include="Views\Teacher\ClassSchemas.cshtml" />
+    <Content Include="Views\Teacher\Files.cshtml" />
+    <Content Include="Views\Teacher\Assignments.cshtml" />
+    <Content Include="Views\Teacher\CourseApplication.cshtml" />
+    <Content Include="Views\Teacher\ProgramClassApplication.cshtml" />
     <Content Include="Views\Assignment\Create.cshtml">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\Assignment\Delete.cshtml" />
     <Content Include="Views\Assignment\Details.cshtml" />
     <Content Include="Views\Assignment\Edit.cshtml" />
-    <Content Include="Views\Assignment\Index.cshtml" />
+    <Content Include="Views\Assignment\IndexUser.cshtml" />
     <Content Include="Views\CourseApplication\Apply.cshtml" />
     <Content Include="Views\CourseApplication\Index.cshtml" />
     <Content Include="Views\CourseApplication\RespondToApplication.cshtml" />
@@ -350,6 +359,8 @@
     <Content Include="Views\CourseApplication\RespondToApplication.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\CourseApplication\Details.cshtml" />
+    <Content Include="Views\File\Upload.cshtml" />
+    <Content Include="Views\Assignment\IndexCourse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Search\" />
@@ -363,11 +374,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608240725346_AfterMerge.resx">
-      <DependentUpon>201608240725346_AfterMerge.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608250806132_initial.resx">
+      <DependentUpon>201608250806132_initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608241238567_ChangedTechStudtoUser.resx">
-      <DependentUpon>201608241238567_ChangedTechStudtoUser.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608250835217_initialTwo.resx">
+      <DependentUpon>201608250835217_initialTwo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

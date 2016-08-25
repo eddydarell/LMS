@@ -16,29 +16,65 @@ namespace LMS_Grupp4.Controllers
 	{
 		LMSRepository LMSRepo = new LMSRepository();
 
-
-		public ActionResult Index(string id = "")
+		[Authorize(Roles = "teacher, student")]
+		public ActionResult IndexUser(string userId = "")
 		{
-			if (String.IsNullOrWhiteSpace(id))
+			if (String.IsNullOrWhiteSpace(userId))
 			{
-				id = User.Identity.GetUserId();
+				userId = User.Identity.GetUserId();
 			}
-			ViewBag.UserID = id;
+			ViewBag.UserID = userId;
 
-			var user = LMSRepo.GetUserManager().FindById(id);
+			var user = LMSRepo.GetUserManager().FindById(userId);
 
 			List<Assignment> assignmentModelList;
 
+			if(User.IsInRole("student"))
+			{
 			try
 			{
 				assignmentModelList = user.Assignments.ToList();
-			}
-			catch(NullReferenceException)
+				} 
+				catch (NullReferenceException)
 			{
 				return View();
 			}
 
 			return View(assignmentModelList);
+		}
+			else
+			{
+				var teacherCourses = user.Courses;
+				List<Assignment> teacherAssignments = new List<Assignment>();
+
+				try
+				{
+					foreach (Course course in teacherCourses)
+					{
+						foreach (Assignment assignment in course.Assignments)
+						{
+							teacherAssignments.Add(assignment);
+						}
+					}
+				} 
+				catch(NullReferenceException) 
+				{
+					 return View();
+				}
+				
+				return View(teacherAssignments); 
+			}	
+		}
+
+		public ActionResult IndexCourse(int courseID = 0)
+		{
+			Course course = LMSRepo.GetCourseByID(courseID);
+			string courseName = course.CourseName;
+			var courseAssignmentList = course.Assignments;
+
+			Assignment_IndexCourseViewModel aICVM = new Assignment_IndexCourseViewModel(courseName, courseAssignmentList);
+
+			return View(aICVM);
 		}
 
 		[Authorize(Roles = "teacher")]
@@ -60,28 +96,27 @@ namespace LMS_Grupp4.Controllers
 		[HttpPost]
 		public ActionResult Create(int CourseID = 0, string Name = "", DateTime? DueDate = null, int MaxScore = 0)
 		{
+			Assignment assignment = new Assignment();
 			Course course = LMSRepo.GetCourseByID(CourseID);
 
-			var roleManager = LMSRepo.GetRoleManager();
-			var studentRole = roleManager.FindByName("student");
-			string id = User.Identity.GetUserId();
-			var teacher = LMSRepo.GetUserManager().FindById(id);
+			assignment.Name = Name;
+			assignment.DueDate = DueDate;
+			assignment.MaxScore = MaxScore;
+			assignment.DueDate = DueDate;
+			assignment.IssueDate = DateTime.Now;
+			//Connects the course to the assignment
+			assignment.Course = course;
+			assignment.Students = new List<ApplicationUser>();
 
-			var students = course.Users.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
+			LMSRepo.AddAssignment(assignment);
 
-            //foreach (ApplicationUser student in students)
-            //{
-            //    Assignment assignment = new Assignment();
-            //    assignment.Name = Name;
-            //    assignment.DueDate = DueDate;
-            //    assignment.MaxScore = MaxScore;
-            //    assignment.Course = course;
-            //    assignment.Students = student;
-            //    assignment.IssueDate = DateTime.Now;
-            //    student.Assignments.Add(assignment);
-            //    teacher.Assignments.Add(assignment);
-            //    LMSRepo.AddAssignment(assignment);
-            //}
+
+			//var roleManager = LMSRepo.GetRoleManager();
+			//var studentRole = roleManager.FindByName("student");
+			//string id = User.Identity.GetUserId();
+			//var teacher = LMSRepo.GetUserManager().FindById(id);
+
+			//var students = course.Students.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
 
 			return RedirectToAction("Index");
 		}
@@ -90,18 +125,22 @@ namespace LMS_Grupp4.Controllers
 		[HttpGet]
 		public ActionResult Edit(int assignmentID = 0)
 		{
-			
+			Assignment assignment = LMSRepo.GetAssignmentByID(assignmentID);
 
-			return View();
+			return View(assignment);
 		}
 
 		[Authorize(Roles = "teacher")]
 		[HttpPost]
-		public ActionResult Edit()
+		public ActionResult Edit(int ID = 0, string Name = "", DateTime? DueDate = null)
 		{
+			Assignment assignment = LMSRepo.GetAssignmentByID(ID);
+			assignment.Name = Name;
+			assignment.DueDate = DueDate;
 
+			LMSRepo.EditAssignment(assignment);
 
-			return View();
+			return RedirectToAction("Index");
 		}
 
 		public ActionResult Details(int? id)
