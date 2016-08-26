@@ -361,6 +361,7 @@
     <Content Include="Views\CourseApplication\Details.cshtml" />
     <Content Include="Views\File\Upload.cshtml" />
     <Content Include="Views\Assignment\IndexCourse.cshtml" />
+    <Content Include="Views\Error\ExceptionHandler.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Search\" />
