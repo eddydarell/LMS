@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace LMS_Grupp4.Models.LMS_ViewModels
 {
@@ -20,7 +21,8 @@ namespace LMS_Grupp4.Models.LMS_ViewModels
         [Display(Name = "End Date")]
         public DateTime ScheduleEndDate { get; set; }
 
+        [AllowHtml]
         [Display(Name = "Schedule")]
-        public string Schedule { get; set; }
+        public string editor { get; set; }
     }
 }
