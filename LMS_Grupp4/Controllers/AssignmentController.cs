@@ -45,8 +45,6 @@ namespace LMS_Grupp4.Controllers
 				{
 					return View();
 				}
-
-				
 			} 
 			else
 			{
@@ -113,6 +111,7 @@ namespace LMS_Grupp4.Controllers
 		[HttpGet]
 		public ActionResult Create(int courseID = 0)
 		{
+			//Contains code for populating a drop-down list in the view, which is not used right now.
 			var roleManager = LMSRepo.GetRoleManager();
 			var studentRole = roleManager.FindByName("student");
 			var course = LMSRepo.GetCourseByID(courseID);
@@ -191,7 +190,7 @@ namespace LMS_Grupp4.Controllers
 			assignment.Mark = Mark;
 			assignment.IsPassed = IsPassed;
 			assignment.Score = Score;
-			assignment.Percentage = (assignment.Score/assignment.MaxScore);
+			assignment.Percentage = (assignment.Score / assignment.MaxScore) * 100;
 
 			LMSRepo.EditAssignment(assignment);
 
@@ -204,7 +203,12 @@ namespace LMS_Grupp4.Controllers
 			string userId = User.Identity.GetUserId();
 			var user = LMSRepo.GetUserManager().FindById(userId);
 
+			Evaluation evaluation = new Evaluation();
+			evaluation.Student = user;
+
 			Assignment assignment = LMSRepo.GetAssignmentByID(id);
+			assignment.Evaluations.Add(evaluation);
+
 			user.Assignments.Add(assignment);
 
 			LMSRepo.SaveChanges();
