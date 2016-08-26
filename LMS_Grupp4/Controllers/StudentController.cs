@@ -13,26 +13,38 @@ using System.Web.Mvc;
 namespace LMS_Grupp4.Controllers
 {
 	[Authorize(Roles = "student")]
-    public class StudentController : Controller
-    {
+	public class StudentController : Controller
+	{
 		LMSRepository LMSRepo = new LMSRepository();
 
 		public ActionResult Index(string id = "")
-        {
-			if(String.IsNullOrWhiteSpace(id))
+		{
+			if (String.IsNullOrWhiteSpace(id))
 			{
 				id = User.Identity.GetUserId();
 			}
 			ViewBag.UserID = id;
 
 			var user = LMSRepo.GetUserManager().FindById(id);
-			var assignmentModelList = user.Assignments.ToList();
-			var courseModelList = user.Courses.ToList();
-			
+
+			List<Assignment> assignmentModelList;
+			List<Course> courseModelList;
+
+			try
+			{
+				//List<Assignment> assignmentModelList = new List<Assignment>();
+				assignmentModelList = user.Assignments.ToList();
+				//List<Course> courseModelList = new List<Course>();
+				courseModelList = user.Courses.ToList();
+			} catch (NullReferenceException)
+			{
+				return View();
+			}
+
 			Student_IndexViewModel stud_IVW = new Student_IndexViewModel(assignmentModelList, courseModelList);
 
-            return View(stud_IVW);
-        }
+			return View(stud_IVW);
+		}
 
 		public ActionResult Files(string id = "")
 		{
@@ -79,5 +91,5 @@ namespace LMS_Grupp4.Controllers
 
 			return View(classSchemaModelList);
 		}
-    }
+	}
 }

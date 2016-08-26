@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
 
 namespace LMS_Grupp4.Controllers
 {
@@ -78,17 +79,17 @@ namespace LMS_Grupp4.Controllers
                 List<ApplicationUser> teachers = programClass.Users.Where(u => u.Roles.FirstOrDefault(r => r.RoleId == teacherRoleID) != null).ToList();
 
                 //By default all courses and teachers for schema come from the ProgramClass
-                ClassSchema classSchema = new ClassSchema
-                {
-                    Title = "Schema for: " + programClass.ClassName + " From: " + startDate + "To" + endDate,
-                    StartDate = startDate,
-                    EndDate = endDate,
-                    ProgramClass = programClass,
-                    Teachers = teachers,
-                    Courses = courses
-                };
+                //ClassSchema classSchema = new ClassSchema
+                //{
+                //    Title = "Schema for: " + programClass.ClassName + " From: " + startDate + "To" + endDate,
+                //    StartDate = startDate,
+                //    EndDate = endDate,
+                //    ProgramClass = programClass,
+                //    Teachers = teachers,
+                //    Course = courses
+                //};
 
-                LMSRepo.AddClassSchema(classSchema);
+                //LMSRepo.AddClassSchema(classSchema);
 
                 return RedirectToAction("Details", "ProgramClass", new { id = programID});
             }
@@ -113,17 +114,18 @@ namespace LMS_Grupp4.Controllers
 
             try
             {
-                DateTime startDate = Convert.ToDateTime(collection["StartDate"]);
-                DateTime endDate = Convert.ToDateTime(collection["EndDate"]);
-                var programClass = LMSRepo.GetProgramClassByID(classSchema.ProgramClass.ID);
+                //DateTime startDate = Convert.ToDateTime(collection["StartDate"]);
+                //DateTime endDate = Convert.ToDateTime(collection["EndDate"]);
+                //var programClass = LMSRepo.GetProgramClassByID(classSchema.ProgramClass.ID);
 
-                classSchema.Title = "Schema for: " + programClass.ClassName + " From: " + startDate + "To" + endDate;
-                classSchema.StartDate = startDate;
-                classSchema.EndDate = endDate;
+                //classSchema.Title = "Schema for: " + programClass.ClassName + " From: " + startDate + "To" + endDate;
+                //classSchema.StartDate = startDate;
+                //classSchema.EndDate = endDate;
 
-                LMSRepo.EditClassSchema(classSchema);
+                //LMSRepo.EditClassSchema(classSchema);
 
-                return RedirectToAction("Details", "ProgramClass", new { id = programClass.ID });
+                //return RedirectToAction("Details", "ProgramClass", new { id = programClass.ID });
+                return null;
             }
             catch
             {
@@ -136,7 +138,8 @@ namespace LMS_Grupp4.Controllers
             var classSchema  = LMSRepo.GetClassSchemaByID(id);
             LMSRepo.DeleteClassSchema(id);
 
-            return RedirectToAction("Details", "ProgramClass", new { id = classSchema.ProgramClass.ID });
+            return RedirectToAction("Details");
         }
+        
     }
 }

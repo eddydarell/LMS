@@ -38,6 +38,9 @@
                         <th class="text-center">
                             @Html.DisplayNameFor(model => model.Name)
                         </th>
+                        <th class="text-center">
+                            Course Name
+                        </th>
                         <th  class="text-center">
                             @Html.DisplayNameFor(model => model.Format)
                         </th>
@@ -60,6 +63,9 @@
                                 <a href="@Url.Action("Details", new { id = item.ID })"> @Html.DisplayFor(modelItem => item.Name)</a>
                             </td>
                             <td>
+                                @item.Course.CourseName
+                            </td>
+                            <td>
                                 @Html.DisplayFor(modelItem => item.Format)
                             </td>
                             <td>
@@ -73,6 +79,7 @@
                             </td>
                             <td class="text-center">
                                 <a href="@Url.Action("Download", new { id = item.ID })" class="btn btn-primary btn-xs" title="Download @item.Name "><span class="glyphicon glyphicon-download"></span></a>
+                                <a href="@Url.Action("Delete", new { id = item.ID })" class="btn btn-danger btn-xs" title="Delete @item.Name "><span class="glyphicon glyphicon-remove"></span></a>
                             </td>
                         </tr>
                     }

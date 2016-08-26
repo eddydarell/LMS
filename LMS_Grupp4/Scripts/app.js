@@ -1,4 +1,7 @@
-﻿(function () {
+﻿
+
+//Angular
+(function () {
     var app = angular.module("Main", []);
 
     var enrollStudentController = app.controller("enrollStudentCtrl", function ($scope, $http, $window, $timeout) {

@@ -123,7 +123,7 @@
                         {
                             <tr>
                                 <td>
-                                    <a href="@Url.Action("Details")" title="Details">@Html.DisplayFor(modelItem => item.Student.RealName)</a>
+                                    <a href="@Url.Action("Details", new { id = item.ID})" title="Details">@Html.DisplayFor(modelItem => item.Student.RealName)</a>
                                 </td>
                                 <td>
                                     @(item.IsAccepted ? "Accepted" : "Rejected")

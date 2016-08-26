@@ -153,5 +153,12 @@ namespace LMS_Grupp4.Controllers
 
             return RedirectToAction("Details", "Course", new { id = course.ID });
         }
+
+        [HttpGet]
+        public ActionResult Details(int id = 0)
+        {
+            var application = LMSRepo.GetCourseApplicationID(id);
+            return View(application);
+        }
     }
 }
