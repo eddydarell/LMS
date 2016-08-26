@@ -35,14 +35,14 @@ namespace LMS_Grupp4.Models.LMS_Models
 		public bool IsExpired { get; set; }
 
 		[Display(Name = "Score")]
-		public int? Score { get; set; }
+		public double? Score { get; set; }
 
 		[Display(Name = "Percentage")]
 		public double? Percentage { get; set; }
 
 		[Display(Name = "Max Score")]
 		[Required]
-		public int MaxScore { get; set; }
+		public double MaxScore { get; set; }
 
         public virtual Course Course { get; set; }
         public virtual ICollection<ApplicationUser> Students { get; set; }

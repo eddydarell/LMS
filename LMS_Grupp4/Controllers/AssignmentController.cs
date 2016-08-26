@@ -29,26 +29,34 @@ namespace LMS_Grupp4.Controllers
 
 			List<Assignment> assignmentModelList;
 
-			if(User.IsInRole("student"))
+			if (User.IsInRole("student"))
 			{
-			try
-			{
-				assignmentModelList = user.Assignments.ToList();
+				try
+				{
+					assignmentModelList = user.Assignments.ToList();
+					//Creating an empty list representing the teacherlist that is not necessary in Student user index,
+					//but needed as parameter in the viewmodel.
+					List<Assignment> emptyTeacherList = new List<Assignment>();
+					Assignment_IndexUserViewModel A_IUVW = new Assignment_IndexUserViewModel(emptyTeacherList, assignmentModelList);
+
+					return View(A_IUVW);
 				} 
 				catch (NullReferenceException)
-			{
-				return View();
-			}
+				{
+					return View();
+				}
 
-			return View(assignmentModelList);
-		}
+				
+			} 
 			else
 			{
 				var teacherCourses = user.Courses;
 				List<Assignment> teacherAssignments = new List<Assignment>();
+				List<Assignment> respondAssignments = new List<Assignment>();
 
 				try
 				{
+					//Populates a list with all assignments a teacher got in his courses
 					foreach (Course course in teacherCourses)
 					{
 						foreach (Assignment assignment in course.Assignments)
@@ -56,25 +64,49 @@ namespace LMS_Grupp4.Controllers
 							teacherAssignments.Add(assignment);
 						}
 					}
+					//Populates a list with all assignments that has been confirmed by a student in 
+					//any course that the teacher got.
+					foreach (Course course in teacherCourses)
+					{
+						foreach (ApplicationUser courseUser in course.Users)
+						{
+							foreach(Assignment assignment in courseUser.Assignments)
+							{
+								if(!respondAssignments.Contains(assignment))
+								{
+									respondAssignments.Add(assignment);
+								}
+								
+							}
+						}
+					}
+					Assignment_IndexUserViewModel A_IUVW = new Assignment_IndexUserViewModel(teacherAssignments, respondAssignments);
+
+					return View(A_IUVW);
 				} 
-				catch(NullReferenceException) 
+				catch (NullReferenceException)
 				{
-					 return View();
+					return View();
 				}
-				
-				return View(teacherAssignments); 
-			}	
+			}
 		}
 
 		public ActionResult IndexCourse(int courseID = 0)
 		{
-			Course course = LMSRepo.GetCourseByID(courseID);
-			string courseName = course.CourseName;
-			var courseAssignmentList = course.Assignments;
+			try 
+			{
+				Course course = LMSRepo.GetCourseByID(courseID);
+				string courseName = course.CourseName;
+				var courseAssignmentList = course.Assignments;
 
-			Assignment_IndexCourseViewModel aICVM = new Assignment_IndexCourseViewModel(courseName, courseAssignmentList);
+				Assignment_IndexCourseViewModel aICVM = new Assignment_IndexCourseViewModel(courseName, courseAssignmentList);
 
-			return View(aICVM);
+				return View(aICVM);
+			}
+			catch(NullReferenceException)
+			{
+				return RedirectToAction("IndexUser");
+			}
 		}
 
 		[Authorize(Roles = "teacher")]
@@ -117,14 +149,14 @@ namespace LMS_Grupp4.Controllers
 
 			//var students = course.Students.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
 
-			return RedirectToAction("Index");
+			return RedirectToAction("IndexUser");
 		}
 
 		[Authorize(Roles = "teacher")]
 		[HttpGet]
-		public ActionResult Edit(int assignmentID = 0)
+		public ActionResult Edit(int ID = 0)
 		{
-			Assignment assignment = LMSRepo.GetAssignmentByID(assignmentID);
+			Assignment assignment = LMSRepo.GetAssignmentByID(ID);
 
 			return View(assignment);
 		}
@@ -142,6 +174,31 @@ namespace LMS_Grupp4.Controllers
 			return RedirectToAction("IndexUser");
 		}
 
+		[Authorize(Roles = "teacher")]
+		[HttpGet]
+		public ActionResult EditResponse(int ID = 0)
+		{
+			Assignment assignment = LMSRepo.GetAssignmentByID(ID);
+
+			return View(assignment);
+		}
+
+		[Authorize(Roles = "teacher")]
+		[HttpPost]
+		public ActionResult EditResponse(int ID = 0, string Mark = "", bool IsPassed = false, int Score = 0)
+		{
+			Assignment assignment = LMSRepo.GetAssignmentByID(ID);
+			assignment.Mark = Mark;
+			assignment.IsPassed = IsPassed;
+			assignment.Score = Score;
+			assignment.Percentage = (assignment.Score/assignment.MaxScore);
+
+			LMSRepo.EditAssignment(assignment);
+
+			return RedirectToAction("IndexUser");
+		}
+
+		[Authorize(Roles = "student")]
 		public ActionResult ConfirmAssignment(int id = 0)
 		{
 			string userId = User.Identity.GetUserId();
@@ -160,6 +217,22 @@ namespace LMS_Grupp4.Controllers
 			var assignment = LMSRepo.GetAssignmentByID(id);
 
 			return View(assignment);
+		}
+
+		[Authorize(Roles = "teacher")]
+		public ActionResult Delete(int? id)
+		{
+			Assignment assignment = LMSRepo.GetAssignmentByID(id);
+
+			return View(assignment);
+		}
+
+		[Authorize(Roles = "teacher")]
+		public ActionResult DeleteConfirmed(int id)
+		{
+			LMSRepo.DeleteAssignment(id);
+			
+			return RedirectToAction("IndexUser");
 		}
 	}
 }

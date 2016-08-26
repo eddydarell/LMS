@@ -217,6 +217,10 @@
     <Compile Include="Migrations\201608250835217_initialTwo.Designer.cs">
       <DependentUpon>201608250835217_initialTwo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608261109546_propertyChangeInAssignment.cs" />
+    <Compile Include="Migrations\201608261109546_propertyChangeInAssignment.Designer.cs">
+      <DependentUpon>201608261109546_propertyChangeInAssignment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -229,6 +233,7 @@
     <Compile Include="Models\LMS_ViewModels\Admin_ManageUserViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Assignment_CreateViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Assignment_IndexCourseViewModel.cs" />
+    <Compile Include="Models\LMS_ViewModels\Assignment_IndexUserViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Course_ApplicationViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Course_CreateViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Student_IndexViewModel.cs" />
@@ -361,6 +366,7 @@
     <Content Include="Views\CourseApplication\Details.cshtml" />
     <Content Include="Views\File\Upload.cshtml" />
     <Content Include="Views\Assignment\IndexCourse.cshtml" />
+    <Content Include="Views\Assignment\EditResponse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Search\" />
@@ -379,6 +385,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608250835217_initialTwo.resx">
       <DependentUpon>201608250835217_initialTwo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608261109546_propertyChangeInAssignment.resx">
+      <DependentUpon>201608261109546_propertyChangeInAssignment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

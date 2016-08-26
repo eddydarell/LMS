@@ -33,8 +33,8 @@
             Due date
         </th>
         @*<th>
-            Completed
-        </th>*@
+                Completed
+            </th>*@
 
         <th></th>
     </tr>
@@ -49,17 +49,18 @@
                 @Html.DisplayFor(assignment => item.DueDate)
             </td>
             @*<td>
-                @Html.DisplayFor(assignment => item.IsPassed)
-            </td>*@
+                    @Html.DisplayFor(assignment => item.IsPassed)
+                </td>*@
 
             @if (isTeacher)
             {
                 <td>
-                    @Html.ActionLink("Edit", "Edit") |
-                    @Html.ActionLink("Delete", "Delete")
+                    <a href="@Url.Action("Edit", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Edit</a>
+                    @*@Html.ActionLink("Edit", "Edit") |*@
+                    <a href="@Url.Action("Delete", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Delete</a>
+                    @*@Html.ActionLink("Delete", "Delete")*@
                 </td>
-            }
-            else
+            } else
             {
                 <td>
                     @*@Html.ActionLink("Confirm assignment", "ConfirmAssignment", new {id = item.ID})*@
@@ -70,4 +71,6 @@
     }
 
 </table>
+
+
 

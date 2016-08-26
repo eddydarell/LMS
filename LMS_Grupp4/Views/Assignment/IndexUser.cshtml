@@ -1,27 +1,28 @@
-﻿@model IEnumerable<LMS_Grupp4.Models.LMS_Models.Assignment>
+﻿@model LMS_Grupp4.Models.LMS_ViewModels.Assignment_IndexUserViewModel
 @using LMS_Grupp4.Models
 @using Microsoft.AspNet.Identity;
 
 
-    @{
+@{
     ViewBag.Title = "Index";
     bool isTeacher = (User.IsInRole("teacher")) ? true : false;
-    }
+}
 
 
-    <div class="jumbotron">
-        @if (isTeacher)
-        {
+<div class="jumbotron">
+    @if (isTeacher)
+    {
         <h1>You are logged in as Teacher: @User.Identity.GetUserRealName()</h1>
         <small>ID: @ViewBag.UserID</small>
-        }
-        else
-        {
+    } else
+    {
         <h1>You are logged in as Student: @User.Identity.GetUserRealName()</h1>
         <small>ID: @ViewBag.UserID</small>
-        }
-    </div>
+    }
+</div>
 
+@if (isTeacher)
+{
     <h2>Your assignments</h2>
 
     <table class="table">
@@ -39,28 +40,96 @@
             <th></th>
         </tr>
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.TeacherAssignments)
         {
-        <tr>
-            <td>
-                @Html.ActionLink(item.Name, "Details", new { id = item.ID })
-            </td>
-            <td>
-                @Html.DisplayFor(assignment => item.DueDate)
-            </td>
-            <td>
-                @Html.DisplayFor(assignment => item.IsPassed)
-            </td>
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "Details", new { id = item.ID })
+                </td>
+                <td>
+                    @Html.DisplayFor(assignment => item.DueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(assignment => item.IsPassed)
+                </td>
 
-            @if(isTeacher)
-            {
-            <td>
-                @Html.ActionLink("Edit", "Edit") |
-                @Html.ActionLink("Delete", "Delete")
-            </td>
-            }
-        </tr>
+                <td>
+                    <a href="@Url.Action("Edit", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Edit</a>
+                    <a href="@Url.Action("Delete", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Delete</a>
+                </td>
+            </tr>
         }
 
     </table>
+
+    <h2>Returned assignments</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Due date
+            </th>
+            <th>
+                Completed
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.StudentAssignments)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "Details", new { id = item.ID })
+                </td>
+                <td>
+                    @Html.DisplayFor(assignment => item.DueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(assignment => item.IsPassed)
+                </td>
+                <td>
+                    <a href="@Url.Action("EditResponse", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Respond</a>
+                </td>
+            </tr>
+        }
+    </table>
+} 
+
+else
+{
+    <h2>Your assignments</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Due date
+            </th>
+            <th>
+                Completed
+            </th>
+        </tr>
+
+        @foreach (var item in Model.StudentAssignments)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "Details", new { id = item.ID })
+                </td>
+                <td>
+                    @Html.DisplayFor(assignment => item.DueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(assignment => item.IsPassed)
+                </td>
+            </tr>
+        }
+    </table>
+}
 
