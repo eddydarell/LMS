@@ -21,7 +21,25 @@ namespace LMS_Grupp4.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            List<LMSFile> files = LMSRepo.GetAllFiles().ToList();
+            var userManager = LMSRepo.GetUserManager();
+            var user = userManager.FindById(User.Identity.GetUserId());
+            var slugUserId = ExtensionClass.GenerateSlug(user.Id);
+            List<LMSFile> files = null;
+
+            //filters the files according to the user role
+            if (userManager.IsInRole(user.Id, "student"))
+            {
+                files = LMSRepo.GetAllFiles().Where(f => user.Courses.Contains(f.Course) && f.URL.Contains("\\Shared\\") || f.URL.Contains("/" + slugUserId + "/")).ToList();
+            }
+            else if (userManager.IsInRole(user.Id, "teacher"))
+            {
+                files = LMSRepo.GetAllFiles().Where(f => user.Courses.Contains(f.Course)).ToList();
+            }
+            else
+            {
+                files = LMSRepo.GetAllFiles().ToList();
+            }
+
             return View(files);
         }
 
@@ -35,19 +53,20 @@ namespace LMS_Grupp4.Controllers
         [HttpPost]
         public ActionResult Upload(int courseID = 0, bool isPublic = false)
         {
-            UserManager<ApplicationUser> userManager = LMSRepo.GetUserManager();
             LMSFile dbFile = new LMSFile();
+            UserManager<ApplicationUser> userManager = LMSRepo.GetUserManager();
             ApplicationUser uploader = userManager.FindById(User.Identity.GetUserId());
+            bool isTeacher = userManager.IsInRole(uploader.Id, "teacher");
             string uploaderName = uploader.RealName;
-            string courseName = LMSRepo.GetCourseByID(courseID).CourseName;
+            Course course = LMSRepo.GetCourseByID(courseID);
             string location = "~/Content/Uploads/Shared/";
 
             //Creates a slugs for the course name and the uploader name
-            courseName = ExtensionClass.GenerateSlug(courseName);
-            uploaderName = ExtensionClass.GenerateSlug(uploaderName); 
+            string courseName = ExtensionClass.GenerateSlug(course.CourseName);
+            uploaderName = ExtensionClass.GenerateSlug(uploaderName);
 
             //If the file is not public, set it in a user personal folder
-            if (!isPublic)
+            if (!isPublic && !isTeacher)
             {
                 location = "~/Content/Uploads/" + courseName + "/" + uploaderName + "/";
                 var directoryPath = Path.Combine(Server.MapPath(location), "");//Converts the folder location in absolute path
@@ -60,7 +79,7 @@ namespace LMS_Grupp4.Controllers
                     {
                         DirectoryInfo di = Directory.CreateDirectory(directoryPath);
                     }
-                    catch(Exception)
+                    catch (Exception)
                     {
                         //To-Do: Set proper catch block
                         ViewBag.ErrorMessage = "Unable to create folder at this location. Make sure the location is writable.";
@@ -87,10 +106,10 @@ namespace LMS_Grupp4.Controllers
                     if (existingFilesWithSameName.Count > 0)
                     {
                         var existingFilesWithSameNameAndSize = existingFilesWithSameName.Where(ef => ef.Size == fileSize).ToList();
-                        if(existingFilesWithSameNameAndSize.Count > 0)//Found file with same name and size
+                        if (existingFilesWithSameNameAndSize.Count > 0)//Found file with same name and size
                         {
                             var existingFilesWithSameNameAndSizeAndFormat = existingFilesWithSameNameAndSize.Where(ef => ef.Format == fileFormat).ToList();
-                            if(existingFilesWithSameNameAndSizeAndFormat.Count > 0)//Exact same file found
+                            if (existingFilesWithSameNameAndSizeAndFormat.Count > 0)//Exact same file found
                             {
                                 return null;//To-Do: proper handling
                             }
@@ -113,7 +132,7 @@ namespace LMS_Grupp4.Controllers
                     dbFile.IsPublicVisible = isPublic;
                     dbFile.UploadDate = DateTime.Now;
                     dbFile.URL = path;
-                    dbFile.Course = new Course();
+                    dbFile.Course = course;
 
                     //Add file to the database
                     LMSRepo.AddFile(dbFile);
@@ -125,14 +144,107 @@ namespace LMS_Grupp4.Controllers
 
             return RedirectToAction("Index");
         }
-        
+
+        //Assignment Specific upload method
+        [HttpPost]
+        public ActionResult AssignmentUpload(int id = 0)
+        {
+            LMSFile dbFile = new LMSFile();
+            UserManager<ApplicationUser> userManager = LMSRepo.GetUserManager();
+            ApplicationUser uploader = userManager.FindById(User.Identity.GetUserId());
+            bool isTeacher = userManager.IsInRole(uploader.Id, "teacher");
+            string uploaderName = uploader.RealName;
+            Assignment assignment = LMSRepo.GetAssignmentByID(id);
+
+            //Creates a slugs for the course name and the uploader name
+            string courseName = ExtensionClass.GenerateSlug(assignment.Course.CourseName);
+            uploaderName = ExtensionClass.GenerateSlug(uploaderName);
+
+            string location = "~/Content/Uploads/Submissions/" + courseName + "/";
+
+            var directoryPath = Path.Combine(Server.MapPath(location), "");//Converts the folder location in absolute path
+
+            //if the folder does not exist, create a new one
+            if (!Directory.Exists(directoryPath))
+            {
+                //Try if the location is writable
+                try
+                {
+                    DirectoryInfo di = Directory.CreateDirectory(directoryPath);
+                }
+                catch (Exception)
+                {
+                    //To-Do: Set proper catch block
+                    ViewBag.ErrorMessage = "Unable to create folder at this location. Make sure the location is writable.";
+                    return null;//To-Do: Find better handling
+                }
+            }
+
+            if (Request.Files.Count > 0)
+            {
+                var file = Request.Files[0];
+
+                if (file != null && file.ContentLength > 0)
+                {
+                    var fileSize = file.ContentLength;
+                    var fileFormat = file.ContentType;
+                    var fileName = Path.GetFileName(file.FileName);
+
+                    //Slugify the file name and trim length
+                    fileName = ExtensionClass.GenerateSlug(fileName);
+                    var path = Path.Combine(Server.MapPath(location), fileName);
+
+                    //Verifies if the file has already been uploaded in the same directory
+                    var existingFilesWithSameName = LMSRepo.GetAllFiles().Where(f => f.Name == fileName || f.Name.Replace(" - copy", "") == fileName && f.URL == path).ToList();
+                    if (existingFilesWithSameName.Count > 0)
+                    {
+                        var existingFilesWithSameNameAndSize = existingFilesWithSameName.Where(ef => ef.Size == fileSize).ToList();
+                        if (existingFilesWithSameNameAndSize.Count > 0)//Found file with same name and size
+                        {
+                            var existingFilesWithSameNameAndSizeAndFormat = existingFilesWithSameNameAndSize.Where(ef => ef.Format == fileFormat).ToList();
+                            if (existingFilesWithSameNameAndSizeAndFormat.Count > 0)//Exact same file found
+                            {
+                                return null;//To-Do: proper handling
+                            }
+                            else//File with same name and size found but different format: Change name
+                            {
+                                fileName += " - copy";
+                            }
+                        }
+                        else//If same names but different sizes, Change upload name, add - copy
+                        {
+                            fileName += " - copy";
+                        }
+                    }
+
+                    //Add file informations in the file object to be saved in the database
+                    dbFile.Name = fileName;
+                    dbFile.Size = fileSize;
+                    dbFile.Uploader = uploader;
+                    dbFile.Format = fileFormat;
+                    dbFile.IsPublicVisible = false;
+                    dbFile.UploadDate = DateTime.Now;
+                    dbFile.URL = path;
+                    dbFile.Course = assignment.Course;
+
+                    //Add file to the database
+                    LMSRepo.AddFile(dbFile);
+
+                    //Moves the file to the server
+                    file.SaveAs(path);
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
         [HttpGet]
         public ActionResult Download(int id = 0)
         {
             var file = LMSRepo.GetFileByID(id);
             var fileURL = file.URL;
             string fileName = file.Name;
-            if(System.IO.File.Exists(fileURL))
+            if (System.IO.File.Exists(fileURL))
             {
                 byte[] fileBytes = System.IO.File.ReadAllBytes(@fileURL);
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
@@ -140,11 +252,12 @@ namespace LMS_Grupp4.Controllers
             else
             {
                 LMSRepo.DeleteFile(id);
-                return RedirectToAction("Index", new { Error = "Broken Link!\nThis file: '" + file.Name + "' does not exist on the server."});
+                return RedirectToAction("Index", new { Error = "Broken Link!\nThis file: '" + file.Name + "' does not exist on the server." });
             }
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin, teacher")]
         public ActionResult Delete(int id = 0)
         {
             var file = LMSRepo.GetFileByID(id);
@@ -160,6 +273,22 @@ namespace LMS_Grupp4.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public ActionResult Details(int id = 0)
+        {
+            var file = LMSRepo.GetFileByID(id);
+
+            return View(file);
+        }
+
+        //To-Do: Verify doability for this
+        //[HttpGet]
+        //public ActionResult Edit(int id = 0)
+        //{
+        //    var file = LMSRepo.GetFileByID(id);
+        //    return View(file);
+        //}
     }
 
     //Extension class
@@ -177,7 +306,7 @@ namespace LMS_Grupp4.Controllers
         {
             string str = RemoveAccent(phrase).ToLower();
             // invalid chars           
-            str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
+            str = Regex.Replace(str, @"[^a-z0-9\s-.]", "");
             // convert multiple spaces into one space   
             str = Regex.Replace(str, @"\s+", " ").Trim();
             // cut and trim 

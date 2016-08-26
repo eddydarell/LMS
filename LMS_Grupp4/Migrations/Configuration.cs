@@ -22,7 +22,7 @@ namespace LMS_Grupp4.Migrations
             Course course1 = new Course
             {
                 ID = 1,
-                Teachers = new List<ApplicationUser>(),
+                Users = new List<ApplicationUser>(),
                 CourseApplications = new List<CourseApplication>(),
                 Assignments = new List<Assignment>(),
                 Classes = new List<ProgramClass>(),
@@ -30,7 +30,6 @@ namespace LMS_Grupp4.Migrations
                 CreationDate = DateTime.Now,
                 Description = "Intro to JS",
                 Files = new List<LMSFile>(),
-                Students = new List<ApplicationUser>(),
                 ClassSchema = new ClassSchema
                 {
                     ID = 1,

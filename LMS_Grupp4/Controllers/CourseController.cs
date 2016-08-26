@@ -30,7 +30,7 @@ namespace LMS_Grupp4.Controllers
             var userManager = LMSRepo.GetUserManager();
             if(userManager.IsInRole(User.Identity.GetUserId(), "teacher"))
             {
-                return View("Details_Teacher", model);
+                return View("Details_Teacher_ViewModel", model);
             }
             else
             {
@@ -42,22 +42,21 @@ namespace LMS_Grupp4.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            return View("Create_ViewModel");
         }
 
         [Authorize(Roles = "teacher")]
         [HttpPost]
-        public ActionResult Create(string CourseName = "", string description = "")
+        public ActionResult Create(Course_CreateViewModel course)
         {
             var userManager = LMSRepo.GetUserManager();
             var teacher = userManager.FindById(User.Identity.GetUserId());//Gets the actual user creating the course
             var model = new Course
             {
-                CourseName = CourseName,
-                Description = description,
+                CourseName = course.CourseName,
+                Description = course.CourseDescription,
                 CreationDate = DateTime.Now,
-                Students = new List<ApplicationUser>(),
-                Teachers = new List<ApplicationUser>(),
+                Users = new List<ApplicationUser>(),
 
                 //Important to declare these empty lists to get a 0 count in the view
                 //The declared lists create relationships between the Course model and the others
@@ -66,13 +65,15 @@ namespace LMS_Grupp4.Controllers
                 Classes = new List<ProgramClass>(),
                 ClassSchema = new ClassSchema
                 {
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now.AddMonths(6)
+                    StartDate = course.ScheduleStartDate,
+                    EndDate = course.ScheduleEndDate,
+                    Schedule = course.editor,
+                    Title = "Default Schedule"
                 },
                 Files = new List<LMSFile>()
             };
 
-            model.Teachers.Add(teacher);
+            model.Users.Add(teacher);
             
             if(ModelState.IsValid)
             {
@@ -95,7 +96,7 @@ namespace LMS_Grupp4.Controllers
 
             //security check
             //Verifies if the teacher attempting to edit the course is one of the owners of the course
-            var courseTeachers = model.Teachers.Where(u => u.Roles.Where(r => r.RoleId == roleManager.FindByName("teacher").Id) != null);
+            var courseTeachers = model.Users.Where(u => u.Roles.Where(r => r.RoleId == roleManager.FindByName("teacher").Id) != null);
             if(courseTeachers.Contains(teacher))
             {
                 return View(model);
@@ -117,7 +118,7 @@ namespace LMS_Grupp4.Controllers
 
             //security check
             //Verifies if the teacher attempting to edit the course is one of the owners of the course
-            var courseTeachers = course.Teachers.Where(u => u.Roles.Where(r => r.RoleId == roleManager.FindByName("teacher").Id) != null);
+            var courseTeachers = course.Users.Where(u => u.Roles.Where(r => r.RoleId == roleManager.FindByName("teacher").Id) != null);
             if (courseTeachers.Contains(teacher))
             {
                 if (ModelState.IsValid)
@@ -152,7 +153,7 @@ namespace LMS_Grupp4.Controllers
             var student = userManager.FindById(studentID);
             var course = LMSRepo.GetCourseByID(courseID);
 
-            course.Students.Add(student);
+            course.Users.Add(student);
             LMSRepo.EditCourse(course);
 
             if(resultFormat == "json")
@@ -173,7 +174,7 @@ namespace LMS_Grupp4.Controllers
 
             //security check
             //Verifies if the teacher attempting to edit the course is one of the owners of the course
-            var courseTeachers = course.Teachers.Where(u => u.Roles.Where(r => r.RoleId == roleManager.FindByName("teacher").Id) != null);
+            var courseTeachers = course.Users.Where(u => u.Roles.Where(r => r.RoleId == roleManager.FindByName("teacher").Id) != null);
             if (courseTeachers.Contains(teacher))
             {
                 LMSRepo.DeleteCourse(id);
