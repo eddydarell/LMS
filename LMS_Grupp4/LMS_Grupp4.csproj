@@ -225,6 +225,7 @@
     <Compile Include="Models\LMS_Models\ProgramClass.cs" />
     <Compile Include="Models\LMS_ViewModels\Admin_ManageUserViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Assignment_CreateViewModel.cs" />
+    <Compile Include="Models\LMS_ViewModels\Assignment_IndexCourseViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Course_ApplicationViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Course_CreateViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Home_IndexViewModel.cs" />
