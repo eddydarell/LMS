@@ -24,21 +24,8 @@ namespace LMS_Grupp4.Models.LMS_Models
 		[Required]
 		public DateTime IssueDate { get; set; }
 
-		[MaxLength(2)]
-		[Display(Name = "Mark")]
-		public string Mark { get; set; }
-
-		[Display(Name = "Passed")]
-		public bool IsPassed { get; set; }
-
 		[Display(Name = "Expired")]
 		public bool IsExpired { get; set; }
-
-		[Display(Name = "Score")]
-		public double? Score { get; set; }
-
-		[Display(Name = "Percentage")]
-		public double? Percentage { get; set; }
 
 		[Display(Name = "Max Score")]
 		[Required]
@@ -46,5 +33,6 @@ namespace LMS_Grupp4.Models.LMS_Models
 
         public virtual Course Course { get; set; }
         public virtual ICollection<ApplicationUser> Students { get; set; }
+		public virtual ICollection<Evaluation> Evaluations { get; set; }
     }
 }

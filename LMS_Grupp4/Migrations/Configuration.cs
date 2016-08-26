@@ -19,28 +19,28 @@ namespace LMS_Grupp4.Migrations
 
         protected override void Seed(LMS_Grupp4.Models.ApplicationDbContext context)
         {
-            Course course1 = new Course
-            {
-                ID = 1,
-                Users = new List<ApplicationUser>(),
-                CourseApplications = new List<CourseApplication>(),
-                Assignments = new List<Assignment>(),
-                Classes = new List<ProgramClass>(),
-                CourseName = "JavaScript",
-                CreationDate = DateTime.Now,
-                Description = "Intro to JS",
-                Files = new List<LMSFile>(),
-                ClassSchema = new ClassSchema
-                {
-                    ID = 1,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now.AddDays(10),
-                    Title = "JS Schedule"
-                }
-            };
+			//Course course1 = new Course
+			//{
+			//	ID = 1,
+			//	Users = new List<ApplicationUser>(),
+			//	CourseApplications = new List<CourseApplication>(),
+			//	Assignments = new List<Assignment>(),
+			//	Classes = new List<ProgramClass>(),
+			//	CourseName = "JavaScript",
+			//	CreationDate = DateTime.Now,
+			//	Description = "Intro to JS",
+			//	Files = new List<LMSFile>(),
+			//	ClassSchema = new ClassSchema
+			//	{
+			//		ID = 1,
+			//		StartDate = DateTime.Now,
+			//		EndDate = DateTime.Now.AddDays(10),
+			//		Title = "JS Schedule"
+			//	}
+			//};
 
-            context.Courses.AddOrUpdate(course1);
-            context.SaveChanges();
+			//context.Courses.AddOrUpdate(course1);
+			//context.SaveChanges();
         }
     }
 }

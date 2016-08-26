@@ -506,5 +506,41 @@ namespace LMS_Grupp4.Repositories
             }
         }
         #endregion
+
+		#region Evaluation
+		// Returns all evaluations from the database
+		public IEnumerable<Evaluation> GetAllEvaluations()
+		{
+			return db.Evaluations.ToList();
+		}
+
+		// Gets a evaluation from the database with a specific id
+		public Evaluation GetEvaluationByID(int id)
+		{
+			return db.Evaluations.Find(id);
+		}
+
+		// Add evaluation to the database
+		public void AddEvaluation(Evaluation evaluation)
+		{
+			db.Evaluations.Add(evaluation);
+			db.SaveChanges();
+		}
+
+		// Edit a evaluation in the database
+		public void EditEvaluation(Evaluation evaluation)
+		{
+			db.Entry(evaluation).State = EntityState.Modified;
+			db.SaveChanges();
+		}
+
+		// Delete a evaluation from the database
+		public void DeleteEvaluation(int id)
+		{
+			Evaluation evaluation = db.Evaluations.Find(id);
+			db.Evaluations.Remove(evaluation);
+			db.SaveChanges();
+		}
+		#endregion
     }
 }
