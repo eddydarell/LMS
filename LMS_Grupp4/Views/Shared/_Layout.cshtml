@@ -4,9 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - LMS</title>
+
     @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/ckeditor")
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/angularjs")
+
+
 </head>
 <body ng-app="Main" ng-cloak>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -36,8 +41,6 @@
             <p>Copyright &copy; Group 4, @DateTime.Now.Year - LMS Application</p>
         </footer>
     </div>
-
-    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>

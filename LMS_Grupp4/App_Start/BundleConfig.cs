@@ -27,9 +27,19 @@ namespace LMS_Grupp4
                         "~/Scripts/angular.min.js",
                         "~/Scripts/app.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery-ui-{version}.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/ckeditor").Include(
+                        "~/ckeditor/ckeditor.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/ckeditor/styles.css",
+                      "~/Content/themes/base/jquery-ui.css",
+                      "~/Content/themes/base/datepicker.css"));
         }
     }
 }

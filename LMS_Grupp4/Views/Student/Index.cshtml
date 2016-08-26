@@ -61,7 +61,8 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(course => item.CourseName)
+                    <a href="@Url.Action("Details", "Course", new { id = item.ID })">@item.CourseName</a> 
+                    @*@Html.DisplayFor(course => item.CourseName)*@
                 </td>
                 <td>
                     @Html.DisplayFor(course => item.Description)
@@ -123,7 +124,7 @@
 </table>
 
 <td>
-    @Html.ActionLink("Show all assignments", "Index", "Assignment")
+    @Html.ActionLink("Show all assignments", "IndexUser", "Assignment")
 </td>
 
 

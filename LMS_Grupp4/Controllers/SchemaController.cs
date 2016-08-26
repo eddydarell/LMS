@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
 
 namespace LMS_Grupp4.Controllers
 {
@@ -139,5 +140,6 @@ namespace LMS_Grupp4.Controllers
 
             return RedirectToAction("Details");
         }
+        
     }
 }

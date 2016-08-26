@@ -38,6 +38,9 @@
                         <th class="text-center">
                             @Html.DisplayNameFor(model => model.Name)
                         </th>
+                        <th class="text-center">
+                            Course Name
+                        </th>
                         <th  class="text-center">
                             @Html.DisplayNameFor(model => model.Format)
                         </th>
@@ -58,6 +61,9 @@
                         <tr>
                             <td>
                                 <a href="@Url.Action("Details", new { id = item.ID })"> @Html.DisplayFor(modelItem => item.Name)</a>
+                            </td>
+                            <td>
+                                @item.Course.CourseName
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Format)

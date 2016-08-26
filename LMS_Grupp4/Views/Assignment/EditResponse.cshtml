@@ -1,0 +1,88 @@
+﻿@model LMS_Grupp4.Models.LMS_Models.Assignment
+@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "EditResponse";
+}
+
+<h2>Respond</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" value="@Model.ID" name="ID" />
+
+    <div class="form-horizontal">
+        <h4>Assignment</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => Model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => Model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.ValidationMessageFor(model => Model.Name, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => Model.DueDate, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.ValidationMessageFor(model => Model.DueDate, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.IssueDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => Model.IssueDate, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.ValidationMessageFor(model => Model.IssueDate, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.Mark, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => Model.Mark, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.ValidationMessageFor(model => Model.Mark, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.IsPassed, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => Model.IsPassed, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.ValidationMessageFor(model => Model.IsPassed, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.IsExpired, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => Model.IsExpired, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.ValidationMessageFor(model => Model.IsExpired, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.Score, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => Model.Score, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.ValidationMessageFor(model => Model.Score, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.MaxScore, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => Model.MaxScore, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.ValidationMessageFor(model => Model.MaxScore, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Respond" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "IndexUser")
+</div>
+

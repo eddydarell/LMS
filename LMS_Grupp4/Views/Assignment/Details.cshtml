@@ -71,8 +71,14 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => Model.Course.CourseName)
-        </dd>       
+        </dd>
+
     </dl>
+</div>
+
+<div>
+    @*@Html.ActionLink("Back to List", "IndexUser")*@
+    <a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Back to list</a>
 </div>
 
 

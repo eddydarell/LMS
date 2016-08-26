@@ -1,0 +1,173 @@
+﻿@using Microsoft.AspNet.Identity;
+@model LMS_Grupp4.Models.LMS_Models.Course
+
+@{
+    ViewBag.Title = "Details";
+    bool isTeacher = (User.IsInRole("teacher")) ? true : false;
+}
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        @if (isTeacher)
+        {
+            <small>
+                Teacher ID: @User.Identity.GetUserId()
+            </small>
+        }
+        else
+        {
+            <small>
+                Student ID: @User.Identity.GetUserId()
+            </small>
+        }
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Course Details</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
+<div class="jumbotron">
+
+    <h2>@Model.CourseName</h2>
+    <p>
+        @Model.Description
+    </p>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">Details</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CourseName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CourseName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.ClassSchema.Title)
+                    </dd>
+                    <dt>
+                        Schedule
+                    </dt>
+
+                    <dd>
+                        @Html.Raw(Model.ClassSchema.Schedule)
+                        <a href="@Url.Action("Print", "Schema", new { id = Model.ClassSchema.ID })">Print</a>
+                    </dd>
+                    <dt>
+                        Course Applications
+                    </dt>
+
+                    <dd>
+                        <a href="@Url.Action("Index", "CourseApplication", new { id = Model.ID})"> @Html.DisplayFor(model => model.CourseApplications.Count)</a>
+                    </dd>
+                    <dt>
+                        Students
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Users.Count)
+                    </dd>
+                </dl>
+                <hr />
+                <div class="btn-toolbar">
+                    <div class="btn-group">
+
+                        <a href="@Url.Action("Create", "Course")" class="btn btn-default btn-sm">Create New Course</a>
+                    </div>
+                    <div class="btn-group">
+                        <a href="@Url.Action("Edit", "Course", new { id = Model.ID })" class="btn btn-default btn-sm">Edit</a>
+                        <a href="@Url.Action("Delete", "Course", new { id = Model.ID })" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                    <div class="btn-group">
+                        <a href="@Url.Action("Index", "CourseApplication", new { id = Model.ID })" class="btn btn-default btn-sm" title="Applications for @Model.CourseName">View Applications</a>
+                        <a href="@Url.Action("Create", "Assignment", new { courseID = Model.ID })" class="btn btn-default btn-sm">Create new assignment</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="@Url.Action("Index", "Teacher", new { id = User.Identity.GetUserId()})">Your Homepage</a>
+    </div>
+    <div class="col-md-4" ng-controller="enrollStudentCtrl">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">Enroll Student</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    Quickly search for a student by his using his email to enroll him to this course
+                </p>
+                <hr />
+                <!--To-Do: Fix autocomplete-->
+                <form>
+                    <div class="form-group">
+                        <input type="hidden" value="json" name="resultFormat" ng-model="searchDetails.resultFormat" />
+                        <label class="control-label col-md-2">Email:</label>
+                        <div class="col-md-10">
+                            <input type="text" name="email" id="email" class="form-control" ng-model="searchDetails.email" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <hr />
+                            <button class="btn btn-default btn-sm" ng-click="searchStudentByEmail()">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-footer">
+                <small>
+                    The result will appear under this card.<br />
+                    Simply click the result card to enroll the student.
+                </small>
+            </div>
+        </div>
+
+        <div ng-show="studentFound">
+            <hr />
+            <div class="well well-sm well" ng-click="enrollStudent(@Model.ID)" style="cursor:pointer; background-color: white;box-shadow: 0px 5px 10px #CCC">
+                <blockquote>
+                    <h3>{{ student.name }}</h3>
+                    <small>{{ student.email }}</small>
+                </blockquote>
+            </div>
+        </div>
+        <div ng-show="enrollSuccessful">
+            <hr />
+            <div class="well well-sm well" style="cursor:pointer; background-color: lawngreen;box-shadow: 0px 5px 10px #CCC">
+                <h3>Success</h3>
+                <hr />
+                <p>
+                    Student {{ student.name }} successfully enrolled to this course.
+                </p>
+            </div>
+        </div>
+        <div ng-show="studentNotFound">
+            <hr />
+            <div class="well well-sm well" style="cursor:pointer; background-color: salmon;box-shadow: 0px 5px 10px #CCC">
+                <h3>No Result</h3>
+                <hr />
+                <p>
+                    No student found with this email. <br />
+                    This must mean the email was misspelled or the email does not belong to the student.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

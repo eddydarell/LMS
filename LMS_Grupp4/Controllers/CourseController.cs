@@ -30,7 +30,7 @@ namespace LMS_Grupp4.Controllers
             var userManager = LMSRepo.GetUserManager();
             if(userManager.IsInRole(User.Identity.GetUserId(), "teacher"))
             {
-                return View("Details_Teacher", model);
+                return View("Details_Teacher_ViewModel", model);
             }
             else
             {
@@ -42,19 +42,19 @@ namespace LMS_Grupp4.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            return View("Create_ViewModel");
         }
 
         [Authorize(Roles = "teacher")]
         [HttpPost]
-        public ActionResult Create(string CourseName = "", string description = "")
+        public ActionResult Create(Course_CreateViewModel course)
         {
             var userManager = LMSRepo.GetUserManager();
             var teacher = userManager.FindById(User.Identity.GetUserId());//Gets the actual user creating the course
             var model = new Course
             {
-                CourseName = CourseName,
-                Description = description,
+                CourseName = course.CourseName,
+                Description = course.CourseDescription,
                 CreationDate = DateTime.Now,
                 Users = new List<ApplicationUser>(),
 
@@ -65,8 +65,10 @@ namespace LMS_Grupp4.Controllers
                 Classes = new List<ProgramClass>(),
                 ClassSchema = new ClassSchema
                 {
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now.AddMonths(6)
+                    StartDate = course.ScheduleStartDate,
+                    EndDate = course.ScheduleEndDate,
+                    Schedule = course.editor,
+                    Title = "Default Schedule"
                 },
                 Files = new List<LMSFile>()
             };
