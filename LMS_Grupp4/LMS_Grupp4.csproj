@@ -217,6 +217,10 @@
     <Compile Include="Migrations\201608250835217_initialTwo.Designer.cs">
       <DependentUpon>201608250835217_initialTwo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608261253511_AfterCommit.cs" />
+    <Compile Include="Migrations\201608261253511_AfterCommit.Designer.cs">
+      <DependentUpon>201608261253511_AfterCommit.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -229,8 +233,10 @@
     <Compile Include="Models\LMS_ViewModels\Admin_ManageUserViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Assignment_CreateViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Assignment_IndexCourseViewModel.cs" />
+    <Compile Include="Models\LMS_ViewModels\Assignment_IndexUserViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Course_ApplicationViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Course_CreateViewModel.cs" />
+    <Compile Include="Models\LMS_ViewModels\Home_IndexViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Student_IndexViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Teacher_IndexViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -317,8 +323,6 @@
     <Content Include="Views\Student\ProgramClasses.cshtml" />
     <Content Include="Views\Student\Files.cshtml" />
     <Content Include="Views\Student\ClassSchemas.cshtml" />
-    <Content Include="Views\Teacher\AddCourse.cshtml" />
-    <Content Include="Views\Teacher\Courses.cshtml" />
     <Content Include="Views\Course\_ApplicationForbidden.cshtml" />
     <Content Include="Views\Course\_Forbidden.cshtml" />
     <Content Include="Views\Course\Apply.cshtml" />
@@ -327,12 +331,6 @@
     <Content Include="Views\Course\Details_Student.cshtml" />
     <Content Include="Views\Course\Details_Teacher.cshtml" />
     <Content Include="Views\Teacher\Students.cshtml" />
-    <Content Include="Views\Teacher\ProgramClasses.cshtml" />
-    <Content Include="Views\Teacher\ClassSchemas.cshtml" />
-    <Content Include="Views\Teacher\Files.cshtml" />
-    <Content Include="Views\Teacher\Assignments.cshtml" />
-    <Content Include="Views\Teacher\CourseApplication.cshtml" />
-    <Content Include="Views\Teacher\ProgramClassApplication.cshtml" />
     <Content Include="Views\Assignment\Create.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -362,6 +360,9 @@
     <Content Include="Views\File\Upload.cshtml" />
     <Content Include="Views\Assignment\IndexCourse.cshtml" />
     <Content Include="Views\Error\ExceptionHandler.cshtml" />
+    <Content Include="Views\Assignment\EditResponse.cshtml" />
+    <Content Include="Views\Course\Create_ViewModel.cshtml" />
+    <Content Include="Views\Course\Details_Teacher_ViewModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Search\" />
@@ -380,6 +381,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608250835217_initialTwo.resx">
       <DependentUpon>201608250835217_initialTwo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608261253511_AfterCommit.resx">
+      <DependentUpon>201608261253511_AfterCommit.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
