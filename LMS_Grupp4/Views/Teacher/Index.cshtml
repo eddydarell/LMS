@@ -1,11 +1,32 @@
-﻿@model IEnumerable<LMS_Grupp4.Models.LMS_Models.Course>
+﻿@model LMS_Grupp4.Models.LMS_ViewModels.Teacher_IndexViewModel
 @using LMS_Grupp4.Models
 @using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Index";
+    bool isTeacher = (User.IsInRole("teacher")) ? true : false;
 }
-
-<h2>Index</h2>
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        @if (isTeacher)
+        {
+            <small>
+                Teacher ID: @User.Identity.GetUserId()
+            </small>
+        }
+        else
+        {
+            <small>
+                Student ID: @User.Identity.GetUserId()
+            </small>
+        }
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Teachers Overview</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
 
 <div class="jumbotron">
     <h1>Index</h1>
@@ -13,37 +34,151 @@
     <small>ID: @ViewBag.UserID</small>
 </div>
 
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">My Courses</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    This is the list of all your courses with relevant information concerning each course.<br />
+                    Click on the links to open different sections.
+                </p>
+                <hr />
+                <table class="table table-bordered">
+                    <tr>
+                        <th class="text-center">
+                            Course
+                        </th>
+                        <th class="text-center">
+                            Description
+                        </th>
+                        <th class="text-center">
+                            Created On
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model.courseModel)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Details", "Course", new { id = item.ID})">@Html.DisplayFor(course => item.CourseName)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(course => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(course => item.CreationDate)
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+                <p>
+                    <a href="@Url.Action("Index", "Course")">My Courses</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">My Assignments</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    This is the list of all your assignments with relevant information concerning each assignment.<br />
+                    Click on the links to open different sections.
+                </p>
+                <hr />
+                <table class="table table-bordered">
+                    <tr>
+                        <th class="text-center">
+                            Assignment
+                        </th>
+                        <th class="text-center">
+                            Due Date
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model.assignmentModel)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Details", "Assignment", new { id = item.ID})">@Html.DisplayFor(assignment => item.Name)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(assignment => item.DueDate)
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+                <p>
+                    <a href="@Url.Action("IndexUser", "Assignment")">My Assignments</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">Pending Applications</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    A list of all pending applications for this course.<br />
+                    Click "Respond" to handle an application.
+                </p>
+                <hr />
+                <table class="table table-bordered">
+                    <tr>
+                        <th class="text-center">
+                            Message
+                        </th>
+                        <th class="text-center">
+                            Emission Date
+                        </th>
+                        <th>
+                            Course
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model.courseApplicationModel)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Details", "Course", new { id = item.ID})">
+                                    @item.Message.Substring(0, 10) <span>...</span>
+                                </a>
+                                @*Html.DisplayFor(courseApplicationModel => item.Message.Substring(0, 10))*@
+                            </td>
+                            <td>
+                                @Html.DisplayFor(courseApplicationModel => item.CreationDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(courseApplicationModel => item.Course.CourseName)
+                            </td>
+                        </tr>
+                    }
+                </table>
+                <p>
+                    <a href="@Url.Action("Index", "CourseApplication")">Course Application</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <td>
-    <a href="@Url.Action("Index", "CourseApplication")">Course Application</a>|
-    <a href="@Url.Action("Index", "Assignment")">My Assignments</a>|
-    <a href="@Url.Action("Index", "Course")">My Courses</a>|
     <a href="@Url.Action("Students", "Teacher")">My Students</a>
 </td>
-
-<h2>My Courses</h2>
-
-<table class="table">
-    <tr>
-        <th>
-            Course
-        </th>
-        <th>
-            Description
-        </th>
-
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(course => item.CourseName)
-            </td>
-            <td>
-                @Html.DisplayFor(course => item.Description)
-            </td>
-        </tr>
-    }
-
-</table>

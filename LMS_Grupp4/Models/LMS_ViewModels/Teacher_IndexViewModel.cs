@@ -8,28 +8,36 @@ namespace LMS_Grupp4.Models.LMS_ViewModels
 {
     public class Teacher_IndexViewModel
     {
-        public IEnumerable<CourseApplication> CourseApplications { get; set; }
-        public IEnumerable<Assignment> Assignments { get; set; }
-        public IEnumerable<Course> Courses { get; set; }
-        public IEnumerable<ApplicationUser> Students{ get; set; }
+        public List<Assignment> assignmentModel { get; set; }
+        public List<Course> courseModel { get; set; }
+        public List<CourseApplication> courseApplicationModel { get; set; }
+        public List<ApplicationUser> students { get; set; }
 
-//        public Teacher_IndexViewModel(IEnumerable<Assignment> assignments, IEnumerable<Course> courses, IEnumerable<ApplicationUser> studentList)
-        public Teacher_IndexViewModel(IEnumerable<Assignment> assignments, IEnumerable<Course> courses, IEnumerable<CourseApplication> courseApplications, IEnumerable<ApplicationUser> students)
-//        public Teacher_IndexViewModel(IEnumerable<Course> courses)
+        public Teacher_IndexViewModel(List<Assignment> assignmentModel, List<Course> courseModel, List<CourseApplication> courseApplicationModel, List<ApplicationUser> students)
         {
-            this.CourseApplications = courseApplications;
-            this.Assignments = assignments;
-            this.Courses = courses;
-            this.Students = students;
-//            this.ApplicationUser = studentList;
+            // TODO: Complete member initialization
+            this.assignmentModel = assignmentModel;
+            this.courseModel = courseModel;
+            this.courseApplicationModel = courseApplicationModel;
+            this.students = students;
         }
 
-        public Teacher_IndexViewModel(IEnumerable<Course> courses, IEnumerable<ApplicationUser> students)
-        //        public Teacher_IndexViewModel(IEnumerable<Course> courses)
+        public Teacher_IndexViewModel(List<Assignment> assignmentModel, List<Course> courseModel, List<CourseApplication> courseApplicationModel)
         {
-            this.Courses = courses;
-            this.Students = students;
-            //            this.ApplicationUser = studentList;
+            // TODO: Complete member initialization
+            this.assignmentModel = assignmentModel;
+            this.courseModel = courseModel;
+            this.courseApplicationModel = courseApplicationModel;
         }
+
+        //public Teacher_IndexViewModel(IEnumerable<Assignment> assignments, IEnumerable<Course> courses, IEnumerable<CourseApplication> courseApplications, IEnumerable<ApplicationUser> students)
+        ////        public Teacher_IndexViewModel(IEnumerable<Course> courses)
+        //{
+        //    this.CourseApplications = courseApplications;
+        //    this.Assignments = assignments;
+        //    this.Courses = courses;
+        //    this.Students = students;
+        //    //            this.ApplicationUser = studentList;
+        //}
     }
 }

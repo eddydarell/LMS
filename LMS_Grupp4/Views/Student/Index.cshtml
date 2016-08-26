@@ -6,24 +6,38 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            Student ID: @User.Identity.GetUserId()
+        </small>
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Student Overview</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
 
 <div class="jumbotron">
-    <h1>You are logged in as Student: @User.Identity.GetUserRealName()</h1>
-    <small>ID: @ViewBag.UserID</small>
+
+    <h2><a href="@Url.Action("Details", "Student", new { id = User.Identity.GetUserId()})">@User.Identity.GetUserRealName()</a>, welcome!</h2>
+    <p>
+        Here you can see all the courses you are enrolled in, and also an assignment overview.<br />
+        Choose a course or assignment to view details.<br />
+        You can also apply to a new course, and get a list over all active and finished assignments.<br />
+        Here you can also view your files, or upload a new one  
+    </p>
 </div>
 
 
 <td>
-    @Html.ActionLink("Apply for new Course", "Index", "Course") |
-    @Html.ActionLink("Apply for new Program", "Index", "ProgramClass")
+    @*@Html.ActionLink("Apply for new Course", "Index", "Course") |*@
+    <a href="@Url.Action("Index", "Course")" class="btn btn-default btn-sm">Apply for new course</a>
+    @*@Html.ActionLink("My Files", "Files", new { id = User.Identity.GetUserId() })*@
+    <a href="@Url.Action("Index", "File")" class="btn btn-default btn-sm">Your files</a>
     <br /><br />
-</td>
-
-<td>
-    @Html.ActionLink("My Programs", "ProgramClasses", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("My Schemas", "ClassSchemas", new { id = User.Identity.GetUserId() }) |
-    @Html.ActionLink("My Files", "Files", new { id = User.Identity.GetUserId() })
 </td>
 
 <br /><br />
@@ -109,7 +123,7 @@
 </table>
 
 <td>
-    @Html.ActionLink("Show all assignments", "Index", "Assignment")
+    @Html.ActionLink("Show all assignments", "IndexUser", "Assignment")
 </td>
 
 
