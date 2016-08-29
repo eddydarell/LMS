@@ -1,0 +1,55 @@
+﻿@model LMS_Grupp4.Models.LMS_Models.Assignment
+@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details for Assignment @Model.Name</h2>
+
+<div>
+    <dl>
+        <dt>
+            @Html.DisplayNameFor(model => Model.IssueDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.IssueDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.DueDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.DueDate)
+        </dd>
+
+        <dt>
+            Over due
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.IsExpired)
+        </dd>
+
+        <dt>
+            Max Score
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.MaxScore)
+        </dd>
+
+        <dt>
+            Course
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.Course.CourseName)
+        </dd>
+
+    </dl>
+</div>
+
+<div>
+    @*@Html.ActionLink("Back to List", "IndexUser")*@
+    <a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Personal assignments</a>
+</div>
+

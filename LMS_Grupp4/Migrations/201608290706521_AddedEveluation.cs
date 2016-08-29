@@ -3,7 +3,7 @@ namespace LMS_Grupp4.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class addingEvaluationModel : DbMigration
+    public partial class AddedEveluation : DbMigration
     {
         public override void Up()
         {
@@ -29,6 +29,7 @@ namespace LMS_Grupp4.Migrations
                 .Index(t => t.LMSFile_ID)
                 .Index(t => t.Student_Id);
             
+            AlterColumn("dbo.Assignments", "MaxScore", c => c.Double(nullable: false));
             DropColumn("dbo.Assignments", "Mark");
             DropColumn("dbo.Assignments", "IsPassed");
             DropColumn("dbo.Assignments", "Score");
@@ -38,7 +39,7 @@ namespace LMS_Grupp4.Migrations
         public override void Down()
         {
             AddColumn("dbo.Assignments", "Percentage", c => c.Double());
-            AddColumn("dbo.Assignments", "Score", c => c.Double());
+            AddColumn("dbo.Assignments", "Score", c => c.Int());
             AddColumn("dbo.Assignments", "IsPassed", c => c.Boolean(nullable: false));
             AddColumn("dbo.Assignments", "Mark", c => c.String(maxLength: 2));
             DropForeignKey("dbo.Evaluations", "Student_Id", "dbo.AspNetUsers");
@@ -47,6 +48,7 @@ namespace LMS_Grupp4.Migrations
             DropIndex("dbo.Evaluations", new[] { "Student_Id" });
             DropIndex("dbo.Evaluations", new[] { "LMSFile_ID" });
             DropIndex("dbo.Evaluations", new[] { "Assignment_ID" });
+            AlterColumn("dbo.Assignments", "MaxScore", c => c.Int(nullable: false));
             DropTable("dbo.Evaluations");
         }
     }

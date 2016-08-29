@@ -9,6 +9,8 @@ namespace LMS_Grupp4.Models.LMS_ViewModels
 {
     public class Course_CreateViewModel
     {
+        public int CourseID { get; set; }
+
         [Display(Name = "Course Name")]
         public string CourseName { get; set; }
 

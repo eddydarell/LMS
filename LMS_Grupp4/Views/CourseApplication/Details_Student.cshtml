@@ -1,0 +1,116 @@
+﻿@using Microsoft.AspNet.Identity
+@using LMS_Grupp4.Models
+@model LMS_Grupp4.Models.LMS_Models.CourseApplication
+
+@{
+    ViewBag.Title = "Application Details";
+}
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            Student ID: @User.Identity.GetUserId()
+        </small>
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Applications</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
+<div class="jumbotron">
+    <h2><a href="@Url.Action("Index", "Student")">@User.Identity.GetUserRealName()</a>, welcome!</h2>
+    <p>
+        Application details for the application to the course<a @Url.Action("Details", "Course", new { id = Model.Course.ID})>@Model.Course.CourseName</a>.<br />
+ 
+    </p>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">Application Details</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <h4>Application for <b>@Model.Course.CourseName</b>.</h4>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Message)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Message)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Status)
+                        </dt>
+
+                        <dd>
+                            @(Model.Status ? "Resolved": "Pending")
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.IsAccepted)
+                        </dt>
+
+                        <dd>
+                            @(Model.IsAccepted ? "Accepted": "Rejected")
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CreationDate)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CreationDate)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.EvaluationDate)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.EvaluationDate)
+                        </dd>
+                        <dt>
+                            Course Teachers
+                        </dt>
+
+                        <dd>
+                            <ul>
+                                @foreach (var teacher in Model.Teachers)
+                                {
+                                    <li><a href="@Url.Action("Details", "Teacher", new { id = teacher.Id})">@teacher.RealName</a></li>
+                                }
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">Hints</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    The details will update as soon as your application is processed.<br />
+                    But you can take a look on our other courses <a href="@Url.Action("Index", "Course")">here</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<p>
+    <a href="@Url.Action("Index")" class="btn btn-default btn-md">Back To List <span class="glyphicon glyphicon-arrow-right"></span></a>
+</p>

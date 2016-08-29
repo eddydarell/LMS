@@ -11,8 +11,27 @@
 </div>
 
 <div class="row">
-    <div class="col-md-6">
-        <h2>HTTP error 404: Not Found.</h2>
+    <div class="col-md-8 col-md-offset-1">
+        <div class="">
+            <h2 class="text-center alert alert-danger">An Error Has Occurred</h2>
+            <hr />
+            <blockquote>
+                <p>
+                    The server returned an error 404: Not Found.
+                </p>
+                <p>
+                    This is not what you are looking for. The resource could not be found.<br />
+                    If this error persists, <a href="@Url.Action("Contact", "Home")" title="Contact us">contact us.</a>
+                </p>
+                <p>
+                    We are sorry for any inconvenience caused.
+                </p>
+                <small> LMS Dev Team</small>
+            </blockquote>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <img src="~/Content/sadness.png" alt="Sadness" style="max-width: 100%"/>
     </div>
 </div>
 

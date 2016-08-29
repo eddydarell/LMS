@@ -1,0 +1,30 @@
+﻿@using LMS_Grupp4.Models.LMS_Models
+@model IEnumerable<LMS_Grupp4.Models.LMS_Models.Course>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <h4>Most Popular Courses</h4>
+        </div>
+    </div>
+    <div class="panel-body">
+        <p>
+            Here are our most popular courses.<br/>
+            We thought you could be interested.
+        </p>
+        <hr />
+        <table class="table table-striped">
+            <tr>
+                <th class="text-center">Course</th>
+            </tr>
+            @foreach (var course in Model)
+            {
+                <tr>
+                    <td ><a href="@Url.Action("Details", "Course", new { id = course.ID})">@course.CourseName</a></td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+<p>
+    <a href="@Url.Action("Index", "Course", new { all = true })">View All Course</a>
+</p>
