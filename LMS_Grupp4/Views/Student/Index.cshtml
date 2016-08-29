@@ -22,12 +22,12 @@
 
 <div class="jumbotron">
 
-    <h2><a href="@Url.Action("Details", "Student", new { id = User.Identity.GetUserId()})">@User.Identity.GetUserRealName()</a>, welcome!</h2>
+    <h1><a href="@Url.Action("Details", "Student", new { id = User.Identity.GetUserId()})">@User.Identity.GetUserRealName()</a>, welcome!</h1>
     <p>
         Here you can see all the courses you are enrolled in, and also an assignment overview.<br />
         Choose a course or assignment to view details.<br />
         You can also apply to a new course, and get a list over all active and finished assignments.<br />
-        Here you can also view your files, or upload a new one  
+        Here you can also view your files, or upload a new one.  
     </p>
 </div>
 
@@ -41,87 +41,100 @@
 </td>
 
 <br /><br />
-<h2>My Courses</h2>
 
-<table class="table">
-    <tr>
-        <th>
-            Course
-        </th>
-        <th>
-            Description
-        </th>
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h2 class="text-center">My Courses</h2>
+                </div>
+            </div>
+            <div class="panel-body">
 
-        <th></th>
-    </tr>
+                <table class="table table-bordered">
+                    <tr>
+                        <th class="text-center">
+                            Course
+                        </th>
+                        <th class="text-center">
+                            Description
+                        </th>
+                    </tr>
 
-    @{try
-    {
-        foreach (var item in Model.Courses)
-        {
+                    @{try
+                    {
+                        foreach (var item in Model.Courses)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Details", "Course", new { id = item.ID })">@item.CourseName</a>
+                                    @*@Html.DisplayFor(course => item.CourseName)*@
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(course => item.Description)
+                                </td>
+                            </tr>
+                        }
+                    } catch (NullReferenceException)
+                    {
+                    }
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+        <h2>Assignments overview</h2>
+
+        <table class="table">
             <tr>
-                <td>
-                    <a href="@Url.Action("Details", "Course", new { id = item.ID })">@item.CourseName</a> 
-                    @*@Html.DisplayFor(course => item.CourseName)*@
-                </td>
-                <td>
-                    @Html.DisplayFor(course => item.Description)
-                </td>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Due date
+                </th>
+                <th>
+                    Completed
+                </th>
+
+                <th></th>
             </tr>
-        }
-    } catch (NullReferenceException)
-    {
-    }
-    }
 
-</table>
-
-<h2>Assignments overview</h2>
-
-<table class="table">
-    <tr>
-        <th>
-            Name
-        </th>
-        <th>
-            Due date
-        </th>
-        <th>
-            Completed
-        </th>
-
-        <th></th>
-    </tr>
-
-    @{int maxRenderedRows = 3;
-    try
-    {
-        for (int i = 0; i < Model.Assignments.Count(); i++)
-        {
-            if (i < maxRenderedRows)
+            @{int maxRenderedRows = 3, countLoops = 0;
+            try
             {
-                <tr>
-                    <td>
-                        <a href="@Url.Action("Details", "Assignment", new { id = Model.Assignments.ElementAt(i).ID })">@Model.Assignments.ElementAt(i).Name</a>
-                        @*@Html.ActionLink(Model.Assignments.ElementAt(i).Name, "Details", "Assignment", new { id = Model.Assignments.ElementAt(i).ID })*@
-                    </td>
-                    <td>
-                        @Html.DisplayFor(assignment => Model.Assignments.ElementAt(i).DueDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(assignment => Model.Assignments.ElementAt(i).IsPassed)
-                    </td>
-                </tr>
+                foreach (var assignmt in Model.Assignments)
+                {
+                    foreach (var evaluation in assignmt.Evaluations)
+                    {
+                        countLoops++;
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Details_Full", "Assignment", new { id = evaluation.ID })">@evaluation.Assignment.Name</a>
+                                @*@Html.ActionLink(Model.Assignments.ElementAt(i).Name, "Details", "Assignment", new { id = Model.Assignments.ElementAt(i).ID })*@
+                            </td>
+                            <td>
+                                @Html.DisplayFor(assignment => evaluation.Assignment.DueDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(assignment => evaluation.IsPassed)
+                            </td>
+                        </tr>
+                    }
+                }
+
+
+            } catch (NullReferenceException)
+            {
+
             }
-        }
-    } catch (NullReferenceException)
-    {
+            }
 
-    }
-
-    }
-
-</table>
+        </table>
+</div>
 
 <td>
     @Html.ActionLink("Show all assignments", "IndexUser", "Assignment")

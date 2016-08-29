@@ -31,11 +31,14 @@
                 Name
             </th>
             <th>
-                Due date
+                Course
             </th>
             <th>
-                Completed
+                Due date
             </th>
+            @*<th>
+                Completed
+            </th>*@
 
             <th></th>
         </tr>
@@ -44,14 +47,18 @@
         {
             <tr>
                 <td>
-                    @Html.ActionLink(item.Name, "Details", new { id = item.ID })
+                    @Html.ActionLink(item.Name, "Details_Basic", new { id = item.ID })
+                </td>
+                <td>
+                    <a href="@Url.Action("Details", "Course", new { id = item.Course.ID})">@Html.DisplayFor(course => item.Course.CourseName)</a>
+                    @*@Html.DisplayFor(assignment => item.Course)*@
                 </td>
                 <td>
                     @Html.DisplayFor(assignment => item.DueDate)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(assignment => item.IsPassed)
-                </td>
+                </td>*@
 
                 <td>
                     <a href="@Url.Action("Edit", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Edit</a>
@@ -70,31 +77,41 @@
                 Name
             </th>
             <th>
-                Due date
+                Course
             </th>
             <th>
-                Completed
+                Due date
             </th>
+            @*<th>
+                Completed
+            </th>*@
 
             <th></th>
         </tr>
 
-        @foreach (var item in Model.StudentAssignments)
+        @foreach (var assignment in Model.StudentAssignments)
         {
+            foreach(var evaluation in assignment.Evaluations)
+            {
             <tr>
                 <td>
-                    @Html.ActionLink(item.Name, "Details", new { id = item.ID })
+                    @Html.ActionLink(evaluation.Assignment.Name, "Details_Full", new { id = evaluation.ID })
                 </td>
                 <td>
-                    @Html.DisplayFor(assignment => item.DueDate)
+                    <a href="@Url.Action("Details", "Course", new { id = evaluation.Assignment.Course.ID})">@Html.DisplayFor(courseName => evaluation.Assignment.Course.CourseName)</a>
+                    @*@Html.DisplayFor(assignment => item.Course)*@
                 </td>
                 <td>
+                    @Html.DisplayFor(assignmt => evaluation.Assignment.DueDate)
+                </td>
+                @*<td>
                     @Html.DisplayFor(assignment => item.IsPassed)
-                </td>
+                </td>*@
                 <td>
-                    <a href="@Url.Action("EditResponse", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Respond</a>
+                    <a href="@Url.Action("EditResponse", "Assignment", new { id = evaluation.ID })" class="btn btn-default btn-sm">Respond</a>
                 </td>
             </tr>
+            }
         }
     </table>
 } 
@@ -109,26 +126,36 @@ else
                 Name
             </th>
             <th>
-                Due date
+                Course  
             </th>
             <th>
-                Completed
+                Due date
             </th>
+            @*<th>
+                Completed
+            </th>*@
         </tr>
 
-        @foreach (var item in Model.StudentAssignments)
+        @foreach (var assignment in Model.StudentAssignments)
         {
+            foreach(var evaluation in assignment.Evaluations)
+            {
             <tr>
                 <td>
-                    @Html.ActionLink(item.Name, "Details", new { id = item.ID })
+                    @Html.ActionLink(evaluation.Assignment.Name, "Details_Full", new { id = evaluation.ID })
                 </td>
                 <td>
-                    @Html.DisplayFor(assignment => item.DueDate)
+                    <a href="@Url.Action("Details", "Course", new { id = evaluation.Assignment.Course.ID })">@Html.DisplayFor(courseName => evaluation.Assignment.Course.CourseName)</a>
+                    @*@Html.DisplayFor(assignment => item.Course)*@
                 </td>
                 <td>
+                    @Html.DisplayFor(eval => evaluation.Assignment.DueDate)
+                </td>
+                @*<td>
                     @Html.DisplayFor(assignment => item.IsPassed)
-                </td>
+                </td>*@
             </tr>
+            }
         }
     </table>
 }

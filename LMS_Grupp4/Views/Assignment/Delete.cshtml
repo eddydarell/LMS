@@ -6,17 +6,13 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Are you sure you want to delete Assignment @Model.Name</h2>
+<h2>
+    Are you sure you want to delete Assignment @Model.Name ? <br/>
+    All evaluations connected to the assignment will also be deleted.
+</h2>
 
 <div>
     <dl>
-        <dt>
-            @Html.DisplayNameFor(model => Model.DueDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.DueDate)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => Model.IssueDate)
         </dt>
@@ -25,17 +21,10 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => Model.Mark)
+            @Html.DisplayNameFor(model => Model.DueDate)
         </dt>
         <dd>
-            @Html.DisplayFor(model => Model.Mark)
-        </dd>
-
-        <dt>
-            Completed
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.IsPassed)
+            @Html.DisplayFor(model => Model.DueDate)
         </dd>
 
         <dt>
@@ -46,24 +35,10 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => Model.Score)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.Score)
-        </dd>
-
-        <dt>
             Max Score
         </dt>
         <dd>
             @Html.DisplayFor(model => Model.MaxScore)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => Model.Percentage)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.Percentage)
         </dd>
 
         <dt>
@@ -82,6 +57,6 @@
 </div>
 
 <div>
-    @Html.ActionLink("Back to List", "IndexUser")
+    @Html.ActionLink("Personal assignments", "IndexUser")
 </div>
 

@@ -1,4 +1,4 @@
-﻿@model LMS_Grupp4.Models.LMS_Models.Assignment
+﻿@model LMS_Grupp4.Models.LMS_Models.Evaluation
 @using LMS_Grupp4.Models
 @using Microsoft.AspNet.Identity;
 
@@ -6,22 +6,22 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details for Assignment @Model.Name</h2>
+<h2>Details for Assignment @Model.Assignment.Name</h2>
 
 <div>
     <dl>
         <dt>
-            @Html.DisplayNameFor(model => Model.DueDate)
+            @Html.DisplayNameFor(model => Model.Assignment.IssueDate)
         </dt>
         <dd>
-            @Html.DisplayFor(model => Model.DueDate)
+            @Html.DisplayFor(model => Model.Assignment.IssueDate)
         </dd>
-
+        
         <dt>
-            @Html.DisplayNameFor(model => Model.IssueDate)
+            @Html.DisplayNameFor(model => Model.Assignment.DueDate)
         </dt>
         <dd>
-            @Html.DisplayFor(model => Model.IssueDate)
+            @Html.DisplayFor(model => Model.Assignment.DueDate)
         </dd>
 
         <dt>
@@ -42,7 +42,7 @@
             Over due
         </dt>
         <dd>
-            @Html.DisplayFor(model => Model.IsExpired)
+            @Html.DisplayFor(model => Model.Assignment.IsExpired)
         </dd>
 
         <dt>
@@ -56,7 +56,7 @@
             Max Score
         </dt>
         <dd>
-            @Html.DisplayFor(model => Model.MaxScore)
+            @Html.DisplayFor(model => Model.Assignment.MaxScore)
         </dd>
 
         <dt>
@@ -70,7 +70,21 @@
             Course
         </dt>
         <dd>
-            @Html.DisplayFor(model => Model.Course.CourseName)
+            @Html.DisplayFor(model => Model.Assignment.Course.CourseName)
+        </dd>
+
+        <dt>
+            Student
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.Student.RealName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.Message)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.Message)
         </dd>
 
     </dl>
@@ -78,7 +92,7 @@
 
 <div>
     @*@Html.ActionLink("Back to List", "IndexUser")*@
-    <a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Back to list</a>
+    <a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Personal assignments</a>
 </div>
 
 
