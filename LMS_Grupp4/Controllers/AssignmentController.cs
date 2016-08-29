@@ -186,13 +186,13 @@ namespace LMS_Grupp4.Controllers
 		[HttpPost]
 		public ActionResult EditResponse(int ID = 0, string Mark = "", bool IsPassed = false, int Score = 0)
 		{
-			Assignment assignment = LMSRepo.GetAssignmentByID(ID);
-			assignment.Mark = Mark;
-			assignment.IsPassed = IsPassed;
-			assignment.Score = Score;
-			assignment.Percentage = (assignment.Score / assignment.MaxScore) * 100;
+			//Assignment assignment = LMSRepo.GetAssignmentByID(ID);
+			//assignment.Mark = Mark;
+			//assignment.IsPassed = IsPassed;
+			//assignment.Score = Score;
+			//assignment.Percentage = (assignment.Score / assignment.MaxScore) * 100;
 
-			LMSRepo.EditAssignment(assignment);
+			//LMSRepo.EditAssignment(assignment);
 
 			return RedirectToAction("IndexUser");
 		}
