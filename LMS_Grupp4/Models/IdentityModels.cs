@@ -23,6 +23,7 @@ namespace LMS_Grupp4.Models
         public virtual ICollection<LMSFile> Files { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
         public virtual ICollection<ProgramClass> ProgramClasses { get; set; }
+		public virtual ICollection<Evaluation> Evaluations { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -42,6 +43,7 @@ namespace LMS_Grupp4.Models
         public DbSet<LMSFile> Files { get; set; }
         public DbSet<ProgramClass> ProgramClasses { get; set; }
         public DbSet<CourseApplication> CourseApplications { get; set; }
+		public DbSet<Evaluation> Evaluations { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
