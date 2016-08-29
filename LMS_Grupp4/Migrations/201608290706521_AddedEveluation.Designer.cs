@@ -7,13 +7,13 @@ namespace LMS_Grupp4.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class propertyChangeInAssignment : IMigrationMetadata
+    public sealed partial class AddedEveluation : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(propertyChangeInAssignment));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedEveluation));
         
         string IMigrationMetadata.Id
         {
-            get { return "201608261109546_propertyChangeInAssignment"; }
+            get { return "201608290706521_AddedEveluation"; }
         }
         
         string IMigrationMetadata.Source

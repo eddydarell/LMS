@@ -20,8 +20,25 @@ namespace LMS_Grupp4.Controllers
         // GET: Course
         public ActionResult Index()
         {
+            var userManager = LMSRepo.GetUserManager();
             var courses = LMSRepo.GetAllCourses();
-            return View(courses);
+
+            if (userManager.IsInRole(User.Identity.GetUserId(), "student"))
+            {
+                var model = courses.Where(c => c.Users.SingleOrDefault(u => u.Id == User.Identity.GetUserId()) != null);
+
+                return View("Index_Student", model);
+            }
+            else if(userManager.IsInRole(User.Identity.GetUserId(), "teacher"))
+            {
+                var model = courses.Where(c => c.Users.SingleOrDefault(u => u.Id == User.Identity.GetUserId()) != null);
+
+                return View("Index_Teacher", model); ;
+            }
+            else
+            {
+                return View(courses);
+            }
         }
 
         public ActionResult Details(int id = 0)
@@ -30,7 +47,7 @@ namespace LMS_Grupp4.Controllers
             var userManager = LMSRepo.GetUserManager();
             if(userManager.IsInRole(User.Identity.GetUserId(), "teacher"))
             {
-                return View("Details_Teacher_ViewModel", model);
+                return View("Details_Teacher", model);
             }
             else
             {
@@ -92,6 +109,17 @@ namespace LMS_Grupp4.Controllers
             var userManager = LMSRepo.GetUserManager();
             var roleManager = LMSRepo.GetRoleManager();
             var model = LMSRepo.GetCourseByID(id);
+
+            Course_CreateViewModel courseViewModel = new Course_CreateViewModel
+            {
+                CourseID = model.ID,
+                CourseDescription = model.Description,
+                editor = model.ClassSchema.Schedule,
+                CourseName = model.CourseName,
+                ScheduleEndDate = model.ClassSchema.EndDate,
+                ScheduleStartDate = model.ClassSchema.StartDate
+            };
+
             var teacher = userManager.FindById(User.Identity.GetUserId());
 
             //security check
@@ -99,21 +127,21 @@ namespace LMS_Grupp4.Controllers
             var courseTeachers = model.Users.Where(u => u.Roles.Where(r => r.RoleId == roleManager.FindByName("teacher").Id) != null);
             if(courseTeachers.Contains(teacher))
             {
-                return View(model);
+                return View(courseViewModel);
             }
             else
             {
-                return View("_Forbidden"); //To-Do: Proper handling
+                return View("_Forbidden"); 
             }
         }
 
         [Authorize(Roles = "teacher")]
         [HttpPost]
-        public ActionResult Edit(int id = 0, string courseName = "", string description = "")
+        public ActionResult Edit(Course_CreateViewModel courseViewModel)
         {
             var userManager = LMSRepo.GetUserManager();
             var roleManager = LMSRepo.GetRoleManager();
-            var course = LMSRepo.GetCourseByID(id);
+            var course = LMSRepo.GetCourseByID(courseViewModel.CourseID);
             var teacher = userManager.FindById(User.Identity.GetUserId());
 
             //security check
@@ -123,15 +151,22 @@ namespace LMS_Grupp4.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (!String.IsNullOrWhiteSpace(courseName))
+                    if (!String.IsNullOrWhiteSpace(courseViewModel.CourseName))
                     {
-                        course.CourseName = courseName;
+                        course.CourseName = courseViewModel.CourseName;
                     }
 
-                    if (!String.IsNullOrWhiteSpace(description))
+                    if (!String.IsNullOrWhiteSpace(courseViewModel.CourseDescription))
                     {
-                        course.Description = description;
+                        course.Description = courseViewModel.CourseDescription;
                     }
+                    if(!String.IsNullOrWhiteSpace(courseViewModel.editor))
+                    {
+                        course.ClassSchema.Schedule = courseViewModel.editor;
+                    }
+
+                    course.ClassSchema.EndDate = courseViewModel.ScheduleEndDate;
+                    course.ClassSchema.StartDate = courseViewModel.ScheduleStartDate;
 
                     LMSRepo.EditCourse(course);
 
@@ -141,7 +176,7 @@ namespace LMS_Grupp4.Controllers
             }
             else
             {
-                return View("_Forbidden"); //To-Do: Proper handling
+                return View("_Forbidden");
             }
         }
 
@@ -185,6 +220,13 @@ namespace LMS_Grupp4.Controllers
             {
                 return View("_Forbidden");
             }   
+        }
+
+        public ActionResult FiveMostPopularCourses()
+        {
+            var model = LMSRepo.GetAllCourses().OrderByDescending(c => c.Users.Count).Take(5);
+
+            return PartialView("_FiveMostPopularCourses", model);
         }
     }
 }
