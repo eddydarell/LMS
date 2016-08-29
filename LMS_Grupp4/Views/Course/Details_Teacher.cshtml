@@ -2,23 +2,13 @@
 @model LMS_Grupp4.Models.LMS_Models.Course
 
 @{
-    ViewBag.Title = "Details";
-    bool isTeacher = (User.IsInRole("teacher")) ? true : false;
+    ViewBag.Title = Model.CourseName + " Details";
 }
 <div class="row" style="padding-bottom: 20px">
     <div class="col-md-4">
-        @if (isTeacher)
-        {
-            <small>
-                Teacher ID: @User.Identity.GetUserId()
-            </small>
-        }
-        else
-        {
-            <small>
-                Student ID: @User.Identity.GetUserId()
-            </small>
-        }
+        <small>
+            Teacher ID: @User.Identity.GetUserId()
+        </small>
     </div>
     <div class="col-md-4 text-center">
         <small>Course Details</small>
@@ -28,10 +18,9 @@
     </div>
 </div>
 <div class="jumbotron">
-
     <h2>@Model.CourseName</h2>
     <p>
-        @Model.Description
+        @Model.Description <br />
     </p>
 </div>
 <hr />
@@ -61,39 +50,42 @@
                         @Html.DisplayFor(model => model.Description)
                     </dd>
                     <dt>
-                        Course Applications
+                        Course Applications Count
                     </dt>
-
                     <dd>
-                        <a href="@Url.Action("Index", "CourseApplication", new { id = Model.ID})"> @Html.DisplayFor(model => model.CourseApplications.Count)</a>
+                        @Html.DisplayFor(model => model.CourseApplications.Count)
                     </dd>
                     <dt>
-                        Students
+                        Schema
                     </dt>
-
                     <dd>
-                        @Html.DisplayFor(model => model.Users.Count)
+                        <p>Schema period: <b>@Model.ClassSchema.StartDate</b> - <b>@Model.ClassSchema.EndDate</b></p>
+                        <hr />
+                        <div class="schedule-box">
+                            @Html.Raw(Model.ClassSchema.Schedule)
+                        </div>
                     </dd>
                 </dl>
                 <hr />
                 <div class="btn-toolbar">
                     <div class="btn-group">
-
-                        <a href="@Url.Action("Create", "Course")" class="btn btn-default btn-sm">Create New Course</a>
+                        <a href="@Url.Action("Create", "Course")" class="btn btn-success btn-sm">Create New Course </a>
                     </div>
                     <div class="btn-group">
-                        <a href="@Url.Action("Edit", "Course", new { id = Model.ID })" class="btn btn-default btn-sm">Edit</a>
-                        <a href="@Url.Action("Delete", "Course", new { id = Model.ID })" class="btn btn-danger btn-sm">Delete</a>
+                        <a href="@Url.Action("Edit", "Course", new { id = Model.ID })" class="btn btn-default btn-sm">Edit <span class="glyphicon glyphicon-pencil"></span></a>
+                        <a href="@Url.Action("Delete", "Course", new { id = Model.ID })" class="btn btn-danger btn-sm">Delete <span class="glyphicon glyphicon-floppy-remove"></span></a>
                     </div>
                     <div class="btn-group">
-                        <a href="@Url.Action("Index", "CourseApplication", new { id = Model.ID })" class="btn btn-default btn-sm" title="Applications for @Model.CourseName">View Applications</a>
-                        <a href="@Url.Action("IndexCourse", "Assignment", new { courseID = Model.ID })" class="btn btn-default btn-sm">View assignments</a>
-                        <a href="@Url.Action("Create", "Assignment", new { courseID = Model.ID })" class="btn btn-default btn-sm">Create new assignment</a>
+                        <a href="@Url.Action("Index", "CourseApplication", new { id = Model.ID })" class="btn btn-default btn-sm" title="Applications for @Model.CourseName">View Applications</a>             
+                    </div>
+                    <div class="btn-group">
+                        <a href="@Url.Action("IndexCourse", "Assignment", new { courseID = Model.ID })" class="btn btn-default btn-sm">View Assignments</a>
+                        <a href="@Url.Action("Create", "Assignment", new { courseID = Model.ID })" class="btn btn-default btn-sm">Create New Assignment</a>
                     </div>
                 </div>
             </div>
         </div>
-        <a href="@Url.Action("Index", "Teacher", new { id = User.Identity.GetUserId()})">Your Homepage</a>
+        <a href="@Url.Action("Index", "Course")">Back To List</a>
     </div>
     <div class="col-md-4" ng-controller="enrollStudentCtrl">
         <div class="panel panel-primary">
@@ -104,10 +96,9 @@
             </div>
             <div class="panel-body">
                 <p>
-                    Quickly search for a student by his using his email to enroll him to this course
+                    Quickly search for a student by email to enroll him to this course
                 </p>
                 <hr />
-                <!--To-Do: Fix autocomplete-->
                 <form>
                     <div class="form-group">
                         <input type="hidden" value="json" name="resultFormat" ng-model="searchDetails.resultFormat" />
@@ -143,7 +134,7 @@
         </div>
         <div ng-show="enrollSuccessful">
             <hr />
-            <div class="well well-sm well" style="cursor:pointer; background-color: lawngreen;box-shadow: 0px 5px 10px #CCC">
+            <div class="well well-sm well success" style="cursor:pointer;box-shadow: 0px 5px 10px #CCC">
                 <h3>Success</h3>
                 <hr />
                 <p>
@@ -153,7 +144,7 @@
         </div>
         <div ng-show="studentNotFound">
             <hr />
-            <div class="well well-sm well" style="cursor:pointer; background-color: salmon;box-shadow: 0px 5px 10px #CCC">
+            <div class="well well-sm well danger" style="cursor:pointer; box-shadow: 0px 5px 10px #CCC">
                 <h3>No Result</h3>
                 <hr />
                 <p>

@@ -15,9 +15,11 @@ namespace LMS_Grupp4.Models.LMS_Models
         public string Schedule { get; set; }
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         [Display(Name = "Start")]
         public DateTime StartDate { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         [Display(Name = "End")]
         public DateTime EndDate { get; set; }
         

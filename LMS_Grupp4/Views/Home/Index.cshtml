@@ -12,6 +12,7 @@
 
 <div class="row">
     <div class="col-md-4">
+
         <h2>Welcome To our LMS</h2>
         <hr />
         <p>
@@ -23,15 +24,19 @@
         </p>
         <hr />
         <p><a class="btn btn-default" href="@Url.Action("About")">Learn more &raquo;</a></p>
+
     </div>
     <div class="col-md-4">
+
         <h2>Quick Facts About Us</h2>
         <hr />
         @Html.Action("Facts", "Home")
         <hr />
         <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
+
     </div>
     <div class="col-md-4">
+
         <h2>Login</h2>
         <hr />
         <section id="loginForm">
@@ -46,31 +51,32 @@
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            @Html.LabelFor(m => m.Password, new { @class = "control-label" })
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <div class="checkbox">
-                                @Html.CheckBoxFor(m => m.RememberMe)
-                                @Html.LabelFor(m => m.RememberMe)
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <input type="submit" value="Log in" class="btn btn-default" />
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                    @Html.LabelFor(m => m.RememberMe)
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    @* Enable this once you have account confirmation enabled for password reset functionality
-                        <p>
-                            @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                        </p>*@
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <input type="submit" value="Log in" class="btn btn-default" />
+                            </div>
+                        </div>
+                        @* Enable this once you have account confirmation enabled for password reset functionality
+                            <p>
+                                @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                            </p>*@
             }
         </section>
+
     </div>
 </div>

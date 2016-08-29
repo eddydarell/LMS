@@ -27,15 +27,16 @@ namespace LMS_Grupp4.Controllers
             if (isTeacher)//View content for the teacher
             {
                 applications = LMSRepo.GetAllCourseApplications().Where(ca => ca.Course.ID == id).ToList();
-                
+                return View("Index_Teacher", applications);
             }
             else
             {
                 applications = LMSRepo.GetAllCourseApplications().Where(ca => ca.Student.Id == User.Identity.GetUserId()).ToList();
+                return View("Index_Student", applications);
             }
 
             //To-Do: 2 index view for teacher and student.
-            return View(applications);
+            
         }
 
         [Authorize(Roles = "student")]
@@ -157,8 +158,18 @@ namespace LMS_Grupp4.Controllers
         [HttpGet]
         public ActionResult Details(int id = 0)
         {
+            var userManager = LMSRepo.GetUserManager();
+            bool isTeacher = userManager.IsInRole(User.Identity.GetUserId(), "teacher");
             var application = LMSRepo.GetCourseApplicationID(id);
-            return View(application);
+
+            if (isTeacher)
+            {
+                return View("Details_Teacher", application);
+            }
+            else
+            {
+                return View("Details_Student", application);
+            }
         }
     }
 }

@@ -27,6 +27,7 @@ namespace LMS_Grupp4.Models.LMS_Models
         [Display(Name = "Emission Date")]
         public DateTime CreationDate { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         [Display(Name = "Evaluation Date")]
         public DateTime? EvaluationDate { get; set; }
 
