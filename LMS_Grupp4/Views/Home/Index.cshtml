@@ -12,65 +12,77 @@
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Welcome To our LMS</h2>
-        <hr />
-        <p>
-            We are glad to welcome you on our very own Learning Management System.<br />
-            This LMS provides services for all your learning needs. You can join a program or subscribe to a single course.
-            You decide what suits you best.<br />
-            Login to get started.<br />
-            <small>No account yet? <a href="@Url.Action("Contact")">Contact us</a>!</small>
-        </p>
-        <hr />
-        <p><a class="btn btn-default" href="@Url.Action("About")">Learn more &raquo;</a></p>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h2>Welcome To our LMS</h2>
+                <hr />
+                <p>
+                    We are glad to welcome you on our very own Learning Management System.<br />
+                    This LMS provides services for all your learning needs. You can join a program or subscribe to a single course.
+                    You decide what suits you best.<br />
+                    Login to get started.<br />
+                    <small>No account yet? <a href="@Url.Action("Contact")">Contact us</a>!</small>
+                </p>
+                <hr />
+                <p><a class="btn btn-default" href="@Url.Action("About")">Learn more &raquo;</a></p>
+            </div>
+        </div>
     </div>
     <div class="col-md-4">
-        <h2>Quick Facts About Us</h2>
-        <hr />
-        @Html.Action("Facts", "Home")
-        <hr />
-        <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h2>Quick Facts About Us</h2>
+                <hr />
+                @Html.Action("Facts", "Home")
+                <hr />
+                <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
+            </div>
+        </div>
     </div>
     <div class="col-md-4">
-        <h2>Login</h2>
-        <hr />
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h2>Login</h2>
+                <hr />
+                <section id="loginForm">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    <div class="col-md-12">
-                        @Html.LabelFor(m => m.Email, new { @class = "control-label" })
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            @Html.LabelFor(m => m.Password, new { @class = "control-label" })
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <div class="checkbox">
-                                @Html.CheckBoxFor(m => m.RememberMe)
-                                @Html.LabelFor(m => m.RememberMe)
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <input type="submit" value="Log in" class="btn btn-default" />
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                    </div>
-                    @* Enable this once you have account confirmation enabled for password reset functionality
-                        <p>
-                            @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                        </p>*@
-            }
-        </section>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                    @Html.LabelFor(m => m.RememberMe)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <input type="submit" value="Log in" class="btn btn-default" />
+                            </div>
+                        </div>
+                        @* Enable this once you have account confirmation enabled for password reset functionality
+                            <p>
+                                @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                            </p>*@
+                    }
+                </section>
+            </div>
+        </div>
     </div>
 </div>
