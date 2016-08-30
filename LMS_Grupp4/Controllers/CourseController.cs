@@ -33,7 +33,7 @@ namespace LMS_Grupp4.Controllers
             {
                 var model = courses.Where(c => c.Users.SingleOrDefault(u => u.Id == User.Identity.GetUserId()) != null);
 
-                return View("Index_Teacher", model); ;
+                return View("Index", model); ;
             }
             else
             {

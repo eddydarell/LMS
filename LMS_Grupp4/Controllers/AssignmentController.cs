@@ -277,6 +277,19 @@ namespace LMS_Grupp4.Controllers
 		[Authorize(Roles = "teacher")]
 		public ActionResult DeleteConfirmed(int id)
 		{
+			var assignment = LMSRepo.GetAssignmentByID(id);
+			List<Evaluation> tmpEvaluationList = new List<Evaluation>();
+
+			foreach(Evaluation evaluation in assignment.Evaluations)
+			{
+				tmpEvaluationList.Add(evaluation);
+			}
+
+			for(int i = 0; i<tmpEvaluationList.Count; i++)
+			{
+				LMSRepo.DeleteEvaluation(tmpEvaluationList.ElementAt(i).ID);
+			}
+
 			LMSRepo.DeleteAssignment(id);
 			
 			return RedirectToAction("IndexUser");

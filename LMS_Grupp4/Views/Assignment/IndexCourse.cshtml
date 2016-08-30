@@ -2,79 +2,83 @@
 @using LMS_Grupp4.Models
 @using Microsoft.AspNet.Identity;
 
-
 @{
     ViewBag.Title = "Index";
     bool isTeacher = (User.IsInRole("teacher")) ? true : false;
 }
 
-
-<div class="jumbotron">
-    @if (isTeacher)
-    {
-        <h1>You are logged in as Teacher: @User.Identity.GetUserRealName()</h1>
-        <small>ID: @ViewBag.UserID</small>
-    } else
-    {
-        <h1>You are logged in as Student: @User.Identity.GetUserRealName()</h1>
-        <small>ID: @ViewBag.UserID</small>
-    }
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            User ID: @User.Identity.GetUserId()
+        </small>
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Assignments Overview</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
 </div>
 
-<h2>Assignments for course @Model.CourseName</h2>
+
+<div class="jumbotron">
+    <h1>Assignments for course @Model.CourseName</h1>
+    <p>
+        Here you can see all the assignments that are registered for this course.<br />
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h2 class="text-center">Course assignments</h2>
+                </div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Due date
+                        </th>        
+                    </tr>
+
+                    @foreach (var item in Model.Assignments)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(item.Name, "Details_Basic", new { id = item.ID })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(assignment => item.DueDate)
+                            </td>
 
 
-<table class="table">
-    <tr>
-        <th>
-            Name
-        </th>
-        <th>
-            Due date
-        </th>
-        @*<th>
-                Completed
-            </th>*@
+                            @if (isTeacher)
+                            {
+                                <td>
+                                    <a href="@Url.Action("Edit", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Edit</a>
+                                    <a href="@Url.Action("Delete", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Delete</a>
+                                </td>
+                            } else
+                            {
+                                <td>
+                                    <a href="@Url.Action("ConfirmAssignment", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Confirm assignment</a>
+                                </td>
+                            }
+                        </tr>
+                    }
 
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.Assignments)
-    {
-        <tr>
-            <td>
-                @Html.ActionLink(item.Name, "Details_Basic", new { id = item.ID })
-            </td>
-            <td>
-                @Html.DisplayFor(assignment => item.DueDate)
-            </td>
-            @*<td>
-                    @Html.DisplayFor(assignment => item.IsPassed)
-                </td>*@
-
-            @if (isTeacher)
-            {
-                <td>
-                    <a href="@Url.Action("Edit", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Edit</a>
-                    @*@Html.ActionLink("Edit", "Edit") |*@
-                    <a href="@Url.Action("Delete", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Delete</a>
-                    @*@Html.ActionLink("Delete", "Delete")*@
-                </td>
-            } else
-            {
-                <td>
-                    @*@Html.ActionLink("Confirm assignment", "ConfirmAssignment", new {id = item.ID})*@
-                    <a href="@Url.Action("ConfirmAssignment", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Confirm assignment</a>
-                </td>
-            }
-        </tr>
-    }
-
-</table>
-
-<div>
-    @*@Html.ActionLink("Back to List", "IndexUser")*@
-    <a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Personal assignments</a>
+                </table>
+                <a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Personal assignments</a>
+            </div>
+        <div>
+    </div>
 </div>
 
 

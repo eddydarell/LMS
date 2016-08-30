@@ -10,6 +10,7 @@ namespace LMS_Grupp4.Models.LMS_ViewModels
 	{
 		public IEnumerable<Assignment> Assignments { get; set; }
 		public IEnumerable<Course> Courses { get; set; }
+		public ApplicationUser User { get; set; }
 
 		public Student_IndexViewModel(IEnumerable<Assignment> assignments, IEnumerable<Course> courses)
 		{
