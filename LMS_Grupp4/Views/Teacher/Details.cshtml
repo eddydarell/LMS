@@ -1,0 +1,65 @@
+﻿@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity
+@model LMS_Grupp4.Models.ApplicationUser
+
+@{
+    ViewBag.Title = Model.RealName + "Details";
+}
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            Student ID: @User.Identity.GetUserId()
+        </small>
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Course Details</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
+<div class="jumbotron">
+    <h2>Teacher's Details</h2>
+    <p>
+        You are viewing the details for the teacher <a href="#">@Model.RealName</a>.<br />
+        You can contact the teacher by his number or email.
+    </p>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">@Model.RealName</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <dl>
+                    <dt>
+                        Name
+                    </dt>
+                    <dd>
+                        @Model.RealName
+                    </dd>
+                    <dt>
+                        Email
+                    </dt>
+                    <dd>
+                        @Model.Email
+                    </dd>
+                    <dt>
+                        Phone Number
+                    </dt>
+                    <dd>
+                        @Model.PhoneNumber
+                    </dd>
+                </dl>
+                <hr />
+                <p>
+                    <a href="@Url.Action("Index")">Homepage</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

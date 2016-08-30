@@ -160,17 +160,24 @@ namespace LMS_Grupp4.Controllers
                     Email = model.Email,
                     PhoneNumber = model.PhoneNumber
                 };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     //The next line is commented to prevent newly registered users to be signed in Automatically
                     //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+
+                    if (model.IsStudent)
+                    {
+                        UserManager.AddToRole(user.Id, "student");
+                    }
 
                     return RedirectToAction("Index", "Home");
                 }

@@ -3,6 +3,8 @@
 
 @{
     ViewBag.Title = Model.CourseName + " Details";
+    var roleManager = new LMS_Grupp4.Repositories.LMSRepository().GetRoleManager();
+    var studentRoleID = roleManager.FindByName("student").Id;
 }
 <div class="row" style="padding-bottom: 20px">
     <div class="col-md-4">
@@ -50,10 +52,16 @@
                         @Html.DisplayFor(model => model.Description)
                     </dd>
                     <dt>
-                        Course Applications Count
+                        Pending Applications
                     </dt>
                     <dd>
-                        @Html.DisplayFor(model => model.CourseApplications.Count)
+                        @Model.CourseApplications.Where(ca => ca.Status == false).Count()
+                    </dd>
+                    <dt>
+                        Resolved Applications
+                    </dt>
+                    <dd>
+                        @Model.CourseApplications.Where(ca => ca.Status == true).Count()
                     </dd>
                     <dt>
                         Schema
@@ -65,22 +73,33 @@
                             @Html.Raw(Model.ClassSchema.Schedule)
                         </div>
                     </dd>
+                    <dt>
+                        Students
+                    </dt>
+                    <dd>
+                        <ul>
+                            @foreach (var user in Model.Users.Where(u => u.Roles.Any(r => r.RoleId == studentRoleID)).ToList())
+                            {
+                                <li><a href="@Url.Action("Details", "Student", new { id = user.Id})">@user.RealName</a></li>
+                            }
+                        </ul>
+                    </dd>
                 </dl>
                 <hr />
                 <div class="btn-toolbar">
                     <div class="btn-group">
-                        <a href="@Url.Action("Create", "Course")" class="btn btn-success btn-sm">Create New Course </a>
+                        <a href="@Url.Action("Create", "Course")" class="btn btn-success btn-sm">Create New Course <span class="glyphicon glyphicon-plus"></span></a>
                     </div>
                     <div class="btn-group">
                         <a href="@Url.Action("Edit", "Course", new { id = Model.ID })" class="btn btn-default btn-sm">Edit <span class="glyphicon glyphicon-pencil"></span></a>
-                        <a href="@Url.Action("Delete", "Course", new { id = Model.ID })" class="btn btn-danger btn-sm">Delete <span class="glyphicon glyphicon-floppy-remove"></span></a>
+                        <a href="@Url.Action("Delete", "Course", new { id = Model.ID })" class="btn btn-danger btn-sm">Delete <span class="glyphicon glyphicon-remove"></span></a>
                     </div>
                     <div class="btn-group">
                         <a href="@Url.Action("Index", "CourseApplication", new { id = Model.ID })" class="btn btn-default btn-sm" title="Applications for @Model.CourseName">View Applications</a>             
                     </div>
                     <div class="btn-group">
                         <a href="@Url.Action("IndexCourse", "Assignment", new { courseID = Model.ID })" class="btn btn-default btn-sm">View Assignments</a>
-                        <a href="@Url.Action("Create", "Assignment", new { courseID = Model.ID })" class="btn btn-default btn-sm">Create New Assignment</a>
+                        <a href="@Url.Action("Create", "Assignment", new { courseID = Model.ID })" class="btn btn-default btn-sm btn-info">Create New Assignment <span class="glyphicon glyphicon-plus"></span></a>
                     </div>
                 </div>
             </div>

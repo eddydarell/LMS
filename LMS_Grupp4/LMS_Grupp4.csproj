@@ -209,18 +209,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608250806132_initial.cs" />
-    <Compile Include="Migrations\201608250806132_initial.Designer.cs">
-      <DependentUpon>201608250806132_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608250835217_initialTwo.cs" />
-    <Compile Include="Migrations\201608250835217_initialTwo.Designer.cs">
-      <DependentUpon>201608250835217_initialTwo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608261253511_AfterCommit.cs" />
-    <Compile Include="Migrations\201608261253511_AfterCommit.Designer.cs">
-      <DependentUpon>201608261253511_AfterCommit.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -365,6 +353,15 @@
     <Content Include="Views\Course\Create_ViewModel.cshtml" />
     <Content Include="Views\Course\Details_Teacher_ViewModel.cshtml" />
     <Content Include="Views\Assignment\Details_Basic.cshtml" />
+    <Content Include="Views\Course\_FiveMostPopularCourses.cshtml" />
+    <Content Include="Views\Course\Index_Student.cshtml" />
+    <Content Include="Views\CourseApplication\Details_Student.cshtml" />
+    <Content Include="Views\CourseApplication\Details_Teacher.cshtml" />
+    <Content Include="Views\CourseApplication\Index_Student.cshtml" />
+    <Content Include="Views\CourseApplication\Index_Teacher.cshtml" />
+    <Content Include="Views\Course\Index_Teacher.cshtml" />
+    <Content Include="Views\Course\Index_Grouped.cshtml" />
+    <Content Include="Views\Teacher\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Search\" />
@@ -376,17 +373,6 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608250806132_initial.resx">
-      <DependentUpon>201608250806132_initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608250835217_initialTwo.resx">
-      <DependentUpon>201608250835217_initialTwo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608261253511_AfterCommit.resx">
-      <DependentUpon>201608261253511_AfterCommit.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

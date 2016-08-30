@@ -1,6 +1,6 @@
-﻿@using LMS_Grupp4.Models
+﻿@using LMS_Grupp4.Models.LMS_Models
 @using Microsoft.AspNet.Identity;
-@model IEnumerable<LMS_Grupp4.Models.LMS_Models.Course>
+@model IEnumerable<IGrouping<string, Course>>
 
 @{
     ViewBag.Title = "Index";
@@ -57,31 +57,37 @@
                     You can apply to any course but be sure to have the prerequisites.
                 </p>
                 <hr />
-                <table class="table table-striped">
+                <table class="table">
                     <tr>
-                        <th class="text-center">
+                        <th >
                             Code
                         </th>
-                        <th class="text-center">
-                            @Html.DisplayNameFor(model => model.CourseName)
+                        <th >
+                            Course
                         </th>
-                        <th class="text-center">
-                            @Html.DisplayNameFor(model => model.Description)
+                        <th >
+                            Description
                         </th>
                     </tr>
-                    @foreach (var item in Model)
+                    @foreach (var group in Model)
                     {
-                        <tr>
-                            <td>
-                                <span>LMS-@item.ID</span>
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Details", "Course", new { id = item.ID})" title="Details">@Html.DisplayFor(modelItem => item.CourseName)</a>
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
+                        <tr style="background-color: #eFeFeF;max-height:10px!important" class="text-right">
+                            <td colspan="3" style="font-size:1.2em; line-height:5px!important"><b>@group.Key</b></td>
                         </tr>
+                        foreach (var item in group)
+                        {
+                            <tr>
+                                <td>
+                                    <span>LMS-@item.ID</span>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Course", new { id = item.ID})" title="Details">@Html.DisplayFor(modelItem => item.CourseName)</a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                            </tr>
+                        }
                     }
                 </table>
             </div>
