@@ -2,15 +2,23 @@
 @model LMS_Grupp4.Models.LMS_Models.Course
 
 @{
-    ViewBag.Title = Model.CourseName + " Details";
-    var roleManager = new LMS_Grupp4.Repositories.LMSRepository().GetRoleManager();
-    var studentRoleID = roleManager.FindByName("student").Id;
+    ViewBag.Title = "Details";
+    bool isTeacher = (User.IsInRole("teacher")) ? true : false;
 }
 <div class="row" style="padding-bottom: 20px">
     <div class="col-md-4">
-        <small>
-            Teacher ID: @User.Identity.GetUserId()
-        </small>
+        @if (isTeacher)
+        {
+            <small>
+                Teacher ID: @User.Identity.GetUserId()
+            </small>
+        }
+        else
+        {
+            <small>
+                Student ID: @User.Identity.GetUserId()
+            </small>
+        }
     </div>
     <div class="col-md-4 text-center">
         <small>Course Details</small>
@@ -20,9 +28,10 @@
     </div>
 </div>
 <div class="jumbotron">
+
     <h2>@Model.CourseName</h2>
     <p>
-        @Model.Description <br />
+        @Model.Description
     </p>
 </div>
 <hr />
@@ -49,62 +58,50 @@
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.Description)
+                        @Html.DisplayFor(model => model.ClassSchema.Title)
                     </dd>
                     <dt>
-                        Pending Applications
+                        Schedule
                     </dt>
+
                     <dd>
-                        @Model.CourseApplications.Where(ca => ca.Status == false).Count()
+                        @Html.Raw(Model.ClassSchema.Schedule)
+                        <a href="@Url.Action("Print", "Schema", new { id = Model.ClassSchema.ID })">Print</a>
                     </dd>
                     <dt>
-                        Resolved Applications
+                        Course Applications
                     </dt>
+
                     <dd>
-                        @Model.CourseApplications.Where(ca => ca.Status == true).Count()
-                    </dd>
-                    <dt>
-                        Schema
-                    </dt>
-                    <dd>
-                        <p>Schema period: <b>@Model.ClassSchema.StartDate</b> - <b>@Model.ClassSchema.EndDate</b></p>
-                        <hr />
-                        <div class="schedule-box">
-                            @Html.Raw(Model.ClassSchema.Schedule)
-                        </div>
+                        <a href="@Url.Action("Index", "CourseApplication", new { id = Model.ID})"> @Html.DisplayFor(model => model.CourseApplications.Count)</a>
                     </dd>
                     <dt>
                         Students
                     </dt>
+
                     <dd>
-                        <ul>
-                            @foreach (var user in Model.Users.Where(u => u.Roles.Any(r => r.RoleId == studentRoleID)).ToList())
-                            {
-                                <li><a href="@Url.Action("Details", "Student", new { id = user.Id})">@user.RealName</a></li>
-                            }
-                        </ul>
+                        @Html.DisplayFor(model => model.Users.Count)
                     </dd>
                 </dl>
                 <hr />
                 <div class="btn-toolbar">
                     <div class="btn-group">
-                        <a href="@Url.Action("Create", "Course")" class="btn btn-success btn-sm">Create New Course <span class="glyphicon glyphicon-plus"></span></a>
+
+                        <a href="@Url.Action("Create", "Course")" class="btn btn-default btn-sm">Create New Course</a>
                     </div>
                     <div class="btn-group">
-                        <a href="@Url.Action("Edit", "Course", new { id = Model.ID })" class="btn btn-default btn-sm">Edit <span class="glyphicon glyphicon-pencil"></span></a>
-                        <a href="@Url.Action("Delete", "Course", new { id = Model.ID })" class="btn btn-danger btn-sm">Delete <span class="glyphicon glyphicon-remove"></span></a>
+                        <a href="@Url.Action("Edit", "Course", new { id = Model.ID })" class="btn btn-default btn-sm">Edit</a>
+                        <a href="@Url.Action("Delete", "Course", new { id = Model.ID })" class="btn btn-danger btn-sm">Delete</a>
                     </div>
                     <div class="btn-group">
-                        <a href="@Url.Action("Index", "CourseApplication", new { id = Model.ID })" class="btn btn-default btn-sm" title="Applications for @Model.CourseName">View Applications</a>             
-                    </div>
-                    <div class="btn-group">
-                        <a href="@Url.Action("IndexCourse", "Assignment", new { courseID = Model.ID })" class="btn btn-default btn-sm">View Assignments</a>
-                        <a href="@Url.Action("Create", "Assignment", new { courseID = Model.ID })" class="btn btn-default btn-sm btn-info">Create New Assignment <span class="glyphicon glyphicon-plus"></span></a>
+                        <a href="@Url.Action("Index", "CourseApplication", new { id = Model.ID })" class="btn btn-default btn-sm" title="Applications for @Model.CourseName">View Applications</a>
+                        <a href="@Url.Action("IndexCourse", "Assignment", new { courseID = Model.ID })" class="btn btn-default btn-sm">View assignments</a>
+                        <a href="@Url.Action("Create", "Assignment", new { courseID = Model.ID })" class="btn btn-default btn-sm">Create new assignment</a>
                     </div>
                 </div>
             </div>
         </div>
-        <a href="@Url.Action("Index", "Course")">Back To List</a>
+        <a href="@Url.Action("Index", "Teacher", new { id = User.Identity.GetUserId()})">Your Homepage</a>
     </div>
     <div class="col-md-4" ng-controller="enrollStudentCtrl">
         <div class="panel panel-primary">
@@ -115,9 +112,10 @@
             </div>
             <div class="panel-body">
                 <p>
-                    Quickly search for a student by email to enroll him to this course
+                    Quickly search for a student by his using his email to enroll him to this course
                 </p>
                 <hr />
+                <!--To-Do: Fix autocomplete-->
                 <form>
                     <div class="form-group">
                         <input type="hidden" value="json" name="resultFormat" ng-model="searchDetails.resultFormat" />
@@ -153,7 +151,7 @@
         </div>
         <div ng-show="enrollSuccessful">
             <hr />
-            <div class="well well-sm well success" style="cursor:pointer;box-shadow: 0px 5px 10px #CCC">
+            <div class="well well-sm well" style="cursor:pointer; background-color: lawngreen;box-shadow: 0px 5px 10px #CCC">
                 <h3>Success</h3>
                 <hr />
                 <p>
@@ -163,7 +161,7 @@
         </div>
         <div ng-show="studentNotFound">
             <hr />
-            <div class="well well-sm well danger" style="cursor:pointer; box-shadow: 0px 5px 10px #CCC">
+            <div class="well well-sm well" style="cursor:pointer; background-color: salmon;box-shadow: 0px 5px 10px #CCC">
                 <h3>No Result</h3>
                 <hr />
                 <p>

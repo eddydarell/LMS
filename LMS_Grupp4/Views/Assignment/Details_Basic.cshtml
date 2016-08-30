@@ -11,13 +11,6 @@
 <div>
     <dl>
         <dt>
-            @Html.DisplayNameFor(model => Model.DueDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.DueDate)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => Model.IssueDate)
         </dt>
         <dd>
@@ -25,17 +18,10 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => Model.Mark)
+            @Html.DisplayNameFor(model => Model.DueDate)
         </dt>
         <dd>
-            @Html.DisplayFor(model => Model.Mark)
-        </dd>
-
-        <dt>
-            Completed
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.IsPassed)
+            @Html.DisplayFor(model => Model.DueDate)
         </dd>
 
         <dt>
@@ -46,24 +32,10 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => Model.Score)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.Score)
-        </dd>
-
-        <dt>
             Max Score
         </dt>
         <dd>
             @Html.DisplayFor(model => Model.MaxScore)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => Model.Percentage)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.Percentage)
         </dd>
 
         <dt>
@@ -78,9 +50,6 @@
 
 <div>
     @*@Html.ActionLink("Back to List", "IndexUser")*@
-    <a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Back to list</a>
+    <a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Personal assignments</a>
 </div>
-
-
-
 

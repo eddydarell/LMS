@@ -2,26 +2,19 @@
 @using LMS_Grupp4.Models
 @using Microsoft.AspNet.Identity
 @{
-    ViewBag.Title = "Index";
-    bool isTeacher = (User.IsInRole("teacher")) ? true : false;
+    ViewBag.Title = User.Identity.GetUserRealName() + ": Index";
+    int courseCount = Model.courseModel.Count;
+    int assignmentCount = Model.assignmentModel.Count;
+    int applicationCount = Model.courseApplicationModel.Count;
 }
 <div class="row" style="padding-bottom: 20px">
     <div class="col-md-4">
-        @if (isTeacher)
-        {
-            <small>
-                Teacher ID: @User.Identity.GetUserId()
-            </small>
-        }
-        else
-        {
-            <small>
-                Student ID: @User.Identity.GetUserId()
-            </small>
-        }
+        <small>
+            Teacher ID: @User.Identity.GetUserId()
+        </small>
     </div>
     <div class="col-md-4 text-center">
-        <small>Teachers Overview</small>
+        <small>Teacher Homepage</small>
     </div>
     <div class="col-lg-4 text-right">
         <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
@@ -29,23 +22,28 @@
 </div>
 
 <div class="jumbotron">
-    <h1>Index</h1>
-    <h2>You are logged in as Teacher: @User.Identity.GetUserRealName()</h2>
-    <small>ID: @ViewBag.UserID</small>
+    <h1>Homepage</h1>
+    <h2>You are logged in as Teacher: <a href="#">@User.Identity.GetUserRealName()</a></h2>
+    <p>
+        This is your homepage. <br />
+        You can have a overview of your courses, courses applications and courses assignments at a glance.
+    </p>
+    <small>
+        You are not "@User.Identity.GetUserRealName()", login <a href="@Url.Action("Login", "Account")">here</a>.
+    </small>
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <div class="panel panel-default">
+        <div class="panel panel-info">
             <div class="panel-heading">
                 <div class="panel-title">
-                    <h4 class="text-center">My Courses</h4>
+                    <h4 class="text-center"><a href="@Url.Action("Index", "Course")">My Courses</a></h4>
                 </div>
             </div>
             <div class="panel-body">
                 <p>
-                    This is the list of all your courses with relevant information concerning each course.<br />
-                    Click on the links to open different sections.
+                    A list of your five most recent courses.<br />
                 </p>
                 <hr />
                 <table class="table table-bordered">
@@ -55,9 +53,6 @@
                         </th>
                         <th class="text-center">
                             Description
-                        </th>
-                        <th class="text-center">
-                            Created On
                         </th>
                     </tr>
 
@@ -70,20 +65,26 @@
                             <td>
                                 @Html.DisplayFor(course => item.Description)
                             </td>
-                            <td>
-                                @Html.DisplayFor(course => item.CreationDate)
-                            </td>
                         </tr>
                     }
 
                 </table>
-                <p>
-                    <a href="@Url.Action("Index", "Course")">My Courses</a>
-                </p>
+                @if (courseCount <= 0)
+                {
+                    <div class="alert alert-warning">
+                        <h4>You have no course as for now.</h4>
+                        <p>
+                            You can create a new one <a href="@Url.Action("Create", "Course")" title="Create new course">here</a>.
+                        </p>
+                    </div>
+                }
             </div>
         </div>
+        <p class="text-center">
+            <a href="@Url.Action("Index", "Course")">View All</a>
+        </p>
+        <hr />
     </div>
-
     <div class="col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -93,8 +94,8 @@
             </div>
             <div class="panel-body">
                 <p>
-                    This is the list of all your assignments with relevant information concerning each assignment.<br />
-                    Click on the links to open different sections.
+                    Bellow are listed assignments for your courses.<br />
+                    Select "View All" to view the full list
                 </p>
                 <hr />
                 <table class="table table-bordered">
@@ -120,11 +121,21 @@
                     }
 
                 </table>
-                <p>
-                    <a href="@Url.Action("IndexUser", "Assignment")">My Assignments</a>
-                </p>
+                @if (assignmentCount <= 0)
+                {
+                    <div class="alert alert-warning">
+                        <h4>You have no assignment as for now.</h4>
+                        <p>
+                            The assignments will be displayed in the table above.
+                        </p>
+                    </div>
+                }
             </div>
         </div>
+        <p class="text-center">
+            <a href="@Url.Action("IndexUser", "Assignment")">View All</a>
+        </p>
+        <hr />
     </div>
 
     <div class="col-md-4">
@@ -157,10 +168,9 @@
                     {
                         <tr>
                             <td>
-                                <a href="@Url.Action("Details", "Course", new { id = item.ID})">
-                                    @item.Message.Substring(0, 10) <span>...</span>
+                                <a href="@Url.Action("Details", "CourseApplication", new { id = item.ID})">
+                                    @(item.Message.Length > 16 ? item.Message.Substring(0, 15) + " ..." : item.Message) 
                                 </a>
-                                @*Html.DisplayFor(courseApplicationModel => item.Message.Substring(0, 10))*@
                             </td>
                             <td>
                                 @Html.DisplayFor(courseApplicationModel => item.CreationDate)
@@ -171,14 +181,45 @@
                         </tr>
                     }
                 </table>
+                @if (applicationCount <= 0)
+                {
+                    <div class="alert alert-warning">
+                        <h4>You have no applications as for now.</h4>
+                        <p>
+                            Course applications will be displayed in the table above.
+                        </p>
+                    </div>
+                }
+                
+            </div>
+        </div>
+        <p class="text-center">
+            <a href="@Url.Action("Index", "CourseApplication")">View All</a>
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-success">
+            <div class="panel-body">
                 <p>
-                    <a href="@Url.Action("Index", "CourseApplication")">Course Application</a>
+                    Register new students here.<br />
+                </p>
+                <hr />
+                <p>
+                    <a href="@Url.Action("Register", "Account")" class="btn btn-lg btn-success">Register Student <span class="glyphicon glyphicon-plus-sign"></span></a>
                 </p>
             </div>
         </div>
     </div>
 </div>
-
-<td>
-    <a href="@Url.Action("Students", "Teacher")">My Students</a>
-</td>
+<div class="row">
+    <div class="col-md-12">
+        <div class="well well-sm">
+            <p>
+                Every other operation con be available from the respective page. <br/>
+                For instance, information inherent to a course will be accessible from that course and nowhere else.
+            </p>
+        </div>
+    </div>
+</div>

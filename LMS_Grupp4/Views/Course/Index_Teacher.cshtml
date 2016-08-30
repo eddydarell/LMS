@@ -1,0 +1,118 @@
+﻿@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity;
+@model IEnumerable<LMS_Grupp4.Models.LMS_Models.Course>
+
+@{
+    ViewBag.Title = "Index";
+    int personalCourseCount = Model.Where(m => m.Users.SingleOrDefault(u => u.Id == User.Identity.GetUserId()) != null).Count();
+    var roleManager = new LMS_Grupp4.Repositories.LMSRepository().GetRoleManager();
+    var studentRoleID = roleManager.FindByName("student").Id;
+}
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            Teacher ID: @User.Identity.GetUserId()
+        </small>
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Courses Overview</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
+<div class="jumbotron">
+
+    <h2><a href="@Url.Action("Index", "Teacher")">@User.Identity.GetUserRealName()</a>, welcome!</h2>
+    <p>
+        Here you can see all your courses and available courses on our Learning platform.<br />
+        Choose a course to view details.<br />
+        You actually have <b>@personalCourseCount</b> course(s).<br />
+        <small>
+            You can create new courses, edit existing or delete obsoletes...
+        </small>
+    </p>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">My Courses</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    This is the list of all your courses with relevant information concerning each course.<br />
+                    Click on the Course to open different sections.
+                </p>
+                <hr />
+                <table class="table table-bordered">
+                    <tr>
+                        <th class="text-center">
+                            Code
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.CourseName)
+                        </th>
+                        <th class="text-center">
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th class="text-center">
+                            Application Count
+                        </th>
+                        <th class="text-center">
+                            Assignment Count
+                        </th>
+                        <th class="text-center">
+                            File Count
+                        </th>
+                        <th class="text-center">
+                            Student Count
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            <td>
+                                LMS-@item.ID-C
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Details", "Course", new { id = item.ID })" title="Details for @item.CourseName">@Html.DisplayFor(modelItem => item.CourseName)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @item.CourseApplications.Where(ca => ca.Status == false).Count()
+                            </td>
+                            <td>
+                                @item.Assignments.Count
+                            </td>
+                            <td>
+                                @item.Files.Count
+                            </td>
+                            <td>
+                                @item.Users.Where(u => u.Roles.Any(r => r.RoleId == studentRoleID)).Count()
+                            </td>
+                        </tr>
+                    }
+                </table>
+                @if (personalCourseCount <= 0)
+                {
+                    <hr />
+                    <h2 class="alert alert-warning">You have no courses!</h2>
+                    <p>
+                        Consider creating one. <br />
+                        Or contact the administrator.
+                    </p>
+                    <small>All your course will be displayed in the table above.</small>
+                }
+            </div>
+        </div>
+        <a href="@Url.Action("Index", "Student")">Homepage</a>
+    </div>
+</div>

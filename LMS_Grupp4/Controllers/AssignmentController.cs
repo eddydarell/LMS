@@ -78,6 +78,7 @@ namespace LMS_Grupp4.Controllers
 							}
 						}
 					}
+
 					Assignment_IndexUserViewModel A_IUVW = new Assignment_IndexUserViewModel(teacherAssignments, respondAssignments);
 
 					return View(A_IUVW);
@@ -89,6 +90,8 @@ namespace LMS_Grupp4.Controllers
 			}
 		}
 
+
+		[Authorize(Roles = "teacher, student")]
 		public ActionResult IndexCourse(int courseID = 0)
 		{
 			try 
@@ -107,6 +110,7 @@ namespace LMS_Grupp4.Controllers
 			}
 		}
 
+
 		[Authorize(Roles = "teacher")]
 		[HttpGet]
 		public ActionResult Create(int courseID = 0)
@@ -117,11 +121,12 @@ namespace LMS_Grupp4.Controllers
 			var course = LMSRepo.GetCourseByID(courseID);
 			var students = course.Users.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
 
-
+			//This viewmodel is not needed in this form, but remains from earlier test with dropdownlist.
 			Assignment_CreateViewModel a_CVM = new Assignment_CreateViewModel(students, courseID);
 
 			return View(a_CVM);
 		}
+
 
 		[Authorize(Roles = "teacher")]
 		[HttpPost]
@@ -134,6 +139,7 @@ namespace LMS_Grupp4.Controllers
 			assignment.DueDate = DueDate;
 			assignment.MaxScore = MaxScore;
 			assignment.IssueDate = DateTime.Now;
+			assignment.IsExpired = false;
 			//Connects the course to the assignment
 			assignment.Course = course;
 			assignment.Students = new List<ApplicationUser>();
@@ -151,6 +157,7 @@ namespace LMS_Grupp4.Controllers
 			return RedirectToAction("IndexUser");
 		}
 
+
 		[Authorize(Roles = "teacher")]
 		[HttpGet]
 		public ActionResult Edit(int ID = 0)
@@ -160,6 +167,7 @@ namespace LMS_Grupp4.Controllers
 			return View(assignment);
 		}
 
+
 		[Authorize(Roles = "teacher")]
 		[HttpPost]
 		public ActionResult Edit(int ID = 0, string Name = "", DateTime? DueDate = null)
@@ -168,34 +176,52 @@ namespace LMS_Grupp4.Controllers
 			assignment.Name = Name;
 			assignment.DueDate = DueDate;
 
+			assignment.IsExpired = DateTime.Now >= assignment.DueDate;
+
 			LMSRepo.EditAssignment(assignment);
 
 			return RedirectToAction("IndexUser");
 		}
 
+
 		[Authorize(Roles = "teacher")]
 		[HttpGet]
 		public ActionResult EditResponse(int ID = 0)
 		{
-			Assignment assignment = LMSRepo.GetAssignmentByID(ID);
+			Evaluation evaluation = LMSRepo.GetEvaluationByID(ID);
 
-			return View(assignment);
+			return View(evaluation);
 		}
+
 
 		[Authorize(Roles = "teacher")]
 		[HttpPost]
-		public ActionResult EditResponse(int ID = 0, string Mark = "", bool IsPassed = false, int Score = 0)
+		public ActionResult EditResponse(int ID = 0, string Mark = "", int Score = 0, string Message = "")
 		{
-			//Assignment assignment = LMSRepo.GetAssignmentByID(ID);
-			//assignment.Mark = Mark;
-			//assignment.IsPassed = IsPassed;
-			//assignment.Score = Score;
-			//assignment.Percentage = (assignment.Score / assignment.MaxScore) * 100;
+			Evaluation evaluation = LMSRepo.GetEvaluationByID(ID);
+			var assignment = evaluation.Assignment;
+			
+			evaluation.Mark = Mark;
+			evaluation.Score = Score;
+			evaluation.Percentage = (evaluation.Score / evaluation.Assignment.MaxScore) * 100;
+			evaluation.Message = Message;
 
-			//LMSRepo.EditAssignment(assignment);
+			if(evaluation.Percentage >= 50)
+			{
+				evaluation.IsPassed = true;
+			}
+			else
+			{
+				evaluation.IsPassed = false;
+			}
+
+			assignment.IsExpired = DateTime.Now >= assignment.DueDate;
+				
+			LMSRepo.EditAssignment(assignment);
 
 			return RedirectToAction("IndexUser");
 		}
+
 
 		[Authorize(Roles = "student")]
 		public ActionResult ConfirmAssignment(int id = 0)
@@ -209,27 +235,44 @@ namespace LMS_Grupp4.Controllers
 			Assignment assignment = LMSRepo.GetAssignmentByID(id);
 			assignment.Evaluations.Add(evaluation);
 
+			assignment.IsExpired = DateTime.Now >= assignment.DueDate;
+
 			user.Assignments.Add(assignment);
 
-			LMSRepo.SaveChanges();
+			LMSRepo.AddEvaluation(evaluation);
 
 			return RedirectToAction("IndexUser");
 		}
 
-		public ActionResult Details(int? id)
+
+		public ActionResult Details_Basic(int id)
 		{
 			var assignment = LMSRepo.GetAssignmentByID(id);
 
-			return View(assignment);
+			assignment.IsExpired = DateTime.Now >= assignment.DueDate;
+
+			return View(assignment);	
 		}
 
+		
+		public ActionResult Details_Full(int id)
+		{
+			var evaluation = LMSRepo.GetEvaluationByID(id);
+
+			evaluation.Assignment.IsExpired = DateTime.Now >= evaluation.Assignment.DueDate;
+
+			return View(evaluation);
+		}
+
+
 		[Authorize(Roles = "teacher")]
-		public ActionResult Delete(int? id)
+		public ActionResult Delete(int id)
 		{
 			Assignment assignment = LMSRepo.GetAssignmentByID(id);
 
 			return View(assignment);
 		}
+
 
 		[Authorize(Roles = "teacher")]
 		public ActionResult DeleteConfirmed(int id)

@@ -15,10 +15,6 @@ namespace LMS_Grupp4.Models.LMS_Models
 		[Display(Name = "Mark")]
 		public string Mark { get; set; }
 
-		[MaxLength(144)]
-		[Display(Name = "Comment")]
-		public string Message { get; set; }
-
 		[Display(Name = "Passed")]
 		public bool IsPassed { get; set; }
 
@@ -26,7 +22,12 @@ namespace LMS_Grupp4.Models.LMS_Models
 		public double? Score { get; set; }
 
 		[Display(Name = "Percentage")]
+		[DisplayFormat(DataFormatString="{00,00}")]
 		public double? Percentage { get; set; }
+
+		[MaxLength(144)]
+		[Display(Name = "Comment")]
+		public string Message { get; set; }
 
 
 		public virtual ApplicationUser Student { get; set; }
