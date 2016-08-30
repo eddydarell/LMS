@@ -66,7 +66,7 @@ namespace LMS_Grupp4.Repositories
 		}
 
 		// Gets an assignment from the database with a specific id
-		public Assignment GetAssignmentByID(int? id)
+		public Assignment GetAssignmentByID(int id)
 		{
             try
             {

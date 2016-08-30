@@ -209,9 +209,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608290706521_AddedEveluation.cs" />
-    <Compile Include="Migrations\201608290706521_AddedEveluation.Designer.cs">
-      <DependentUpon>201608290706521_AddedEveluation.cs</DependentUpon>
+    <Compile Include="Migrations\201608250806132_initial.cs" />
+    <Compile Include="Migrations\201608250806132_initial.Designer.cs">
+      <DependentUpon>201608250806132_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608250835217_initialTwo.cs" />
+    <Compile Include="Migrations\201608250835217_initialTwo.Designer.cs">
+      <DependentUpon>201608250835217_initialTwo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608261253511_AfterCommit.cs" />
+    <Compile Include="Migrations\201608261253511_AfterCommit.Designer.cs">
+      <DependentUpon>201608261253511_AfterCommit.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -238,13 +246,12 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\aspnet-LMS_Grupp4-20160810015608.mdf" />
-    <Content Include="App_Data\aspnet-LMS_Grupp4-20160810015608_log.ldf">
-      <DependentUpon>aspnet-LMS_Grupp4-20160810015608.mdf</DependentUpon>
+    <Content Include="App_Data\LMS.mdf" />
+    <Content Include="App_Data\LMS_log.ldf">
+      <DependentUpon>LMS.mdf</DependentUpon>
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\sadness.png" />
     <Content Include="Content\Uploads\Shared\wolf.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -329,11 +336,11 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\Assignment\Delete.cshtml" />
-    <Content Include="Views\Assignment\Details.cshtml" />
+    <Content Include="Views\Assignment\Details_Full.cshtml" />
     <Content Include="Views\Assignment\Edit.cshtml" />
     <Content Include="Views\Assignment\IndexUser.cshtml" />
     <Content Include="Views\CourseApplication\Apply.cshtml" />
-    <Content Include="Views\CourseApplication\Index_Teacher.cshtml" />
+    <Content Include="Views\CourseApplication\Index.cshtml" />
     <Content Include="Views\CourseApplication\RespondToApplication.cshtml" />
     <Content Include="Views\Error\ErrorHandler400.cshtml" />
     <Content Include="Views\Error\ErrorHandler401.cshtml" />
@@ -347,19 +354,17 @@
     <Content Include="Views\ProgramClass\Edit.cshtml" />
     <Content Include="Views\ProgramClass\Index.cshtml" />
     <Content Include="Views\Schema\Create.cshtml" />
+    <Content Include="Views\CourseApplication\Index.cshtml" />
     <Content Include="Views\CourseApplication\RespondToApplication.cshtml" />
     <Content Include="Scripts\version.json" />
-    <Content Include="Views\CourseApplication\Details_Student.cshtml" />
+    <Content Include="Views\CourseApplication\Details.cshtml" />
     <Content Include="Views\File\Upload.cshtml" />
     <Content Include="Views\Assignment\IndexCourse.cshtml" />
     <Content Include="Views\Error\ExceptionHandler.cshtml" />
     <Content Include="Views\Assignment\EditResponse.cshtml" />
     <Content Include="Views\Course\Create_ViewModel.cshtml" />
-    <Content Include="Views\Shared\_FactsPartial.cshtml" />
-    <Content Include="Views\CourseApplication\Index_Student.cshtml" />
-    <Content Include="Views\CourseApplication\Details_Teacher.cshtml" />
-    <Content Include="Views\Course\Index_Student.cshtml" />
-    <Content Include="Views\Course\_FiveMostPopularCourses.cshtml" />
+    <Content Include="Views\Course\Details_Teacher_ViewModel.cshtml" />
+    <Content Include="Views\Assignment\Details_Basic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Search\" />
@@ -373,8 +378,14 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608290706521_AddedEveluation.resx">
-      <DependentUpon>201608290706521_AddedEveluation.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608250806132_initial.resx">
+      <DependentUpon>201608250806132_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608250835217_initialTwo.resx">
+      <DependentUpon>201608250835217_initialTwo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608261253511_AfterCommit.resx">
+      <DependentUpon>201608261253511_AfterCommit.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

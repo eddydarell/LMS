@@ -43,7 +43,7 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(item.Name, "Details", new { id = item.ID })
+                @Html.ActionLink(item.Name, "Details_Basic", new { id = item.ID })
             </td>
             <td>
                 @Html.DisplayFor(assignment => item.DueDate)
@@ -71,6 +71,11 @@
     }
 
 </table>
+
+<div>
+    @*@Html.ActionLink("Back to List", "IndexUser")*@
+    <a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Personal assignments</a>
+</div>
 
 
 
