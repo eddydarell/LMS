@@ -69,6 +69,8 @@ namespace LMS_Grupp4.Models
         [Display(Name = "Real Name")]
         public string RealName { get; set; }
 
+        public bool IsStudent { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
