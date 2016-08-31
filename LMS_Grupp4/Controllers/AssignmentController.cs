@@ -74,7 +74,6 @@ namespace LMS_Grupp4.Controllers
 								{
 									respondAssignments.Add(assignment);
 								}
-								
 							}
 						}
 					}
@@ -115,16 +114,23 @@ namespace LMS_Grupp4.Controllers
 		[HttpGet]
 		public ActionResult Create(int courseID = 0)
 		{
-			//Contains code for populating a drop-down list in the view, which is not used right now.
-			var roleManager = LMSRepo.GetRoleManager();
-			var studentRole = roleManager.FindByName("student");
-			var course = LMSRepo.GetCourseByID(courseID);
-			var students = course.Users.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
+			try
+			{
+				//Contains code for populating a drop-down list in the view, which is not used right now.
+				var roleManager = LMSRepo.GetRoleManager();
+				var studentRole = roleManager.FindByName("student");
+				var course = LMSRepo.GetCourseByID(courseID);
+				var students = course.Users.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
 
-			//This viewmodel is not needed in this form, but remains from earlier test with dropdownlist.
-			Assignment_CreateViewModel a_CVM = new Assignment_CreateViewModel(students, courseID);
+				//This viewmodel is not needed in this form, but remains from earlier test with dropdownlist.
+				Assignment_CreateViewModel a_CVM = new Assignment_CreateViewModel(students, courseID);
 
-			return View(a_CVM);
+				return View(a_CVM);
+			} 
+			catch(NullReferenceException)
+			{ 
+				return RedirectToAction("IndexUser");
+			}
 		}
 
 
@@ -229,10 +235,19 @@ namespace LMS_Grupp4.Controllers
 			string userId = User.Identity.GetUserId();
 			var user = LMSRepo.GetUserManager().FindById(userId);
 
+			Assignment assignment = LMSRepo.GetAssignmentByID(id);
+
+			foreach(Assignment iterateAssignment in user.Assignments)
+			{
+				if(iterateAssignment.Equals(assignment))
+				{
+					return RedirectToAction("IndexUser");
+				}
+			}
+
 			Evaluation evaluation = new Evaluation();
 			evaluation.Student = user;
 
-			Assignment assignment = LMSRepo.GetAssignmentByID(id);
 			assignment.Evaluations.Add(evaluation);
 
 			assignment.IsExpired = DateTime.Now >= assignment.DueDate;

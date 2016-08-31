@@ -669,6 +669,9 @@
     <Content Include="Views\Course\_FiveMostPopularCourses.cshtml" />
     <Content Include="Views\Course\Index_Student.cshtml" />
     <Content Include="Views\Student\Details.cshtml" />
+    <Content Include="Views\Teacher\Details.cshtml" />
+    <Content Include="Views\Course\Index_Grouped.cshtml" />
+    <Content Include="Views\Course\Index_Teacher.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Search\" />

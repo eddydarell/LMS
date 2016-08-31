@@ -54,9 +54,7 @@
 
 <div>
     <a href="@Url.Action("DeleteConfirmed", "Assignment", new { id = Model.ID })" class="btn btn-default btn-sm">Delete</a>
-</div>
-
-<div>
-    @Html.ActionLink("Personal assignments", "IndexUser")
+    <br /><br />
+    <a href="@Url.Action("IndexUser", "Assignment", new { id = Model.ID })" class="btn btn-default btn-sm">Personal assignments</a>
 </div>
 
