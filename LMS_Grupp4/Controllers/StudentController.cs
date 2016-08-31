@@ -12,11 +12,11 @@ using System.Web.Mvc;
 
 namespace LMS_Grupp4.Controllers
 {
-	[Authorize(Roles = "student")]
 	public class StudentController : Controller
 	{
 		LMSRepository LMSRepo = new LMSRepository();
 
+		[Authorize(Roles = "student")]
 		public ActionResult Index(string id = "")
 		{
 			if (String.IsNullOrWhiteSpace(id))
@@ -46,6 +46,8 @@ namespace LMS_Grupp4.Controllers
 			return View(stud_IVW);
 		}
 
+
+		[Authorize(Roles = "student, teacher")]
 		public ActionResult Details(string id = "")
 		{
 			var user = LMSRepo.GetUserManager().FindById(id);

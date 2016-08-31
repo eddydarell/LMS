@@ -107,6 +107,9 @@
                                 Course
                             </th>
                             <th class="text-center">
+                                Student
+                            </th>
+                            <th class="text-center">
                                 Due date
                             </th>
                         </tr>
@@ -123,9 +126,11 @@
                                     <a href="@Url.Action("Details", "Course", new { id = evaluation.Assignment.Course.ID})">@Html.DisplayFor(courseName => evaluation.Assignment.Course.CourseName)</a>
                                 </td>
                                 <td>
+                                    <a href="@Url.Action("Details", "Student", new { id = evaluation.Student.Id })">@Html.DisplayFor(studentName => evaluation.Student.RealName)</a>
+                                </td>
+                                <td>
                                     @Html.DisplayFor(assignmt => evaluation.Assignment.DueDate)
                                 </td>
-
                                 <td>
                                     <a href="@Url.Action("EditResponse", "Assignment", new { id = evaluation.ID })" class="btn btn-default btn-sm">Respond</a>
                                 </td>

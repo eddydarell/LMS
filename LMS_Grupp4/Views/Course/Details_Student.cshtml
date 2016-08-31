@@ -67,7 +67,11 @@
 
                     </div>
                     <div class="btn-group">
-                        <a href="@Url.Action("IndexCourse", "Assignment", new { courseID = Model.ID })" class="btn btn-default">View assignments</a>
+                        @if (isAlreadyInCourse)
+                        {
+                            <a href="@Url.Action("IndexCourse", "Assignment", new { courseID = Model.ID })" class="btn btn-default">View assignments</a>
+                        }
+                        
                     </div>
                 </div>
 

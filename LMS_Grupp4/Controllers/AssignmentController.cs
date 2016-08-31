@@ -123,7 +123,7 @@ namespace LMS_Grupp4.Controllers
 				var students = course.Users.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
 
 				//This viewmodel is not needed in this form, but remains from earlier test with dropdownlist.
-				Assignment_CreateViewModel a_CVM = new Assignment_CreateViewModel(students, courseID);
+				Assignment_CreateViewModel a_CVM = new Assignment_CreateViewModel(students, course);
 
 				return View(a_CVM);
 			} 
@@ -202,29 +202,93 @@ namespace LMS_Grupp4.Controllers
 
 		[Authorize(Roles = "teacher")]
 		[HttpPost]
-		public ActionResult EditResponse(int ID = 0, string Mark = "", int Score = 0, string Message = "")
+		public ActionResult EditResponse(int ID = 0, int Score = 0, string Message = "")
 		{
-			Evaluation evaluation = LMSRepo.GetEvaluationByID(ID);
+			Evaluation evaluation = LMSRepo.GetEvaluationByID(ID), tmpEvaluation;
 			var assignment = evaluation.Assignment;
-			
-			evaluation.Mark = Mark;
+			var course = assignment.Course;
+			var user = evaluation.Student;
+			List<Evaluation> studentCourseEvaluations = new List<Evaluation>();
+			int assignmentCount = 0;
+			double? totalPercentage = 0;
+
+			foreach(Assignment iterateCourseAssignment in course.Assignments)
+			{
+				foreach(Assignment iterateStudentAssignment in user.Assignments)
+				{
+					if(iterateCourseAssignment.Equals(iterateStudentAssignment))
+					{
+						tmpEvaluation = iterateStudentAssignment.Evaluations.FirstOrDefault(eval => eval.Student.Id.Equals(user.Id));
+						studentCourseEvaluations.Add(tmpEvaluation);
+						assignmentCount++;
+					}
+				}
+			}
+
+			assignment.IsExpired = DateTime.Now >= assignment.DueDate;
 			evaluation.Score = Score;
 			evaluation.Percentage = (evaluation.Score / evaluation.Assignment.MaxScore) * 100;
 			evaluation.Message = Message;
 
-			if(evaluation.Percentage >= 50)
+			if (evaluation.Percentage >= 50)
 			{
 				evaluation.IsPassed = true;
-			}
+			} 
 			else
 			{
 				evaluation.IsPassed = false;
 			}
 
-			assignment.IsExpired = DateTime.Now >= assignment.DueDate;
+	
+			if(assignmentCount<3)
+			{
+				evaluation.Mark = "ND";
+				LMSRepo.EditAssignment(assignment);
+			} 
+			else 
+			{
+				foreach(Evaluation calcEvaluation in studentCourseEvaluations)
+				{
+					totalPercentage = totalPercentage + calcEvaluation.Percentage;
+				}
 				
-			LMSRepo.EditAssignment(assignment);
+				totalPercentage = totalPercentage/studentCourseEvaluations.Count;
 
+				foreach (Evaluation markedEvaluation in studentCourseEvaluations)
+				{
+					if (totalPercentage >= 90)
+					{
+						markedEvaluation.Mark = "A";
+					} 
+					else if (totalPercentage < 90 && totalPercentage >= 80)
+					{
+						markedEvaluation.Mark = "B";
+					} 
+					else if (totalPercentage < 80 && totalPercentage >= 70)
+					{
+						markedEvaluation.Mark = "C";
+					} 
+					else if (totalPercentage < 70 && totalPercentage >= 60)
+					{
+						markedEvaluation.Mark = "D";
+					} 
+					else if (totalPercentage < 60 && totalPercentage >= 50)
+					{
+						markedEvaluation.Mark = "E";
+					} 
+					else if (totalPercentage < 50 && totalPercentage >= 40)
+					{
+						markedEvaluation.Mark = "Fx";
+					} 
+					else
+					{
+						markedEvaluation.Mark = "F";
+					}
+
+					LMSRepo.EditAssignment(markedEvaluation.Assignment);
+				}
+			}
+	
 			return RedirectToAction("IndexUser");
 		}
 
@@ -247,6 +311,7 @@ namespace LMS_Grupp4.Controllers
 
 			Evaluation evaluation = new Evaluation();
 			evaluation.Student = user;
+			evaluation.Score = 0;
 
 			assignment.Evaluations.Add(evaluation);
 

@@ -6,15 +6,13 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <input type="hidden" value="@Model.CourseID" name="CourseID" />
+    <input type="hidden" value="@Model.Course.ID" name="CourseID" />
 
     <div class="form-horizontal">
-        <h4>Assignment</h4>
+        <h2>Create new assignment for course @Model.Course.CourseName</h2>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

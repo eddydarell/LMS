@@ -46,7 +46,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="panel-title">
-                    <h2 class="text-center">My Courses</h2>
+                    <h3 class="text-center">My Courses</h3>
                 </div>
             </div>
             <div class="panel-body">
@@ -114,19 +114,23 @@
                         {
                             foreach (var evaluation in assignmt.Evaluations)
                             {
-                                countLoops++;
-                                <tr>
-                                    <td>
-                                        <a href="@Url.Action("Details_Full", "Assignment", new { id = evaluation.ID })">@evaluation.Assignment.Name</a>
-                                        @*@Html.ActionLink(Model.Assignments.ElementAt(i).Name, "Details", "Assignment", new { id = Model.Assignments.ElementAt(i).ID })*@
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(assignment => evaluation.Assignment.DueDate)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(assignment => evaluation.IsPassed)
-                                    </td>
-                                </tr>
+                                if (countLoops < maxRenderedRows)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a href="@Url.Action("Details_Full", "Assignment", new { id = evaluation.ID })">@evaluation.Assignment.Name</a>
+                                            @*@Html.ActionLink(Model.Assignments.ElementAt(i).Name, "Details", "Assignment", new { id = Model.Assignments.ElementAt(i).ID })*@
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(assignment => evaluation.Assignment.DueDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(assignment => evaluation.IsPassed)
+                                        </td>
+                                    </tr>
+                                    countLoops++;
+                                }
+
                             }
                         }
 
