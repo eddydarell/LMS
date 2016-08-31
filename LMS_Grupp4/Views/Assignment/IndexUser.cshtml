@@ -22,7 +22,7 @@
 </div>
 
 <div class="jumbotron">
-    <h1>Assignments for user @User.Identity.GetUserRealName()</h1>
+    <h2>Assignments for user @User.Identity.GetUserRealName()</h2>
     @if (isTeacher)
     {
         <p>
@@ -40,23 +40,23 @@
 @if (isTeacher)
 {
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-5">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="panel-title">
-                        <h1 class="text-center">Created assignments</h1>
+                        <h2 class="text-center">Created assignments</h2>
                     </div>
                 </div>
                 <div class="panel-body">
                     <table class="table table-bordered">
                         <tr>
-                            <th>
+                            <th class="text-center">
                                 Name
                             </th>
-                            <th>
+                            <th class="text-center">
                                 Course
                             </th>
-                            <th>
+                            <th class="text-center">
                                 Due date
                             </th>
                         </tr>
@@ -74,10 +74,13 @@
                             <td>
                                 @Html.DisplayFor(assignment => item.DueDate)
                             </td>
-
                             <td>
-                                <a href="@Url.Action("Edit", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Edit</a>
-                                <a href="@Url.Action("Delete", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Delete</a>
+                                <div class="btn-toolbar">
+                                    <div class="btn-group">
+                                        <a href="@Url.Action("Edit", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Edit</a>
+                                        <a href="@Url.Action("Delete", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Delete</a>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     }
@@ -87,7 +90,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-5">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="panel-title">
@@ -97,13 +100,13 @@
                 <div class="panel-body">
                     <table class="table table-bordered">
                         <tr>
-                            <th>
+                            <th class="text-center">
                                 Name
                             </th>
-                            <th>
+                            <th class="text-center">
                                 Course
                             </th>
-                            <th>
+                            <th class="text-center">
                                 Due date
                             </th>
                         </tr>
@@ -139,23 +142,23 @@
 else
 {
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-5">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="panel-title">
-                        <h3 class="text-center">Your assignments</h3>
+                        <h2 class="text-center">Your assignments</h2>
                     </div>
                 </div>
                 <div class="panel-body">
                     <table class="table table-bordered">
                         <tr>
-                            <th>
+                            <th class="text-center">
                                 Name
                             </th>
-                            <th>
+                            <th class="text-center">
                                 Course
                             </th>
-                            <th>
+                            <th class="text-center">
                                 Due date
                             </th>   
                         </tr>
