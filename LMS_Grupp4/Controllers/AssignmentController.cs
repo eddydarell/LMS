@@ -20,8 +20,6 @@ namespace LMS_Grupp4.Controllers
         public ActionResult IndexUser()
         {
             var userId = User.Identity.GetUserId();
-          
-            ViewBag.UserID = userId;
 
             var user = LMSRepo.GetUserManager().FindById(userId);
 
@@ -60,17 +58,19 @@ namespace LMS_Grupp4.Controllers
                             teacherAssignments.Add(assignment);
                         }
                     }
+
+                    var userManager = LMSRepo.GetUserManager();
                     //Populates a list with all assignments that has been confirmed by the student in 
                     //any course that the teacher got.
                     foreach (Course course in teacherCourses)
                     {
                         foreach (var courseUser in course.Users)
                         {
-                            if (LMSRepo.GetUserManager().IsInRole(courseUser.Id, "student"))
+                            if (userManager.IsInRole(courseUser.Id, "student"))
                             {
                                 foreach (Assignment assignment in courseUser.Assignments)
                                 {
-                                    if (!respondAssignments.Contains(assignment))
+                                    if (!respondAssignments.Contains(assignment) && assignment.Course == course)
                                     {
                                         respondAssignments.Add(assignment);
                                     }

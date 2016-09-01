@@ -58,7 +58,7 @@ namespace LMS_Grupp4.Controllers
 
             List<IGrouping<string, LMSFile>> submissionFiles = new List<IGrouping<string, LMSFile>>();
             var files = LMSRepo.GetAllFiles();
-            submissionFiles = files.Where(f => user.Courses.Contains(f.Course) && f.URL.Contains("Submissions")).OrderByDescending(f => f.UploadDate).Take(3).GroupBy(f => f.Course.CourseName).ToList();
+            submissionFiles = files.Where(f => user.Courses.Contains(f.Course) && f.URL.Contains("Submissions")).OrderByDescending(f => f.UploadDate).Take(5).GroupBy(f => f.Course.CourseName).ToList();
 
             Teacher_IndexViewModel teacher_IVW = new Teacher_IndexViewModel(teacherAssignments.OrderByDescending(a => a.IssueDate).Take(5).ToList(), courseModel.OrderByDescending(c => c.Users.Count).Take(5).ToList(), applications.OrderByDescending(a => a.CreationDate).Take(5).ToList(), submissionFiles);
             

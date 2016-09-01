@@ -682,6 +682,7 @@
     <Content Include="Views\Teacher\Details.cshtml" />
     <Content Include="Views\Shared\_FactsPartial.cshtml" />
     <Content Include="Views\Assignment\UploadFile.cshtml" />
+    <Content Include="Views\File\SubmissionFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Uploads\Submissions\" />

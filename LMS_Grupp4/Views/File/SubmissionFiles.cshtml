@@ -1,0 +1,65 @@
+﻿@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity
+@model List<IGrouping<string, LMS_Grupp4.Models.LMS_Models.LMSFile>>
+
+@{
+    ViewBag.Title = "SubmissionFiles For " + User.Identity.GetUserRealName();
+}
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            Teacher ID: @User.Identity.GetUserId()
+        </small>
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Submitted Files</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
+
+<div class="jumbotron">
+    <h1>Courses Submitted Files</h1>
+    <h2>You are logged in as Teacher: <a href="#">@User.Identity.GetUserRealName()</a></h2>
+    <p>
+        This is a list of all submitted files <br />
+    </p>
+    <small>
+        You are not "@User.Identity.GetUserRealName()", login <a href="@Url.Action("Login", "Account")">here</a>.
+    </small>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h5 class="text-center">All Submitted Files</h5>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    Bellow are listed all submitted files grouped by course.<br />
+                    Click a file name to download it.
+                </p>
+                <div class="list-group">
+                    @foreach (var group in Model)
+                    {
+                        <div class="list-group-item  well well-sm">
+                            <div class="list-group-item-text">
+                                <div class="list-group-item-heading">Files Submissions for: <b style="font-size: 1.2em">@group.Key</b></div>
+                                @foreach (var file in group)
+                                {
+                                    <div class="list-group-item">
+                                        <a href="@Url.Action("Download", "File", new { id = file.ID})" class="list-group-item-text"><span class="glyphicon glyphicon-download"></span> @file.Name</a> from <a href="@Url.Action("Details", "Student", new { id = file.Uploader.Id})">@file.Uploader.RealName</a> on @file.UploadDate
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p><a href="@Url.Action("Index", "Teacher")">Homepage</a></p>
