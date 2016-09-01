@@ -25,7 +25,7 @@ namespace LMS_Grupp4.Controllers
 
             var user = LMSRepo.GetUserManager().FindById(userId);
 
-            List<Assignment> assignmentModelList;
+            List<Assignment> assignmentModelList = new List<Assignment>();
 
             if (User.IsInRole("student"))
             {
@@ -76,7 +76,6 @@ namespace LMS_Grupp4.Controllers
                                     }
                                 }
                             }
-
                         }
                     }
 
