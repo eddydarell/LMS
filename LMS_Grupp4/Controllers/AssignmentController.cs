@@ -240,7 +240,6 @@ namespace LMS_Grupp4.Controllers
                 evaluation.IsPassed = false;
             }
 
-            //To-DO. Fix this method to narrow it to just one courses assignments.
             if (assignmentCount < 3)
             {
                 evaluation.Mark = "ND";
