@@ -12,7 +12,7 @@ namespace LMS_Grupp4.Models.LMS_ViewModels
 	public class Assignment_CreateViewModel
 	{
 		//public Assignment Assignment { get; set; }
-		public int CourseID;
+		public Course Course;
 		public string Name { get; set; }
 		public DateTime DueDate { get; set; }
 		public int MaxScore { get; set; }
@@ -27,11 +27,11 @@ namespace LMS_Grupp4.Models.LMS_ViewModels
 		//	get { return new SelectList(Students, "Id", "RealName"); }
 		//}
 
-		public Assignment_CreateViewModel(IEnumerable<ApplicationUser> students, int courseID)
+		public Assignment_CreateViewModel(IEnumerable<ApplicationUser> students, Course course)
 		{
 			//this.Assignment = new Assignment();
 			//this.Students = students;
-			this.CourseID = courseID;
+			this.Course = course;
 		}
 	}
 

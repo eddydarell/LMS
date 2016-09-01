@@ -38,13 +38,13 @@
                 @*@Html.ValidationMessageFor(model => Model.DueDate, "", new { @class = "text-danger" })*@
             </div>
         </div>
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => Model.Mark, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => Model.Mark, new { htmlAttributes = new { @class = "form-control" } })
-                @*@Html.ValidationMessageFor(model => Model.Mark, "", new { @class = "text-danger" })*@
+                @Html.ValidationMessageFor(model => Model.Mark, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
         @*<div class="form-group">
             @Html.LabelFor(model => Model.IsPassed, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -84,12 +84,10 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Respond" class="btn btn-default" />
+                <br /><br />
+                <a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Back to personal assignments</a>
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to personal page", "IndexUser")
-</div>
 

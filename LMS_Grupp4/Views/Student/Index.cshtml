@@ -21,7 +21,6 @@
 </div>
 
 <div class="jumbotron">
-
     <h1><a href="@Url.Action("Details", "Student", new { id = User.Identity.GetUserId()})">@User.Identity.GetUserRealName()</a>, welcome!</h1>
     <p>
         Here you can see all the courses you are enrolled in, and also an assignment overview.<br />
@@ -47,11 +46,10 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="panel-title">
-                    <h2 class="text-center">My Courses</h2>
+                    <h3 class="text-center">My Courses</h3>
                 </div>
             </div>
             <div class="panel-body">
-
                 <table class="table table-bordered">
                     <tr>
                         <th class="text-center">
@@ -86,59 +84,69 @@
         </div>
     </div>
 
-        <h2>Assignments overview</h2>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h3 class="text-center">Assignments overview</h3>
+                </div>
+            </div>
+            <div class="panel-body">
 
-        <table class="table">
-            <tr>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Due date
-                </th>
-                <th>
-                    Completed
-                </th>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Due date
+                        </th>
+                        <th>
+                            Completed
+                        </th>
+  
+                    </tr>
 
-                <th></th>
-            </tr>
-
-            @{int maxRenderedRows = 3, countLoops = 0;
-            try
-            {
-                foreach (var assignmt in Model.Assignments)
-                {
-                    foreach (var evaluation in assignmt.Evaluations)
+                    @{int maxRenderedRows = 3, countLoops = 0;
+                    try
                     {
-                        countLoops++;
-                        <tr>
-                            <td>
-                                <a href="@Url.Action("Details_Full", "Assignment", new { id = evaluation.ID })">@evaluation.Assignment.Name</a>
-                                @*@Html.ActionLink(Model.Assignments.ElementAt(i).Name, "Details", "Assignment", new { id = Model.Assignments.ElementAt(i).ID })*@
-                            </td>
-                            <td>
-                                @Html.DisplayFor(assignment => evaluation.Assignment.DueDate)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(assignment => evaluation.IsPassed)
-                            </td>
-                        </tr>
+                        foreach (var assignmt in Model.Assignments)
+                        {
+                            foreach (var evaluation in assignmt.Evaluations)
+                            {
+                                if (countLoops < maxRenderedRows)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a href="@Url.Action("Details_Full", "Assignment", new { id = evaluation.ID })">@evaluation.Assignment.Name</a>
+                                            @*@Html.ActionLink(Model.Assignments.ElementAt(i).Name, "Details", "Assignment", new { id = Model.Assignments.ElementAt(i).ID })*@
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(assignment => evaluation.Assignment.DueDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(assignment => evaluation.IsPassed)
+                                        </td>
+                                    </tr>
+                                    countLoops++;
+                                }
+
+                            }
+                        }
+
+
+                    } catch (NullReferenceException)
+                    {
                     }
-                }
+                    }
 
-
-            } catch (NullReferenceException)
-            {
-
-            }
-            }
-
-        </table>
+                </table>
+                @Html.ActionLink("Show all assignments", "IndexUser", "Assignment")
+            </div>
+        </div>
+    </div>
 </div>
 
-<td>
-    @Html.ActionLink("Show all assignments", "IndexUser", "Assignment")
-</td>
 
 
-     
+

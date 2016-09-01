@@ -2,161 +2,194 @@
 @using LMS_Grupp4.Models
 @using Microsoft.AspNet.Identity;
 
-
 @{
     ViewBag.Title = "Index";
     bool isTeacher = (User.IsInRole("teacher")) ? true : false;
 }
 
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            User ID: @User.Identity.GetUserId()
+        </small>
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Assignments Overview</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
 
 <div class="jumbotron">
+    <h2>Assignments for user @User.Identity.GetUserRealName()</h2>
     @if (isTeacher)
     {
-        <h1>You are logged in as Teacher: @User.Identity.GetUserRealName()</h1>
-        <small>ID: @ViewBag.UserID</small>
+        <p>
+            Here you can see all the assignments you created, and respond to returned assignments.<br />
+        </p>
     } else
     {
-        <h1>You are logged in as Student: @User.Identity.GetUserRealName()</h1>
-        <small>ID: @ViewBag.UserID</small>
+        <p>
+            Here you can see all your active assignments.<br />
+        </p>
     }
 </div>
 
+
 @if (isTeacher)
 {
-    <h2>Your assignments</h2>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2 class="text-center">Created assignments</h2>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th class="text-center">
+                                Name
+                            </th>
+                            <th class="text-center">
+                                Course
+                            </th>
+                            <th class="text-center">
+                                Due date
+                            </th>
+                        </tr>
 
-    <table class="table">
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Course
-            </th>
-            <th>
-                Due date
-            </th>
-            @*<th>
-                Completed
-            </th>*@
+                    @foreach (var item in Model.TeacherAssignments)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(item.Name, "Details_Basic", new { id = item.ID })
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Details", "Course", new { id = item.Course.ID})">@Html.DisplayFor(course => item.Course.CourseName)</a>
+                                @*@Html.DisplayFor(assignment => item.Course)*@
+                            </td>
+                            <td>
+                                @Html.DisplayFor(assignment => item.DueDate)
+                            </td>
+                            <td>
+                                <div class="btn-toolbar">
+                                    <div class="btn-group">
+                                        <a href="@Url.Action("Edit", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Edit</a>
+                                        <a href="@Url.Action("Delete", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Delete</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
 
-            <th></th>
-        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-        @foreach (var item in Model.TeacherAssignments)
-        {
-            <tr>
-                <td>
-                    @Html.ActionLink(item.Name, "Details_Basic", new { id = item.ID })
-                </td>
-                <td>
-                    <a href="@Url.Action("Details", "Course", new { id = item.Course.ID})">@Html.DisplayFor(course => item.Course.CourseName)</a>
-                    @*@Html.DisplayFor(assignment => item.Course)*@
-                </td>
-                <td>
-                    @Html.DisplayFor(assignment => item.DueDate)
-                </td>
-                @*<td>
-                    @Html.DisplayFor(assignment => item.IsPassed)
-                </td>*@
+        <div class="col-md-5">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2 class="text-center">Returned assignments</h2>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th class="text-center">
+                                Name
+                            </th>
+                            <th class="text-center">
+                                Course
+                            </th>
+                            <th class="text-center">
+                                Student
+                            </th>
+                            <th class="text-center">
+                                Due date
+                            </th>
+                        </tr>
 
-                <td>
-                    <a href="@Url.Action("Edit", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Edit</a>
-                    <a href="@Url.Action("Delete", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Delete</a>
-                </td>
-            </tr>
-        }
-
-    </table>
-
-    <h2>Returned assignments</h2>
-
-    <table class="table">
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Course
-            </th>
-            <th>
-                Due date
-            </th>
-            @*<th>
-                Completed
-            </th>*@
-
-            <th></th>
-        </tr>
-
-        @foreach (var assignment in Model.StudentAssignments)
-        {
-            foreach(var evaluation in assignment.Evaluations)
-            {
-            <tr>
-                <td>
-                    @Html.ActionLink(evaluation.Assignment.Name, "Details_Full", new { id = evaluation.ID })
-                </td>
-                <td>
-                    <a href="@Url.Action("Details", "Course", new { id = evaluation.Assignment.Course.ID})">@Html.DisplayFor(courseName => evaluation.Assignment.Course.CourseName)</a>
-                    @*@Html.DisplayFor(assignment => item.Course)*@
-                </td>
-                <td>
-                    @Html.DisplayFor(assignmt => evaluation.Assignment.DueDate)
-                </td>
-                @*<td>
-                    @Html.DisplayFor(assignment => item.IsPassed)
-                </td>*@
-                <td>
-                    <a href="@Url.Action("EditResponse", "Assignment", new { id = evaluation.ID })" class="btn btn-default btn-sm">Respond</a>
-                </td>
-            </tr>
-            }
-        }
-    </table>
-} 
+                    @foreach (var assignment in Model.StudentAssignments)
+                    {
+                        foreach (var evaluation in assignment.Evaluations)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.ActionLink(evaluation.Assignment.Name, "Details_Full", new { id = evaluation.ID })
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Course", new { id = evaluation.Assignment.Course.ID})">@Html.DisplayFor(courseName => evaluation.Assignment.Course.CourseName)</a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Student", new { id = evaluation.Student.Id })">@Html.DisplayFor(studentName => evaluation.Student.RealName)</a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(assignmt => evaluation.Assignment.DueDate)
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("EditResponse", "Assignment", new { id = evaluation.ID })" class="btn btn-default btn-sm">Respond</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 else
 {
-    <h2>Your assignments</h2>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2 class="text-center">Your assignments</h2>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th class="text-center">
+                                Name
+                            </th>
+                            <th class="text-center">
+                                Course
+                            </th>
+                            <th class="text-center">
+                                Due date
+                            </th>   
+                        </tr>
 
-    <table class="table">
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Course  
-            </th>
-            <th>
-                Due date
-            </th>
-            @*<th>
-                Completed
-            </th>*@
-        </tr>
-
-        @foreach (var assignment in Model.StudentAssignments)
-        {
-            foreach(var evaluation in assignment.Evaluations)
-            {
-            <tr>
-                <td>
-                    @Html.ActionLink(evaluation.Assignment.Name, "Details_Full", new { id = evaluation.ID })
-                </td>
-                <td>
-                    <a href="@Url.Action("Details", "Course", new { id = evaluation.Assignment.Course.ID })">@Html.DisplayFor(courseName => evaluation.Assignment.Course.CourseName)</a>
-                    @*@Html.DisplayFor(assignment => item.Course)*@
-                </td>
-                <td>
-                    @Html.DisplayFor(eval => evaluation.Assignment.DueDate)
-                </td>
-                @*<td>
-                    @Html.DisplayFor(assignment => item.IsPassed)
-                </td>*@
-            </tr>
-            }
-        }
-    </table>
+                        @foreach (var assignment in Model.StudentAssignments)
+                        {
+                            foreach (var evaluation in assignment.Evaluations)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.ActionLink(evaluation.Assignment.Name, "Details_Full", new { id = evaluation.ID })
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Details", "Course", new { id = evaluation.Assignment.Course.ID })">@Html.DisplayFor(courseName => evaluation.Assignment.Course.CourseName)</a>
+               
+                                    </td>
+                                    <td>
+                                         @Html.DisplayFor(eval => evaluation.Assignment.DueDate)
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 

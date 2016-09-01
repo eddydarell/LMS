@@ -107,6 +107,6 @@
     </div>
 </div>
 <div class="btn-toolbar">
-    <a href="@Url.Action("RespondToApplication")" class="btn btn-default btn-md">Respond</a>
+    <a href="@Url.Action("RespondToApplication", new { id = @Model.ID })" class="btn btn-default btn-md">Respond</a>
     <a href="@Url.Action("Index")" class="btn btn-default btn-md">Back To List <span class="glyphicon glyphicon-arrow-right"></span></a>
 </div>

@@ -1,0 +1,91 @@
+﻿@model LMS_Grupp4.Models.LMS_ViewModels.Student_IndexViewModel
+@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            User ID: @User.Identity.GetUserId()
+        </small>
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Student details</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
+
+<div>
+    <dl>
+        <dt>
+            @Html.DisplayNameFor(model => Model.User.RealName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.User.RealName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.User.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.User.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.User.PhoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => Model.User.PhoneNumber)
+        </dd>
+    </dl>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h2 class="text-center">Courses</h2>
+                </div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <th class="text-center">
+                            Course
+                        </th>
+                        <th class="text-center">
+                            Description
+                        </th>
+                    </tr>
+
+                    @{try
+                    {
+                        foreach (var item in Model.Courses)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Details", "Course", new { id = item.ID })">@item.CourseName</a>
+                                    @*@Html.DisplayFor(course => item.CourseName)*@
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(course => item.Description)
+                                </td>
+                            </tr>
+                        }
+                    } catch (NullReferenceException)
+                    {
+                    }
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
