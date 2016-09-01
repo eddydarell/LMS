@@ -3,6 +3,8 @@
 
 @{
     ViewBag.Title = Model.CourseName + "Details";
+    var roleManager = new LMS_Grupp4.Repositories.LMSRepository().GetRoleManager();
+    var teacherRoleID = roleManager.FindByName("teacher").Id;
     bool applicationExists = Model.CourseApplications.Any(ca => ca.Student.Id == User.Identity.GetUserId() && ca.Status == false);
     bool isAlreadyInCourse = Model.Users.Any(u => u.Id == User.Identity.GetUserId());
 }
@@ -51,6 +53,18 @@
 
                     <dd>
                         @Html.DisplayFor(model => model.Description)
+                    </dd>
+                    <dt>
+                        Teachers
+                    </dt>
+
+                    <dd>
+                        <ul>
+                            @foreach (var user in Model.Users.Where(u => u.Roles.Any(r => r.RoleId == teacherRoleID)).ToList())
+                            {
+                                <li><a href="@Url.Action("Details", "Teacher", new { id = user.Id})">@user.RealName</a></li>
+                            }
+                        </ul>
                     </dd>
                 </dl>
 
