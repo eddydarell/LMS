@@ -114,7 +114,7 @@
                         {
                             foreach (var evaluation in assignmt.Evaluations)
                             {
-                                if (countLoops < maxRenderedRows)
+                                if (countLoops < maxRenderedRows && evaluation.Student.Id.Equals(User.Identity.GetUserId()))
                                 {
                                     <tr>
                                         <td>
