@@ -3,53 +3,121 @@
 @using Microsoft.AspNet.Identity;
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Index";
+    bool isTeacher = (User.IsInRole("teacher")) ? true : false;
 }
 
-<h2>Details for Assignment @Model.Name</h2>
-
-<div>
-    <dl>
-        <dt>
-            @Html.DisplayNameFor(model => Model.IssueDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.IssueDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => Model.DueDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.DueDate)
-        </dd>
-
-        <dt>
-            Over due
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.IsExpired)
-        </dd>
-
-        <dt>
-            Max Score
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.MaxScore)
-        </dd>
-
-        <dt>
-            Course
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.Course.CourseName)
-        </dd>
-
-    </dl>
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            User ID: @User.Identity.GetUserId()
+        </small>
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Assignments details</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
 </div>
 
+<div class="jumbotron">
+    <h2>Details for Assignment @Model.Name</h2>
+    @if (isTeacher)
+    {
+        <p>
+            Here you can see the basic details for this assignment.<br />
+            And also a list over students that currently has this assignment.
+        </p>
+    } else
+    {
+        <p>
+            Here you can see the basic details for this assignment.<br />
+        </p>
+    }
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h2 class="text-center">Assignment details</h2>
+                </div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <th class="text-center">
+                            Issue date
+                        </th>
+                        <th class="text-center">
+                            Due date
+                        </th>
+                        <th class="text-center">
+                            Over due
+                        </th>
+                        <th class="text-center">
+                            Max score
+                        </th>
+                        <th class="text-center">
+                            Course
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => Model.IssueDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => Model.DueDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => Model.IsExpired)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => Model.MaxScore)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => Model.Course.CourseName)
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (isTeacher)
+{
+    <div class="row">
+        <div class="col-md-5">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2 class="text-center">Students with this assignment</h2>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            @foreach (var item in @Model.Evaluations)
+                            {
+                                <td class="text-center">
+                                    <a href="@Url.Action("Details", "Student", new { id = item.Student.Id })">@item.Student.RealName</a>
+                                </td>
+                            }
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
 <div>
-    @*@Html.ActionLink("Back to List", "IndexUser")*@
-    <a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Personal assignments</a>
+    @Html.ActionLink("Personal assignments", "IndexUser")
+    @*<a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Personal assignments</a>*@
 </div>
 

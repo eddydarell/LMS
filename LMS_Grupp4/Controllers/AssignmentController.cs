@@ -312,6 +312,7 @@ namespace LMS_Grupp4.Controllers
 			Evaluation evaluation = new Evaluation();
 			evaluation.Student = user;
 			evaluation.Score = 0;
+			evaluation.LMSFile = new LMSFile();
 
 			assignment.Evaluations.Add(evaluation);
 
