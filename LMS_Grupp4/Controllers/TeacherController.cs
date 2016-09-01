@@ -31,9 +31,9 @@ namespace LMS_Grupp4.Controllers
             return View(studentList);
         }
 
-        public ActionResult Index(string id = "")
+        public ActionResult Index()
         {
-            var user = LMSRepo.GetUserManager().FindById(id);
+            var user = LMSRepo.GetUserManager().FindById(User.Identity.GetUserId());
             var coursesWithPendingApplications = user.Courses.Where(c => c.CourseApplications.Any(ca => ca.Status == false)).ToList();
 
             List<CourseApplication> applications = new List<CourseApplication>();
@@ -63,6 +63,7 @@ namespace LMS_Grupp4.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Details(string id = "")
         {
             var teacher = LMSRepo.GetUserManager().FindById(id);

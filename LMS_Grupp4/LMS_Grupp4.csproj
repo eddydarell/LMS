@@ -539,6 +539,7 @@
     <Content Include="ckeditor\styles.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\sadness.png" />
     <Content Include="Content\Uploads\Shared\wolf.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -676,6 +677,10 @@
     <Content Include="Views\CourseApplication\Details_Teacher.cshtml" />
     <Content Include="Views\CourseApplication\Index_Student.cshtml" />
     <Content Include="Views\CourseApplication\Index_Teacher.cshtml" />
+    <Content Include="Views\Course\Index_Teacher.cshtml" />
+    <Content Include="Views\Course\Index_Grouped.cshtml" />
+    <Content Include="Views\Teacher\Details.cshtml" />
+    <Content Include="Views\Shared\_FactsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Search\" />

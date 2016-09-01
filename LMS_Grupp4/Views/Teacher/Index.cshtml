@@ -74,10 +74,12 @@
                     <div class="alert alert-warning">
                         <h4>You have no course as for now.</h4>
                         <p>
-                            You can create a new one <a href="@Url.Action("Create", "Course")" title="Create new course">here</a>.
+                            Consider creating a new one or contact the administrator.
                         </p>
                     </div>
                 }
+                <hr />
+                <a href="@Url.Action("Create", "Course")" class="btn btn-xs btn-success">Create Course <span class="glyphicon glyphicon-plus"></span></a>
             </div>
         </div>
         <p class="text-center">
@@ -86,7 +88,7 @@
         <hr />
     </div>
     <div class="col-md-4">
-        <div class="panel panel-default">
+        <div class="panel panel-info">
             <div class="panel-heading">
                 <div class="panel-title">
                     <h4 class="text-center">My Assignments</h4>
@@ -139,7 +141,7 @@
     </div>
 
     <div class="col-md-4">
-        <div class="panel panel-warning">
+        <div class="panel panel-info">
             <div class="panel-heading">
                 <div class="panel-title">
                     <h4 class="text-center">Pending Applications</h4>
