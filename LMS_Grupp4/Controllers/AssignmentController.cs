@@ -62,19 +62,23 @@ namespace LMS_Grupp4.Controllers
 							teacherAssignments.Add(assignment);
 						}
 					}
-					//Populates a list with all assignments that has been confirmed by a student in 
+					//Populates a list with all assignments that has been confirmed by the student in 
 					//any course that the teacher got.
 					foreach (Course course in teacherCourses)
 					{
 						foreach (ApplicationUser courseUser in course.Users)
 						{
-							foreach(Assignment assignment in courseUser.Assignments)
+							if(courseUser.Id.Equals(User.Identity.GetUserId()))
 							{
-								if(!respondAssignments.Contains(assignment))
+								foreach(Assignment assignment in courseUser.Assignments)
 								{
-									respondAssignments.Add(assignment);
+									if(!respondAssignments.Contains(assignment))
+									{
+										respondAssignments.Add(assignment);
+									}
 								}
 							}
+							
 						}
 					}
 
