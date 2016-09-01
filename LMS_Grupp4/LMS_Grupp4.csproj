@@ -677,9 +677,11 @@
     <Content Include="Views\Course\Index_Grouped.cshtml" />
     <Content Include="Views\Teacher\Details.cshtml" />
     <Content Include="Views\Shared\_FactsPartial.cshtml" />
+    <Content Include="Views\Assignment\UploadFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Uploads\Submissions\" />
     <Folder Include="Views\Search\" />
   </ItemGroup>
   <ItemGroup>

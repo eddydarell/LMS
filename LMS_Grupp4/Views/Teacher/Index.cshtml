@@ -32,7 +32,21 @@
         You are not "@User.Identity.GetUserRealName()", login <a href="@Url.Action("Login", "Account")">here</a>.
     </small>
 </div>
-
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-success">
+            <div class="panel-body">
+                <p>
+                    Register new students here.<br />
+                </p>
+                <hr />
+                <p>
+                    <a href="@Url.Action("Register", "Account")" class="btn btn-lg btn-success">Register Student <span class="glyphicon glyphicon-plus-sign"></span></a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-4">
         <div class="panel panel-info">
@@ -43,7 +57,7 @@
             </div>
             <div class="panel-body">
                 <p>
-                    A list of your five most recent courses.<br />
+                    A list of your five most popular courses.<br />
                 </p>
                 <hr />
                 <table class="table table-bordered">
@@ -171,7 +185,7 @@
                         <tr>
                             <td>
                                 <a href="@Url.Action("Details", "CourseApplication", new { id = item.ID})">
-                                    @(item.Message.Length > 16 ? item.Message.Substring(0, 15) + " ..." : item.Message) 
+                                    @(item.Message.Length > 16 ? item.Message.Substring(0, 15) + " ..." : item.Message)
                                 </a>
                             </td>
                             <td>
@@ -192,7 +206,7 @@
                         </p>
                     </div>
                 }
-                
+
             </div>
         </div>
         <p class="text-center">
@@ -200,26 +214,54 @@
         </p>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-success">
-            <div class="panel-body">
-                <p>
-                    Register new students here.<br />
-                </p>
-                <hr />
-                <p>
-                    <a href="@Url.Action("Register", "Account")" class="btn btn-lg btn-success">Register Student <span class="glyphicon glyphicon-plus-sign"></span></a>
-                </p>
+@if (Model.SubFiles.Count > 0)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h5 class="text-center">Submitted Files</h5>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        Bellow are listed the latest submitted files grouped by course and each course shows 3 files.
+                    </p>
+                    <div class="list-group">
+                        @foreach (var group in Model.SubFiles)
+                        {
+                            <div class="list-group-item">
+                                <div class="list-group-item-text">
+                                    <div class="list-group-item-heading">Files Submissions for: <b style="font-size: 1.2em">@group.Key</b></div>
+                                    @foreach (var file in group)
+                                    {
+                                        <div class="list-group-item">
+                                            <a href="@Url.Action("Download", "File", new { id = file.ID})" class="list-group-item-text">@file.Name</a> from @file.Uploader.RealName.
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="panel-footer">
+                        <small>Click the link bellow this box to view all the submitted files.</small>
+                    </div>
+                </div>
             </div>
+            <p>
+                <a href="@Url.Action("SubmissionFiles", "File")">View All</a>
+            </p>
+            <hr />
         </div>
     </div>
-</div>
+}
+
 <div class="row">
     <div class="col-md-12">
         <div class="well well-sm">
             <p>
-                Every other operation con be available from the respective page. <br/>
+                Every other operation con be available from the respective page. <br />
                 For instance, information inherent to a course will be accessible from that course and nowhere else.
             </p>
         </div>

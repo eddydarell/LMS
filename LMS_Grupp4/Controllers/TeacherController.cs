@@ -17,19 +17,19 @@ namespace LMS_Grupp4.Controllers
     {
         LMSRepository LMSRepo = new LMSRepository();
         
-        public ActionResult Students(string id = "")
-        {
-            var students = LMSRepo.GetRoleManager().FindByName("student").Users;
-            var studentList = new List<ApplicationUser>();
-            foreach (var student in students)
-            {
-                studentList.Add(LMSRepo.GetUserManager().FindById(student.UserId));
-            }
+        //public ActionResult Students(string id = "")
+        //{
+        //    var students = LMSRepo.GetRoleManager().FindByName("student").Users;
+        //    var studentList = new List<ApplicationUser>();
+        //    foreach (var student in students)
+        //    {
+        //        studentList.Add(LMSRepo.GetUserManager().FindById(student.UserId));
+        //    }
 
-            ViewBag.UserID = id;
+        //    ViewBag.UserID = id;
 
-            return View(studentList);
-        }
+        //    return View(studentList);
+        //}
 
         public ActionResult Index()
         {
@@ -55,9 +55,12 @@ namespace LMS_Grupp4.Controllers
                     teacherAssignments.Add(assignment);
                 }
             }
-            
 
-            Teacher_IndexViewModel teacher_IVW = new Teacher_IndexViewModel(teacherAssignments.Take(5).ToList(), courseModel.Take(5).ToList(), applications.Take(5).ToList());
+            List<IGrouping<string, LMSFile>> submissionFiles = new List<IGrouping<string, LMSFile>>();
+            var files = LMSRepo.GetAllFiles();
+            submissionFiles = files.Where(f => user.Courses.Contains(f.Course) && f.URL.Contains("Submissions")).OrderByDescending(f => f.UploadDate).Take(3).GroupBy(f => f.Course.CourseName).ToList();
+
+            Teacher_IndexViewModel teacher_IVW = new Teacher_IndexViewModel(teacherAssignments.OrderByDescending(a => a.IssueDate).Take(5).ToList(), courseModel.OrderByDescending(c => c.Users.Count).Take(5).ToList(), applications.OrderByDescending(a => a.CreationDate).Take(5).ToList(), submissionFiles);
             
             return View(teacher_IVW);
         }

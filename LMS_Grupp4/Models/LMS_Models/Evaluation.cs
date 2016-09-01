@@ -29,7 +29,7 @@ namespace LMS_Grupp4.Models.LMS_Models
 		[Display(Name = "Comment")]
 		public string Message { get; set; }
 
-
+        //Navigation properties
 		public virtual ApplicationUser Student { get; set; }
 		public virtual LMSFile LMSFile { get; set; }
 		public virtual Assignment Assignment { get; set; }

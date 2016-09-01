@@ -11,15 +11,15 @@ namespace LMS_Grupp4.Models.LMS_ViewModels
         public List<Assignment> assignmentModel { get; set; }
         public List<Course> courseModel { get; set; }
         public List<CourseApplication> courseApplicationModel { get; set; }
-        public List<ApplicationUser> students { get; set; }
+        public List<IGrouping<string, LMSFile>> SubFiles { get; set; }
 
-        public Teacher_IndexViewModel(List<Assignment> assignmentModel, List<Course> courseModel, List<CourseApplication> courseApplicationModel, List<ApplicationUser> students)
+        public Teacher_IndexViewModel(List<Assignment> assignmentModel, List<Course> courseModel, List<CourseApplication> courseApplicationModel, List<IGrouping<string, LMSFile>> subFiles)
         {
             // TODO: Complete member initialization
             this.assignmentModel = assignmentModel;
             this.courseModel = courseModel;
             this.courseApplicationModel = courseApplicationModel;
-            this.students = students;
+            this.SubFiles = subFiles;
         }
 
         public Teacher_IndexViewModel(List<Assignment> assignmentModel, List<Course> courseModel, List<CourseApplication> courseApplicationModel)

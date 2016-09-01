@@ -1,0 +1,109 @@
+﻿@using Microsoft.AspNet.Identity;
+@model LMS_Grupp4.Models.LMS_Models.Assignment
+@{
+    ViewBag.Title = "Assignment File Upload";
+}
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            Student ID: @User.Identity.GetUserId()
+        </small>
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Assignment File Upload</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
+<div class="jumbotron">
+
+    <h2>You are on the Assignment upload page!</h2>
+    <p>
+        Choose a file to upload for the assignment <a href="@Url.Action("Details", "Assignment", new { id = Model.ID})">@Model.Name</a>.
+    </p>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">Assignment Details</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <dl>
+                        <dt>
+                            @Html.DisplayNameFor(model => Model.IssueDate)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => Model.IssueDate)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => Model.DueDate)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => Model.DueDate)
+                        </dd>
+
+                        <dt>
+                            Over due
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => Model.IsExpired)
+                        </dd>
+
+                        <dt>
+                            Max Score
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => Model.MaxScore)
+                        </dd>
+
+                        <dt>
+                            Course
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => Model.Course.CourseName)
+                        </dd>
+
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">Upload File</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("AssignmentUpload", "File", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+            {
+                    <input type="hidden" value="@Model.ID" name="id" />
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">File</label>
+                        <div class="col-md-10">
+                            <input type="file" name="file" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <div class="btn-toolbar">
+                                <input type="submit" name="Submit" id="Submit" value="Upload" class="btn btn-default btn-success" />
+                                <a href="@Url.Action("ConfirmAssignment", "Assignment", new { id = Model.ID})" class="btn btn-default btn-warning">Skip File Upload</a>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
