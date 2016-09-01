@@ -68,17 +68,13 @@ namespace LMS_Grupp4.Controllers
 					{
 						foreach (ApplicationUser courseUser in course.Users)
 						{
-							if(courseUser.Id.Equals(User.Identity.GetUserId()))
+							foreach(Assignment assignment in courseUser.Assignments)
 							{
-								foreach(Assignment assignment in courseUser.Assignments)
+								if(!respondAssignments.Contains(assignment))
 								{
-									if(!respondAssignments.Contains(assignment))
-									{
-										respondAssignments.Add(assignment);
-									}
+									respondAssignments.Add(assignment);
 								}
 							}
-							
 						}
 					}
 

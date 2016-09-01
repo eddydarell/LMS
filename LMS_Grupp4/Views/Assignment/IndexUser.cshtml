@@ -172,6 +172,8 @@ else
                         {
                             foreach (var evaluation in assignment.Evaluations)
                             {
+                                if(evaluation.Student.Id.Equals(User.Identity.GetUserId()))
+                                {
                                 <tr>
                                     <td>
                                         @Html.ActionLink(evaluation.Assignment.Name, "Details_Full", new { id = evaluation.ID })
@@ -184,6 +186,7 @@ else
                                          @Html.DisplayFor(eval => evaluation.Assignment.DueDate)
                                     </td>
                                 </tr>
+                                }
                             }
                         }
                     </table>
