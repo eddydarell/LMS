@@ -250,6 +250,17 @@ namespace LMS_Grupp4.Controllers
 
             return RedirectToAction("ConfirmAssignment", "Assignment", new { id = assignment.ID});
         }
+        
+        //Returns all files from submissions folder.
+        [Authorize(Roles = "teacher")]
+        public ActionResult SubmissionFiles()
+        {
+            List<IGrouping<string, LMSFile>> subFiles = new List<IGrouping<string, LMSFile>>();
+            var files = LMSRepo.GetAllFiles();
+            var user = LMSRepo.GetUserManager().FindById(User.Identity.GetUserId());
+            subFiles = files.Where(f => user.Courses.Contains(f.Course) && f.URL.Contains("Submissions")).OrderByDescending(f => f.UploadDate).GroupBy(f => f.Course.CourseName).ToList();
+            return View(subFiles);
+        }
 
         [HttpGet]
         public ActionResult Download(int id = 0)
