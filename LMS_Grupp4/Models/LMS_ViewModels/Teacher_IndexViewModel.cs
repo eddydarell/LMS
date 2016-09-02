@@ -12,14 +12,16 @@ namespace LMS_Grupp4.Models.LMS_ViewModels
         public List<Course> courseModel { get; set; }
         public List<CourseApplication> courseApplicationModel { get; set; }
         public List<IGrouping<string, LMSFile>> SubFiles { get; set; }
+        public List<IGrouping<string, LMSFile>> ClassFiles { get; set; }
 
-        public Teacher_IndexViewModel(List<Assignment> assignmentModel, List<Course> courseModel, List<CourseApplication> courseApplicationModel, List<IGrouping<string, LMSFile>> subFiles)
+        public Teacher_IndexViewModel(List<Assignment> assignmentModel, List<Course> courseModel, List<CourseApplication> courseApplicationModel, List<IGrouping<string, LMSFile>> subFiles, List<IGrouping<string, LMSFile>> classFiles)
         {
             // TODO: Complete member initialization
             this.assignmentModel = assignmentModel;
             this.courseModel = courseModel;
             this.courseApplicationModel = courseApplicationModel;
             this.SubFiles = subFiles;
+            this.ClassFiles = classFiles;
         }
 
         public Teacher_IndexViewModel(List<Assignment> assignmentModel, List<Course> courseModel, List<CourseApplication> courseApplicationModel)

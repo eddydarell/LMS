@@ -48,7 +48,7 @@
                 </p>
                 <hr />
                 <p class="text-center">
-                    <a href="@Url.Action("Register", "Account")" class="btn btn-lg btn-success">Register Student <span class="glyphicon glyphicon-plus-sign"></span></a>
+                    <a href="@Url.Action("Register", "Account")" class="btn btn-lg btn-success">Register A New Student <span class="glyphicon glyphicon-plus-sign"></span></a>
                 </p>
             </div>
         </div>
@@ -221,10 +221,62 @@
         </p>
     </div>
 </div>
-@if (Model.SubFiles.Count > 0)
-{
-    <div class="row">
-        <div class="col-md-12">
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h5 class="text-center">Classes Files</h5>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    Bellow are listed the 5 latest files uploaded in class grouped by course.<br />
+                    These files are not assignments and can be uploaded by students or yourself.
+                    Click a file name to download it.
+                </p>
+                <div class="list-group">
+                    @foreach (var group in Model.ClassFiles)
+                    {
+                        <div class="list-group-item  well well-sm">
+                            <div class="list-group-item-text">
+                                <div class="list-group-item-heading">Files uploaded for: <b style="font-size: 1.2em">@group.Key</b></div>
+                                @foreach (var file in group)
+                                {
+                                    <div class="list-group-item">
+                                        <a href="@Url.Action("Download", "File", new { id = file.ID})" class="list-group-item-text"><span class="glyphicon glyphicon-download"></span> @file.Name</a> from @file.Uploader.RealName.
+                                        @if (!file.IsPublicVisible)
+                                        {
+                                            <span class="badge text-right" style="background-color:orangered">Private</span>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+                @if (Model.ClassFiles.Count <= 0)
+                {
+                    <div class="warning">
+                        <h3>No file found!</h3>
+                        <hr />
+                        Nothing has been uploaded yet.
+                    </div>
+                }
+                <div class="panel-footer">
+                    <small>Click the link bellow this box to view all the uploaded files.</small>
+                </div>
+            </div>
+        </div>
+        <p class="text-center">
+            <a href="@Url.Action("Index", "File")">View All</a>
+        </p>
+        <hr />
+    </div>
+
+    @if (Model.SubFiles.Count > 0)
+    {
+        <div class="col-md-6">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="panel-title">
@@ -257,13 +309,16 @@
                     </div>
                 </div>
             </div>
-            <p>
+            <p class="text-center">
                 <a href="@Url.Action("SubmissionFiles", "File")">View All</a>
             </p>
             <hr />
         </div>
-    </div>
-}
+    }
+</div>
+
+
+
 
 <div class="row">
     <div class="col-md-12">

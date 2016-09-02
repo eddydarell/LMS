@@ -728,10 +728,10 @@
     <Content Include="Views\Shared\_FactsPartial.cshtml" />
     <Content Include="Views\Assignment\UploadFile.cshtml" />
     <Content Include="Views\File\SubmissionFiles.cshtml" />
+    <Content Include="Views\Search\SearchCourseByName.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Uploads\Submissions\" />
-    <Folder Include="Views\Search\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
