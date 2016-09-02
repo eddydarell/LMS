@@ -41,14 +41,16 @@ namespace LMS_Grupp4.Controllers
 			}
 			
 			List<IGrouping<string, LMSFile>> submissionFiles = new List<IGrouping<string, LMSFile>>();
+			List<IGrouping<string, LMSFile>> courseFiles = new List<IGrouping<string, LMSFile>>();
 			var files = LMSRepo.GetAllFiles();
 
-			submissionFiles = files.Where(f => user.Courses.Contains(f.Course) && f.URL.Contains("Shared") || f.Uploader.Id == user.Id).OrderByDescending(f => f.UploadDate).Take(5).GroupBy(f => f.Course.CourseName).ToList();
+			courseFiles = files.Where(f => user.Courses.Contains(f.Course) && f.URL.Contains("Shared") || f.Uploader.Id == user.Id).OrderByDescending(f => f.UploadDate).Take(5).GroupBy(f => f.Course.CourseName).ToList();
+			submissionFiles = files.Where(f => user.Courses.Contains(f.Course) && f.URL.Contains("Submissions") && f.Uploader.Id == user.Id).OrderByDescending(f => f.UploadDate).Take(5).GroupBy(f => f.Course.CourseName).ToList();
 
 			courseModel = courseModel.OrderByDescending(c => c.Assignments.Max(a => a.IssueDate) < DateTime.Now).Take(5).ToList();
 
 
-			Student_IndexViewModel s_IVW = new Student_IndexViewModel(studentAssignments.OrderByDescending(a => a.IssueDate).Take(5).ToList(), courseModel, applications.OrderByDescending(a => a.CreationDate).Take(5).ToList(), submissionFiles);
+			Student_IndexViewModel s_IVW = new Student_IndexViewModel(studentAssignments.OrderByDescending(a => a.IssueDate).Take(5).ToList(), courseModel, applications.OrderByDescending(a => a.CreationDate).Take(5).ToList(), submissionFiles, courseFiles);
 
 			return View(s_IVW);
 		}

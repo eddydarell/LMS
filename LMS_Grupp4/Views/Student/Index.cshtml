@@ -223,14 +223,68 @@
         </p>
     </div>
 </div>
-@if (Model.Files.Count > 0)
-{
-    <div class="row">
-        <div class="col-md-12">
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h5 class="text-center">Course Files</h5>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    Bellow are listed the 5 latest files uploaded grouped by course.<br />
+                    These files are not assignments and can be uploaded by teachers or yourself.
+                    Click a file name to download it.
+                </p>
+                <div class="list-group">
+                    @foreach (var group in Model.CourseFiles)
+                    {
+                        <div class="list-group-item  well well-sm">
+                            <div class="list-group-item-text">
+                                <div class="list-group-item-heading">Files uploaded for: <b style="font-size: 1.2em">@group.Key</b></div>
+                                @foreach (var file in group)
+                                {
+                                    <div class="list-group-item">
+                                        <a href="@Url.Action("Download", "File", new { id = file.ID})" class="list-group-item-text"><span class="glyphicon glyphicon-download"></span> @file.Name</a> from @file.Uploader.RealName.
+                                        @if (!file.IsPublicVisible)
+                                        {
+                                            <span class="badge text-right" style="background-color:orangered">Private</span>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+                @if (Model.CourseFiles.Count <= 0)
+                {
+                    <div class="warning">
+                        <h3>No file found!</h3>
+                        <hr />
+                        Nothing has been uploaded yet.
+                    </div>
+                }
+                <div class="panel-footer">
+                    <small>Click the link bellow this box to view all the uploaded files.</small>
+                </div>
+            </div>
+        </div>
+        <p class="text-center">
+            <a href="@Url.Action("Index", "File")">View All</a>
+        </p>
+        <hr />
+    </div>
+
+    @if (Model.SubFiles.Count > 0)
+    {
+        <div class="col-md-6">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="panel-title">
-                        <h5 class="text-center">Your shared and private Files</h5>
+                        <h5 class="text-center">Submitted Files</h5>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -239,7 +293,7 @@
                         Click a file name to download it.
                     </p>
                     <div class="list-group">
-                        @foreach (var group in Model.Files)
+                        @foreach (var group in Model.SubFiles)
                         {
                             <div class="list-group-item  well well-sm">
                                 <div class="list-group-item-text">
@@ -259,13 +313,15 @@
                     </div>
                 </div>
             </div>
-            <p>
+            <p class="text-center">
                 <a href="@Url.Action("SubmissionFiles", "File")">View All</a>
             </p>
             <hr />
         </div>
-    </div>
-}
+    }
+</div>
+
+
 
 <div class="row">
     <div class="col-md-12">

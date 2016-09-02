@@ -307,24 +307,9 @@ namespace LMS_Grupp4.Controllers
 
             Assignment assignment = LMSRepo.GetAssignmentByID(id);
 
-            foreach (Assignment iterateAssignment in user.Assignments)
-            {
-                if (iterateAssignment.Equals(assignment))
-                {
-                    return RedirectToAction("IndexUser");
-                }
-            }
-
-            //Evaluation evaluation = new Evaluation();
-            //evaluation.Student = user;
-            //evaluation.Score = 0;
-
-            //assignment.Evaluations.Add(evaluation);
-
             assignment.IsExpired = DateTime.Now >= assignment.DueDate;
 
             user.Assignments.Add(assignment);
-
 
             return RedirectToAction("IndexUser");
         }

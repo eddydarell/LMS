@@ -227,6 +227,14 @@ namespace LMS_Grupp4.Controllers
                     dbFile.URL = path;
                     dbFile.Course = assignment.Course;
 
+					foreach (Assignment iterateAssignment in uploader.Assignments)
+					{
+						if (iterateAssignment.Equals(assignment))
+						{
+							return RedirectToAction("IndexUser", "Assignment");
+						}
+					}
+
                     //Add file to the database
                     LMSRepo.AddFile(dbFile);
 
