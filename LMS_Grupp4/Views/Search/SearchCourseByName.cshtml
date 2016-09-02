@@ -1,0 +1,110 @@
+﻿@model IEnumerable<IGrouping<string, LMS_Grupp4.Models.LMS_Models.Course>>
+@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Search Results";
+    int resultCount = Model.Sum(g => g.Count());
+
+    var userManager = new LMS_Grupp4.Repositories.LMSRepository().GetUserManager();
+    var user = userManager.FindById(User.Identity.GetUserId());
+}
+
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            Teacher ID: @User.Identity.GetUserId()
+        </small>
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Teacher Homepage</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+    </div>
+</div>
+
+<div class="jumbotron">
+    <h2>Search Results</h2>
+    <p>You search gave @resultCount result(s).</p>
+</div>
+
+
+@if (resultCount <= 0)
+{
+    <div>
+        <div class="row">
+            <div class="col-md-8 warning">
+                <h3>No Course Found</h3>
+                <hr />
+                <p>Your search gave no results.</p>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h5 class="text-center">Search Results</h5>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        Your search yielded @resultCount result(s).
+                    </p>
+                    <hr />
+                    <table class="table table-condensed">
+                        <tr>
+                            <th>Course</th>
+                            <th>Description</th>
+                            <th>Teachers</th>
+                        </tr>
+                        @foreach (var group in Model)
+                        {
+                            <tr style="background-color: #eFeFeF;max-height:10px!important" class="text-right">
+                                <td colspan="4" style="font-size:1.2em; line-height:5px!important"><b>@group.Key</b></td>
+                            </tr>
+                            foreach (var course in group)
+                            {
+                                <tr>
+                                    <td><a href="@Url.Action("Details", "course", new { id = course.ID})">@course.CourseName</a></td>
+                                    <td>@course.Description</td>
+                                    <td>
+                                        <ul>
+                                            @foreach (var teacher in course.Users)
+                                            {
+                                                if (userManager.IsInRole(teacher.Id, "teacher"))
+                                                {
+                                                    <li><a href="@Url.Action("Details", "Teacher", new { id = teacher.Id})">@teacher.RealName</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </td>
+                                    @if (course.Users.Any(u => u.Id == user.Id))
+                                    {
+                                        <td class="success">
+                                            <span class="success">Subscribed</span>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<p>
+    <a href="@Url.Action("index", "Home")">Homepage</a>
+</p>
+
+

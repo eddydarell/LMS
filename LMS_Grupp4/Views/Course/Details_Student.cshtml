@@ -77,18 +77,13 @@
                         }
                     </div>
                     <div class="btn-group">
-                        <a href="@Url.Action("Upload", "File", new { id = Model.ID })" class="btn btn-primary">Upload File <span class="glyphicon glyphicon-upload"></span></a>
-
-                    </div>
-                    <div class="btn-group">
                         @if (isAlreadyInCourse)
                         {
                             <a href="@Url.Action("IndexCourse", "Assignment", new { courseID = Model.ID })" class="btn btn-default">View assignments</a>
+                            <a href="@Url.Action("Upload", "File", new { id = Model.ID })" class="btn btn-primary">Upload File <span class="glyphicon glyphicon-upload"></span></a>
                         }
-                        
                     </div>
                 </div>
-
             </div>
             @if (applicationExists)
             {

@@ -10,8 +10,6 @@ namespace LMS_Grupp4.Controllers
     public class SearchController : Controller
     {
         LMSRepository LMSRepo = new LMSRepository();
-
-        
         
         [Authorize]
         [HttpGet]
@@ -62,6 +60,25 @@ namespace LMS_Grupp4.Controllers
             }
         }
 
+        [HttpPost]
+        [Authorize(Roles = "student")]
+        public ActionResult SearchCourseByName (string search = "")
+        {
+            search = search.ToLower().Trim();
+            var courses = LMSRepo.GetAllCourses();
+
+            if (String.IsNullOrWhiteSpace(search))
+            {
+                var model = courses.OrderBy(c => c.CourseName).GroupBy(c => c.CourseName.Substring(0, 1)).ToList();
+                return View(model);
+            }
+            else
+            {
+                var model = courses.Where(c => c.CourseName.ToLower().Contains(search)).OrderBy(c => c.CourseName).GroupBy(c => c.CourseName.Substring(0, 1)).ToList();
+                return View(model);
+            }
+        }
+
         [Authorize]
         public ActionResult SearchProgramClassByName(string name, string resultFormat = "")
         {
@@ -91,7 +108,5 @@ namespace LMS_Grupp4.Controllers
                 return View(files);//To-Do: Create views for this controller
             }
         }
-
-        //To-Do: Add groupby and orderBy 
     }
 }
