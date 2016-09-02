@@ -37,6 +37,9 @@
                             @Html.DisplayNameFor(model => model.Name)
                         </th>
                         <th class="text-center">
+                            Uploader
+                        </th>
+                        <th class="text-center">
                             Course Name
                         </th>
                         <th  class="text-center">
@@ -59,6 +62,9 @@
                         <tr>
                             <td>
                                 <a href="@Url.Action("Details", new { id = item.ID })"> @Html.DisplayFor(modelItem => item.Name)</a>
+                            </td>
+                            <td>
+                                @item.Uploader.RealName
                             </td>
                             <td>
                                 @item.Course.CourseName

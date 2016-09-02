@@ -1,22 +1,71 @@
 ﻿@using Microsoft.AspNet.Identity
 @using LMS_Grupp4.Models
+
+@{
+    var userManager = new LMS_Grupp4.Repositories.LMSRepository().GetUserManager();
+
+    bool isTeacher = false;
+    bool isStudent = false;
+    bool isAdmin = false;
+    if(Request.IsAuthenticated)
+    {
+        isTeacher = userManager.IsInRole(User.Identity.GetUserId(), "teacher");
+        isStudent = userManager.IsInRole(User.Identity.GetUserId(), "student");
+        isAdmin = userManager.IsInRole(User.Identity.GetUserId(), "admin");
+    }
+}
+
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserRealName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="@Url.Action("Index", "Manage")" title="Manage"><span class="glyphicon glyphicon-user"></span> @User.Identity.GetUserRealName()</a>
+                
+            </li>
+            @if (isTeacher)
+            {
+                <li>
+                    <a href="@Url.Action("Index", "Course")"><span class="glyphicon glyphicon-book"></span> Courses</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "File")"><span class="glyphicon glyphicon-file"></span> Files</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "CourseApplication")"><span class="glyphicon glyphicon-link"></span> Applications</a>
+                </li>
+            }
+            @if (isAdmin)
+            {
+                <li>
+                    <a href="@Url.Action("ViewUsers", "Admin")"><span class="glyphicon glyphicon-user"></span> View Users</a>
+                </li>
+            }
+            @if (isStudent)
+            {
+                <li>
+                    <a href="@Url.Action("Index", "Course")"><span class="glyphicon glyphicon-book"></span> Courses</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "File")"><span class="glyphicon glyphicon-file"></span> Files</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("IndexUser", "Assignment")"><span class="glyphicon glyphicon-paperclip"></span> Assignments</a>
+                </li>
+            }
+            <li><a href="javascript:document.getElementById('logoutForm').submit()"><span class="glyphicon glyphicon-log-out"></span> Log off</a></li>
+        </ul>
     }
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>
+            <a href="@Url.Action("Login", "Account", routeValues: null)" id="loginLink"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+           
+        </li>
     </ul>
 }
