@@ -23,7 +23,7 @@ namespace LMS_Grupp4.Controllers
 
             var user = LMSRepo.GetUserManager().FindById(userId);
 
-            List<Assignment> assignmentModelList;
+            List<Assignment> assignmentModelList = new List<Assignment>();
 
             if (User.IsInRole("student"))
             {
@@ -76,7 +76,6 @@ namespace LMS_Grupp4.Controllers
                                     }
                                 }
                             }
-
                         }
                     }
 
@@ -241,7 +240,6 @@ namespace LMS_Grupp4.Controllers
                 evaluation.IsPassed = false;
             }
 
-            //To-DO. Fix this method to narrow it to just one courses assignments.
             if (assignmentCount < 3)
             {
                 evaluation.Mark = "ND";

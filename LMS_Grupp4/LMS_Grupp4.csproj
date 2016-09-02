@@ -238,6 +238,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\LMS.mdf" />
+    <Content Include="App_Data\LMS_log.ldf">
+      <DependentUpon>LMS.mdf</DependentUpon>
+    </Content>
     <Content Include="ckeditor\adapters\jquery.js" />
     <Content Include="ckeditor\build-config.js" />
     <Content Include="ckeditor\ckeditor.js" />
@@ -681,7 +685,6 @@
     <Content Include="Views\File\SubmissionFiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\Submissions\" />
     <Folder Include="Views\Search\" />
   </ItemGroup>
