@@ -8,14 +8,26 @@ namespace LMS_Grupp4.Models.LMS_ViewModels
 {
 	public class Student_IndexViewModel
 	{
-		public IEnumerable<Assignment> Assignments { get; set; }
-		public IEnumerable<Course> Courses { get; set; }
+		public List<Assignment> assignmentModel { get; set; }
+        public List<Course> courseModel { get; set; }
+        public List<CourseApplication> courseApplicationModel { get; set; }
+        public List<IGrouping<string, LMSFile>> SubFiles { get; set; }
+		public List<IGrouping<string, LMSFile>> CourseFiles { get; set; }
 		public ApplicationUser User { get; set; }
 
-		public Student_IndexViewModel(IEnumerable<Assignment> assignments, IEnumerable<Course> courses)
+		public Student_IndexViewModel(List<Assignment> assignmentModel, List<Course> courseModel, List<CourseApplication> courseApplicationModel, List<IGrouping<string, LMSFile>> subFiles, List<IGrouping<string, LMSFile>> courseFiles)
+        {
+            this.assignmentModel = assignmentModel;
+            this.courseModel = courseModel;
+            this.courseApplicationModel = courseApplicationModel;
+            this.SubFiles = subFiles;
+			this.CourseFiles = courseFiles;
+        }
+
+		public Student_IndexViewModel(List<Course> courses, ApplicationUser user)
 		{
-			this.Assignments = assignments;
-			this.Courses = courses;
+			this.courseModel = courses;
+			this.User = user;
 		}
 	}
 }

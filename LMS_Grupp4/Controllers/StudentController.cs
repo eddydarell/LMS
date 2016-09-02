@@ -17,33 +17,42 @@ namespace LMS_Grupp4.Controllers
 		LMSRepository LMSRepo = new LMSRepository();
 
 		[Authorize(Roles = "student")]
-		public ActionResult Index(string id = "")
+		public ActionResult Index()
 		{
-			if (String.IsNullOrWhiteSpace(id))
-			{
-				id = User.Identity.GetUserId();
-			}
-			ViewBag.UserID = id;
+			var user = LMSRepo.GetUserManager().FindById(User.Identity.GetUserId());
+			var coursesWithPendingApplications = user.Courses.Where(c => c.CourseApplications.Any(ca => ca.Status == false)).ToList();
 
-			var user = LMSRepo.GetUserManager().FindById(id);
-
-			List<Assignment> assignmentModelList;
-			List<Course> courseModelList;
-
-			try
+			List<CourseApplication> applications = new List<CourseApplication>();
+			foreach (var course in coursesWithPendingApplications)
 			{
-				//List<Assignment> assignmentModelList = new List<Assignment>();
-				assignmentModelList = user.Assignments.ToList();
-				//List<Course> courseModelList = new List<Course>();
-				courseModelList = user.Courses.ToList();
-			} catch (NullReferenceException)
-			{
-				return View();
+				foreach (var application in course.CourseApplications)
+				{
+					if (!application.Status)
+						applications.Add(application);
+				}
 			}
 
-			Student_IndexViewModel stud_IVW = new Student_IndexViewModel(assignmentModelList, courseModelList);
+			var courseModel = user.Courses.ToList();
 
-			return View(stud_IVW);
+			List<Assignment> studentAssignments = new List<Assignment>();
+			foreach (Assignment assignment in user.Assignments)
+			{
+				studentAssignments.Add(assignment);
+			}
+			
+			List<IGrouping<string, LMSFile>> submissionFiles = new List<IGrouping<string, LMSFile>>();
+			List<IGrouping<string, LMSFile>> courseFiles = new List<IGrouping<string, LMSFile>>();
+			var files = LMSRepo.GetAllFiles();
+
+			courseFiles = files.Where(f => user.Courses.Contains(f.Course) && f.URL.Contains("Shared") || f.Uploader.Id == user.Id).OrderByDescending(f => f.UploadDate).Take(5).GroupBy(f => f.Course.CourseName).ToList();
+			submissionFiles = files.Where(f => user.Courses.Contains(f.Course) && f.URL.Contains("Submissions") && f.Uploader.Id == user.Id).OrderByDescending(f => f.UploadDate).Take(5).GroupBy(f => f.Course.CourseName).ToList();
+
+			courseModel = courseModel.OrderByDescending(c => c.Assignments.Max(a => a.IssueDate) < DateTime.Now).Take(5).ToList();
+
+
+			Student_IndexViewModel s_IVW = new Student_IndexViewModel(studentAssignments.OrderByDescending(a => a.IssueDate).Take(5).ToList(), courseModel, applications.OrderByDescending(a => a.CreationDate).Take(5).ToList(), submissionFiles, courseFiles);
+
+			return View(s_IVW);
 		}
 
 
@@ -59,8 +68,7 @@ namespace LMS_Grupp4.Controllers
 			{
 				courseModelList = user.Courses.ToList();
 
-				Student_IndexViewModel stud_IVW = new Student_IndexViewModel(emptyFillerList, courseModelList);
-				stud_IVW.User = user;
+				Student_IndexViewModel stud_IVW = new Student_IndexViewModel(courseModelList, user);
 
 				return View(stud_IVW);
 			} 

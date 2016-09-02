@@ -3,7 +3,10 @@
 @using Microsoft.AspNet.Identity
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = User.Identity.GetUserRealName() + ": Index";
+    int courseCount = Model.courseModel.Count;
+    int assignmentCount = Model.assignmentModel.Count;
+    int applicationCount = Model.courseApplicationModel.Count;
 }
 
 <div class="row" style="padding-bottom: 20px">
@@ -20,36 +23,54 @@
     </div>
 </div>
 
+
 <div class="jumbotron">
-    <h1><a href="@Url.Action("Details", "Student", new { id = User.Identity.GetUserId()})">@User.Identity.GetUserRealName()</a>, welcome!</h1>
+    <h1>Homepage</h1>
+    <h2>You are logged in as Student: <a href="#">@User.Identity.GetUserRealName()</a></h2>
     <p>
-        Here you can see all the courses you are enrolled in, and also an assignment overview.<br />
-        Choose a course or assignment to view details.<br />
-        You can also apply to a new course, and get a list over all active and finished assignments.<br />
-        Here you can also view your files, or upload a new one.  
+        Here you can see an overview of the courses you are enrolled in, and also an assignment overview.<br />
+        Choose a course or assignment to view details, or view all of them with the link below.<br />
+        Your pending course applications are also shown here.</br>
+        You can also apply to a new course, and view your files.
     </p>
+    <small>
+        If you are not "@User.Identity.GetUserRealName()", login <a href="@Url.Action("Login", "Account")">here</a>.
+    </small>
 </div>
-
-
-<td>
-    @*@Html.ActionLink("Apply for new Course", "Index", "Course") |*@
-    <a href="@Url.Action("Index", "Course")" class="btn btn-default btn-sm">Apply for new course</a>
-    @*@Html.ActionLink("My Files", "Files", new { id = User.Identity.GetUserId() })*@
-    <a href="@Url.Action("Index", "File")" class="btn btn-default btn-sm">Your files</a>
-    <br /><br />
-</td>
-
-<br /><br />
-
 <div class="row">
-    <div class="col-md-4">
-        <div class="panel panel-default">
+    <div class="col-md-12">
+        <div class="panel panel-success">
             <div class="panel-heading">
                 <div class="panel-title">
-                    <h3 class="text-center">My Courses</h3>
+                    <h5 class="text-center">New course application</h5>
                 </div>
             </div>
             <div class="panel-body">
+                <p>
+                    Apply for a new course here.<br />
+                    You can browse all courses you are not enrolled in, and look at details.<br />
+                </p>
+                <hr />
+                <p class="text-center">
+                    <a href="@Url.Action("Index", "Course")" class="btn btn-lg btn-success">Apply to course <span class="glyphicon glyphicon-plus-sign"></span></a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center"><a href="@Url.Action("Index", "Course")">My Courses</a></h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    A list of your courses with the five latest created assignments.<br />
+                </p>
+                <hr />
                 <table class="table table-bordered">
                     <tr>
                         <th class="text-center">
@@ -60,93 +81,255 @@
                         </th>
                     </tr>
 
-                    @{try
+                    @foreach (var item in Model.courseModel)
                     {
-                        foreach (var item in Model.Courses)
-                        {
-                            <tr>
-                                <td>
-                                    <a href="@Url.Action("Details", "Course", new { id = item.ID })">@item.CourseName</a>
-                                    @*@Html.DisplayFor(course => item.CourseName)*@
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(course => item.Description)
-                                </td>
-                            </tr>
-                        }
-                    } catch (NullReferenceException)
-                    {
-                    }
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Details", "Course", new { id = item.ID})">@Html.DisplayFor(course => item.CourseName)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(course => item.Description)
+                            </td>
+                        </tr>
                     }
 
                 </table>
+                @if (courseCount <= 0)
+                {
+                    <div class="alert alert-warning">
+                        <h4>You have no course as for now.</h4>
+                        <p>
+                            Consider applying for a course.
+                        </p>
+                    </div>
+                }
+                <hr />
             </div>
         </div>
+        <p class="text-center">
+            <a href="@Url.Action("Index", "Course")">View All</a>
+        </p>
+        <hr />
     </div>
-
     <div class="col-md-4">
-        <div class="panel panel-default">
+        <div class="panel panel-info">
             <div class="panel-heading">
                 <div class="panel-title">
-                    <h3 class="text-center">Assignments overview</h3>
+                    <h4 class="text-center">My Assignments</h4>
                 </div>
             </div>
             <div class="panel-body">
-
+                <p>
+                    Below are listed assignments sorted after issue date.<br />
+                    Select "View All" to view the full list.
+                </p>
+                <hr />
                 <table class="table table-bordered">
                     <tr>
-                        <th>
-                            Name
+                        <th class="text-center">
+                            Assignment
                         </th>
-                        <th>
-                            Due date
+                        <th class="text-center">
+                            Due Date
                         </th>
-                        <th>
-                            Completed
-                        </th>
-  
                     </tr>
 
-                    @{int maxRenderedRows = 3, countLoops = 0;
-                    try
+                    @foreach (var item in Model.assignmentModel)
                     {
-                        foreach (var assignmt in Model.Assignments)
-                        {
-                            foreach (var evaluation in assignmt.Evaluations)
-                            {
-                                if (countLoops < maxRenderedRows && evaluation.Student.Id.Equals(User.Identity.GetUserId()))
-                                {
-                                    <tr>
-                                        <td>
-                                            <a href="@Url.Action("Details_Full", "Assignment", new { id = evaluation.ID })">@evaluation.Assignment.Name</a>
-                                            @*@Html.ActionLink(Model.Assignments.ElementAt(i).Name, "Details", "Assignment", new { id = Model.Assignments.ElementAt(i).ID })*@
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(assignment => evaluation.Assignment.DueDate)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(assignment => evaluation.IsPassed)
-                                        </td>
-                                    </tr>
-                                    countLoops++;
-                                }
-
-                            }
-                        }
-
-
-                    } catch (NullReferenceException)
-                    {
-                    }
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Details_Basic", "Assignment", new { id = item.ID})">@Html.DisplayFor(assignment => item.Name)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(assignment => item.DueDate)
+                            </td>
+                        </tr>
                     }
 
                 </table>
-                @Html.ActionLink("Show all assignments", "IndexUser", "Assignment")
+                @if (assignmentCount <= 0)
+                {
+                    <div class="alert alert-warning">
+                        <h4>You have no assignment as for now.</h4>
+                        <p>
+                            The assignments will be displayed in the table above.
+                        </p>
+                    </div>
+                }
             </div>
         </div>
+        <p class="text-center">
+            <a href="@Url.Action("IndexUser", "Assignment")">View All</a>
+        </p>
+        <hr />
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4 class="text-center">Pending Applications</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    A list of all your pending course applications.<br />
+                </p>
+                <hr />
+                <table class="table table-bordered">
+                    <tr>
+                        <th class="text-center">
+                            Message
+                        </th>
+                        <th class="text-center">
+                            Emission Date
+                        </th>
+                        <th>
+                            Course
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Model.courseApplicationModel)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Details", "CourseApplication", new { id = item.ID})">
+                                    @(item.Message.Length > 16 ? item.Message.Substring(0, 15) + " ..." : item.Message)
+                                </a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(courseApplicationModel => item.CreationDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(courseApplicationModel => item.Course.CourseName)
+                            </td>
+                        </tr>
+                    }
+                </table>
+                @if (applicationCount <= 0)
+                {
+                    <div class="alert alert-warning">
+                        <h4>You have no applications as for now.</h4>
+                        <p>
+                            Course applications will be displayed in the table above.
+                        </p>
+                    </div>
+                }
+
+            </div>
+        </div>
+        <p class="text-center">
+            <a href="@Url.Action("Index", "CourseApplication")">View All</a>
+        </p>
     </div>
 </div>
 
 
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h5 class="text-center">Course Files</h5>
+                </div>
+            </div>
+            <div class="panel-body">
+                <p>
+                    Bellow are listed the 5 latest files uploaded grouped by course.<br />
+                    These files are not assignments and can be uploaded by teachers or yourself.
+                    Click a file name to download it.
+                </p>
+                <div class="list-group">
+                    @foreach (var group in Model.CourseFiles)
+                    {
+                        <div class="list-group-item  well well-sm">
+                            <div class="list-group-item-text">
+                                <div class="list-group-item-heading">Files uploaded for: <b style="font-size: 1.2em">@group.Key</b></div>
+                                @foreach (var file in group)
+                                {
+                                    <div class="list-group-item">
+                                        <a href="@Url.Action("Download", "File", new { id = file.ID})" class="list-group-item-text"><span class="glyphicon glyphicon-download"></span> @file.Name</a> from @file.Uploader.RealName.
+                                        @if (!file.IsPublicVisible)
+                                        {
+                                            <span class="badge text-right" style="background-color:orangered">Private</span>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+                @if (Model.CourseFiles.Count <= 0)
+                {
+                    <div class="warning">
+                        <h3>No file found!</h3>
+                        <hr />
+                        Nothing has been uploaded yet.
+                    </div>
+                }
+                <div class="panel-footer">
+                    <small>Click the link bellow this box to view all the uploaded files.</small>
+                </div>
+            </div>
+        </div>
+        <p class="text-center">
+            <a href="@Url.Action("Index", "File")">View All</a>
+        </p>
+        <hr />
+    </div>
+
+    @if (Model.SubFiles.Count > 0)
+    {
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h5 class="text-center">Submitted Files</h5>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        Bellow are listed the 5 latest submitted files grouped by course.<br />
+                        Click a file name to download it.
+                    </p>
+                    <div class="list-group">
+                        @foreach (var group in Model.SubFiles)
+                        {
+                            <div class="list-group-item  well well-sm">
+                                <div class="list-group-item-text">
+                                    <div class="list-group-item-heading">Files Submissions for: <b style="font-size: 1.2em">@group.Key</b></div>
+                                    @foreach (var file in group)
+                                    {
+                                        <div class="list-group-item">
+                                            <a href="@Url.Action("Download", "File", new { id = file.ID})" class="list-group-item-text"><span class="glyphicon glyphicon-download"></span> @file.Name</a> from @file.Uploader.RealName.
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="panel-footer">
+                        <small>Click the link bellow this box to view all the submitted files.</small>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center">
+                <a href="@Url.Action("SubmissionFiles", "File")">View All</a>
+            </p>
+            <hr />
+        </div>
+    }
+</div>
 
 
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="well well-sm">
+            <p>
+                Every other operation con be available from the respective page. <br />
+                For instance, information inherent to a course will be accessible from that course and nowhere else.
+            </p>
+        </div>
+    </div>
+</div>
