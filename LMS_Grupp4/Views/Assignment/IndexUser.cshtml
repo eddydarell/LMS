@@ -17,30 +17,31 @@
         <small>Assignments Overview</small>
     </div>
     <div class="col-lg-4 text-right">
-        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+        <small><span class="glyphicon glyphicon-calendar"></span> @DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year <span class="glyphicon glyphicon-time"></span> @DateTime.Now.ToShortTimeString()</small>
     </div>
 </div>
 
 <div class="jumbotron">
-    <h2>Assignments for user @User.Identity.GetUserRealName()</h2>
+    <h2><a href="@Url.Action("Index")">@User.Identity.GetUserRealName()</a>, welcome!</h2>
     @if (isTeacher)
     {
         <p>
             Here you can see all the assignments you created, and respond to returned assignments.<br />
         </p>
-    } else
+    }
+    else
     {
         <p>
-            Here you can see all your active assignments.<br />
+            Bellow is a list of all your assignments.<br />
         </p>
     }
 </div>
-
+<hr />
 
 @if (isTeacher)
 {
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="panel-title">
@@ -48,114 +49,122 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <table class="table table-bordered">
+                    <p>
+                        A list of every assignment across all your courses grouped by course.
+                    </p>
+                    <hr />
+                    <table class="table">
                         <tr>
                             <th class="text-center">
                                 Name
                             </th>
                             <th class="text-center">
-                                Course
-                            </th>
-                            <th class="text-center">
                                 Due date
                             </th>
+                            <th class="text-center">
+                                Actions
+                            </th>
                         </tr>
 
-                    @foreach (var item in Model.TeacherAssignments)
-                    {
-                        <tr>
-                            <td>
-                                @Html.ActionLink(item.Name, "Details_Basic", new { id = item.ID })
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Details", "Course", new { id = item.Course.ID})">@Html.DisplayFor(course => item.Course.CourseName)</a>
-                                @*@Html.DisplayFor(assignment => item.Course)*@
-                            </td>
-                            <td>
-                                @Html.DisplayFor(assignment => item.DueDate)
-                            </td>
-                            <td>
-                                <div class="btn-toolbar">
-                                    <div class="btn-group">
-                                        <a href="@Url.Action("Edit", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Edit</a>
-                                        <a href="@Url.Action("Delete", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-
+                        @foreach (var group in Model.TeacherAssignments)
+                        {
+                            <tr style="background-color: #eFeFeF;max-height:10px!important">
+                                <td colspan="4" style="font-size:1.2em; line-height:5px!important"><b>@group.Key</b></td>
+                            </tr>
+                            foreach (var item in group)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.ActionLink(item.Name, "Details_Basic", new { id = item.ID })
+                                    </td>
+                                    <td>
+                                        @Convert.ToDateTime(item.DueDate).ToShortDateString()
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a href="@Url.Action("Edit", "Assignment", new { id = item.ID })" class="btn btn-warning btn-sm" title="Edit"><span class="glyphicon glyphicon-pencil"></span></a>
+                                            <a href="@Url.Action("Delete", "Assignment", new { id = item.ID })" class="btn btn-danger btn-sm" title="Delete"><span class="glyphicon glyphicon-remove"></span></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
                     </table>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-5">
-            <div class="panel panel-default">
+        <div class="col-md-4">
+            <div class="panel panel-warning">
                 <div class="panel-heading">
                     <div class="panel-title">
                         <h2 class="text-center">Returned assignments</h2>
                     </div>
                 </div>
                 <div class="panel-body">
-                    <table class="table table-bordered">
+                    <p>
+                        A list of every returned assignment across all your courses grouped by course.<br />
+                        These assignments are not yet evaluated.
+                    </p>
+                    <hr />
+                    <table class="table">
                         <tr>
                             <th class="text-center">
                                 Name
                             </th>
                             <th class="text-center">
-                                Course
-                            </th>
-                            <th class="text-center">
                                 Student
                             </th>
                             <th class="text-center">
-                                Due date
+                                Actions
                             </th>
                         </tr>
 
-                    @foreach (var assignment in Model.StudentAssignments)
-                    {
-                        foreach (var evaluation in assignment.Evaluations)
+                        @foreach (var group in Model.StudentAssignments)
                         {
-                            <tr>
-                                <td>
-                                    @Html.ActionLink(evaluation.Assignment.Name, "Details_Full", new { id = evaluation.ID })
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("Details", "Course", new { id = evaluation.Assignment.Course.ID})">@Html.DisplayFor(courseName => evaluation.Assignment.Course.CourseName)</a>
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("Details", "Student", new { id = evaluation.Student.Id })">@Html.DisplayFor(studentName => evaluation.Student.RealName)</a>
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(assignmt => evaluation.Assignment.DueDate)
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("EditResponse", "Assignment", new { id = evaluation.ID })" class="btn btn-default btn-sm">Respond</a>
-                                </td>
+                            <tr style="background-color: #eFeFeF;max-height:10px!important">
+                                <td colspan="4" style="font-size:1.2em; line-height:5px!important"><b>@group.Key</b></td>
                             </tr>
+
+                            foreach (var assignment in group)
+                            {
+                                foreach (var evaluation in assignment.Evaluations)
+                                {
+                                    if(evaluation.Score == null || evaluation.Score <= 0)
+                                    { 
+                                    <tr>
+                                        <td>
+                                            @Html.ActionLink(evaluation.Assignment.Name, "Details_Full", new { id = evaluation.ID })
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("Details", "Student", new { id = evaluation.Student.Id })">@Html.DisplayFor(studentName => evaluation.Student.RealName)</a>
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("EditResponse", "Assignment", new { id = evaluation.ID })" class="btn btn-primary btn-sm">Evaluate</a>
+                                        </td>
+                                    </tr>
+                                    }
+                                }
+                            }
                         }
-                    }
                     </table>
                 </div>
             </div>
         </div>
     </div>
 }
-
 else
 {
     <div class="row">
-        <div class="col-md-5">
-            <div class="panel panel-default">
+        <div class="col-md-8">
+            <div class="panel panel-warning">
                 <div class="panel-heading">
                     <div class="panel-title">
-                        <h2 class="text-center">Your pending assignments</h2>
+                        <h2 class="text-center">Pending Assignments</h2>
                     </div>
                 </div>
                 <div class="panel-body">
-                    <table class="table table-bordered">
+                    <table class="table">
                         <tr>
                             <th class="text-center">
                                 Name
@@ -163,29 +172,73 @@ else
                             <th class="text-center">
                                 Course
                             </th>
-                            <th class="text-center">
-                                Due date
-                            </th>   
                         </tr>
-
-                        @foreach (var assignment in Model.StudentAssignments)
+                        @foreach (var group in Model.StudentAssignments)
                         {
-                            foreach (var evaluation in assignment.Evaluations)
+                            <tr style="background-color: #eFeFeF;max-height:10px!important">
+                                <td colspan="4" style="font-size:1.2em; line-height:5px!important"><b>@group.Key</b></td>
+                            </tr>
+                            foreach (var assignment in group)
                             {
-                                if(evaluation.Student.Id.Equals(User.Identity.GetUserId()))
+                                foreach (var evaluation in assignment.Evaluations)
                                 {
-                                <tr>
-                                    <td>
-                                        @Html.ActionLink(evaluation.Assignment.Name, "Details_Full", new { id = evaluation.ID })
-                                    </td>
-                                    <td>
-                                        <a href="@Url.Action("Details", "Course", new { id = evaluation.Assignment.Course.ID })">@Html.DisplayFor(courseName => evaluation.Assignment.Course.CourseName)</a>
-               
-                                    </td>
-                                    <td>
-                                         @Html.DisplayFor(eval => evaluation.Assignment.DueDate)
-                                    </td>
-                                </tr>
+                                    if (evaluation.Student.Id.Equals(User.Identity.GetUserId()) && evaluation.Score == null || evaluation.Score <= 0)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.ActionLink(evaluation.Assignment.Name, "Details_Full", new { id = evaluation.ID })
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("Details", "Course", new { id = evaluation.Assignment.Course.ID })">@Html.DisplayFor(courseName => evaluation.Assignment.Course.CourseName)</a>
+
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <h2 class="text-center">Evaluated Assignments</h2>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tr>
+                            <th class="text-center">
+                                Name
+                            </th>
+                            <th class="text-center">
+                                Course
+                            </th>
+                        </tr>
+                        @foreach (var group in Model.StudentAssignments)
+                        {
+                            <tr style="background-color: #eFeFeF;max-height:10px!important">
+                                <td colspan="4" style="font-size:1.2em; line-height:5px!important"><b>@group.Key</b></td>
+                            </tr>
+                            foreach (var assignment in group)
+                            {
+                                foreach (var evaluation in assignment.Evaluations)
+                                {
+                                    if (evaluation.Student.Id.Equals(User.Identity.GetUserId()) && evaluation.Score != null || evaluation.Score > 0)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.ActionLink(evaluation.Assignment.Name, "Details_Full", new { id = evaluation.ID })
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("Details", "Course", new { id = evaluation.Assignment.Course.ID })">@Html.DisplayFor(courseName => evaluation.Assignment.Course.CourseName)</a>
+
+                                            </td>
+                                        </tr>
+                                    }
                                 }
                             }
                         }

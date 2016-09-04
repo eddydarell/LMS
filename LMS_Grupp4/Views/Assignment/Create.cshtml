@@ -3,61 +3,89 @@
 @using Microsoft.AspNet.Identity;
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create Assignment";
+    int assignmentCount = Model.Course.Assignments.Count + 1;
 }
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    <input type="hidden" value="@Model.Course.ID" name="CourseID" />
-
-    <div class="form-horizontal">
-        <h2>Create new assignment for course @Model.Course.CourseName</h2>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => Model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => Model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => Model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => Model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => Model.DueDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
-                @Html.ValidationMessageFor(model => Model.DueDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => Model.MaxScore, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => Model.MaxScore, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => Model.MaxScore, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @*Not needed in Create view, maybe Edit?*@
-        @*<div class="form-group">
-                @Html.LabelFor(model => Model.SelectStudentID, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(m => m.SelectStudentID, Model.SelectedStudent)
-                    @Html.ValidationMessageFor(model => Model.SelectStudentID, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-                <br /><br />
-                <a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Personal assignments</a>
-            </div>  
-        </div>
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            Teacher ID: @User.Identity.GetUserId()
+        </small>
     </div>
-}
+    <div class="col-md-4 text-center">
+        <small> Assignment Creation</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small><span class="glyphicon glyphicon-calendar"></span> @DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year <span class="glyphicon glyphicon-time"></span> @DateTime.Now.ToShortTimeString()</small>
+    </div>
+</div>
 
+
+<div class="jumbotron">
+    <h2><a href="@Url.Action("Index", "Teacher")">@User.Identity.GetUserRealName()</a>, welcome!</h2>
+    <p>
+        You are on the assignment creation page.<br />
+        You are creating an assignment for <a href="@Url.Action("Details", "Course", new { id = Model.Course.ID})">@Model.Course.CourseName</a><br />
+        This will be assignment <b>#@assignmentCount</b>.
+    </p>
+</div>
+<div class="row">
+    <div class="col-md-9">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h3 class="text-center">New course application</h3>
+                </div>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" value="@Model.Course.ID" name="CourseID" />
+
+                    <div class="form-horizontal">
+                        <h2>Create new assignment for course @Model.Course.CourseName</h2>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => Model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => Model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => Model.DueDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => Model.DueDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.MaxScore, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => Model.MaxScore, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => Model.MaxScore, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create" class="btn btn-default" />
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <a href="@Url.Action("IndexUser", "Assignment")" >Back To Assignments</a>
+    </div>
+</div>
 <script>
     $(function () { // will trigger when the document is ready
         $('.datepicker').datepicker({

@@ -3,58 +3,96 @@
 @using Microsoft.AspNet.Identity;
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Confirm Deletion";
 }
-
-<h2>
-    Are you sure you want to delete Assignment @Model.Name ? <br/>
-    All evaluations connected to the assignment will also be deleted.
-</h2>
-
-<div>
-    <dl>
-        <dt>
-            @Html.DisplayNameFor(model => Model.IssueDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.IssueDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => Model.DueDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.DueDate)
-        </dd>
-
-        <dt>
-            Over due
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.IsExpired)
-        </dd>
-
-        <dt>
-            Max Score
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.MaxScore)
-        </dd>
-
-        <dt>
-            Course
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.Course.CourseName)
-        </dd>
-
-    </dl>
-</div>
-<br />
-
-<div>
-    <a href="@Url.Action("DeleteConfirmed", "Assignment", new { id = Model.ID })" class="btn btn-default btn-sm">Delete</a>
-    <br /><br />
-    <a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Back to personal assignments</a>
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            Teacher ID: @User.Identity.GetUserId()
+        </small>
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Confirm Deletion</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small><span class="glyphicon glyphicon-calendar"></span> @DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year <span class="glyphicon glyphicon-time"></span> @DateTime.Now.ToShortTimeString()</small>
+    </div>
 </div>
 
+
+<div class="jumbotron">
+    <h2>Are you sure you want to delete Assignment <a href="@Url.Action("Details", "Assignment", new { id = Model.ID})">@Model.Name</a>?</h2>
+    <p>
+        Note that all <b>@Model.Evaluations.Count</b> evaluation(s) associated to the it will also be deleted permanently.
+    </p>
+</div>
+<div class="row">
+    <div class="col-md-9">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h3 class="text-center">Confirm Deletion</h3>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <p>
+                        Assignment Overview
+                    </p>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => Model.IssueDate)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => Model.IssueDate)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => Model.DueDate)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => Model.DueDate)
+                        </dd>
+
+                        <dt>
+                            Over due
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => Model.IsExpired)
+                        </dd>
+
+                        <dt>
+                            Max Score
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => Model.MaxScore)
+                        </dd>
+
+                        <dt>
+                            Course
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => Model.Course.CourseName)
+                        </dd>
+                        <dt>
+                            Evaluation Count
+                        </dt>
+                        <dd>
+                            @Model.Evaluations.Count
+                        </dd>
+
+                    </dl>
+                    <hr />
+                    <div class="btn-group">
+                        <a href="@Url.Action("DeleteConfirmed", "Assignment", new { id = Model.ID })" class="btn btn-danger btn-md">Delete <span class="glyphicon glyphicon-remove-sign"></span></a>
+                        <a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-md">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p>
+            <a href="@Url.Action("IndexUser", "Assignment")">Back Assignments</a>
+        </p>
+    </div>
+</div>

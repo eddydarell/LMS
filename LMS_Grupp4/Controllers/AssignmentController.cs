@@ -32,14 +32,15 @@ namespace LMS_Grupp4.Controllers
                     assignmentModelList = user.Assignments.ToList();
                     //Creating an empty list representing the teacherlist that is not necessary in Student user index,
                     //but needed as parameter in the viewmodel.
-                    List<Assignment> emptyTeacherList = new List<Assignment>();
-                    Assignment_IndexUserViewModel A_IUVW = new Assignment_IndexUserViewModel(emptyTeacherList, assignmentModelList);
+                    List<IGrouping<string, Assignment>> emptyTeacherList = new List<IGrouping<string, Assignment>>();
+                    var responds = assignmentModelList.OrderByDescending(a => a.Course.CourseName).GroupBy(a => a.Course.CourseName);
+                    Assignment_IndexUserViewModel A_IUVW = new Assignment_IndexUserViewModel(emptyTeacherList, responds);
 
                     return View(A_IUVW);
                 }
-                catch (NullReferenceException)
+                catch (Exception)
                 {
-                    return View();
+                    return RedirectToAction("ExceptionHandler", "Error");
                 }
             }
             else
@@ -79,13 +80,15 @@ namespace LMS_Grupp4.Controllers
                         }
                     }
 
-                    Assignment_IndexUserViewModel A_IUVW = new Assignment_IndexUserViewModel(teacherAssignments, respondAssignments);
+                    var assignments = teacherAssignments.OrderByDescending(a => a.Course.CourseName).GroupBy(a => a.Course.CourseName);
+                    var responds = respondAssignments.OrderByDescending(a => a.Course.CourseName).GroupBy(a => a.Course.CourseName);
+                    Assignment_IndexUserViewModel A_IUVW = new Assignment_IndexUserViewModel(assignments, responds);
 
                     return View(A_IUVW);
                 }
                 catch (NullReferenceException)
                 {
-                    return View();
+                    return RedirectToAction("ExceptionHandler", "Error");
                 }
             }
         }
@@ -200,97 +203,147 @@ namespace LMS_Grupp4.Controllers
             return View(evaluation);
         }
 
-
         [Authorize(Roles = "teacher")]
         [HttpPost]
         public ActionResult EditResponse(int ID = 0, int Score = 0, string Message = "")
         {
-            Evaluation evaluation = LMSRepo.GetEvaluationByID(ID), tmpEvaluation;
-            var assignment = evaluation.Assignment;
-            var course = assignment.Course;
-            var user = evaluation.Student;
-            List<Evaluation> studentCourseEvaluations = new List<Evaluation>();
-            int assignmentCount = 0;
-            double? totalPercentage = 0;
-
-            foreach (Assignment iterateCourseAssignment in course.Assignments)
-            {
-                foreach (Assignment iterateStudentAssignment in user.Assignments)
-                {
-                    if (iterateCourseAssignment.Equals(iterateStudentAssignment))
-                    {
-                        tmpEvaluation = iterateStudentAssignment.Evaluations.FirstOrDefault(eval => eval.Student.Id.Equals(user.Id));
-                        studentCourseEvaluations.Add(tmpEvaluation);
-                        assignmentCount++;
-                    }
-                }
-            }
-
-            assignment.IsExpired = DateTime.Now >= assignment.DueDate;
+            var evaluation = LMSRepo.GetEvaluationByID(ID);
             evaluation.Score = Score;
-            evaluation.Percentage = (evaluation.Score / evaluation.Assignment.MaxScore) * 100;
             evaluation.Message = Message;
+            evaluation.Percentage = Math.Round(((double)evaluation.Score / (double)evaluation.Assignment.MaxScore) * 100, 2);
 
-            if (evaluation.Percentage >= 50)
-            {
+            if (evaluation.Percentage >= 50.00)
                 evaluation.IsPassed = true;
-            }
             else
-            {
                 evaluation.IsPassed = false;
-            }
 
-            if (assignmentCount < 3)
+            if (evaluation.Percentage >= 90)
             {
-                evaluation.Mark = "ND";
-                LMSRepo.EditAssignment(assignment);
+                evaluation.Mark = "A";
+            }
+            else if (evaluation.Percentage < 90 && evaluation.Percentage >= 80)
+            {
+                evaluation.Mark = "B";
+            }
+            else if (evaluation.Percentage < 80 && evaluation.Percentage >= 70)
+            {
+                evaluation.Mark = "C";
+            }
+            else if (evaluation.Percentage < 70 && evaluation.Percentage >= 60)
+            {
+                evaluation.Mark = "D";
+            }
+            else if (evaluation.Percentage < 60 && evaluation.Percentage >= 50)
+            {
+                evaluation.Mark = "E";
+            }
+            else if (evaluation.Percentage < 50 && evaluation.Percentage >= 40)
+            {
+                evaluation.Mark = "Fx";
             }
             else
             {
-                foreach (Evaluation calcEvaluation in studentCourseEvaluations)
-                {
-                    totalPercentage = totalPercentage + calcEvaluation.Percentage;
-                }
-
-                totalPercentage = totalPercentage / studentCourseEvaluations.Count;
-
-                foreach (Evaluation markedEvaluation in studentCourseEvaluations)
-                {
-                    if (totalPercentage >= 90)
-                    {
-                        markedEvaluation.Mark = "A";
-                    }
-                    else if (totalPercentage < 90 && totalPercentage >= 80)
-                    {
-                        markedEvaluation.Mark = "B";
-                    }
-                    else if (totalPercentage < 80 && totalPercentage >= 70)
-                    {
-                        markedEvaluation.Mark = "C";
-                    }
-                    else if (totalPercentage < 70 && totalPercentage >= 60)
-                    {
-                        markedEvaluation.Mark = "D";
-                    }
-                    else if (totalPercentage < 60 && totalPercentage >= 50)
-                    {
-                        markedEvaluation.Mark = "E";
-                    }
-                    else if (totalPercentage < 50 && totalPercentage >= 40)
-                    {
-                        markedEvaluation.Mark = "Fx";
-                    }
-                    else
-                    {
-                        markedEvaluation.Mark = "F";
-                    }
-
-                    LMSRepo.EditAssignment(markedEvaluation.Assignment);
-                }
+                evaluation.Mark = "F";
             }
+
+            LMSRepo.EditEvaluation(evaluation);
 
             return RedirectToAction("IndexUser");
         }
+
+
+
+
+        //[Authorize(Roles = "teacher")]
+        //[HttpPost]
+        //public ActionResult EditResponse(int ID = 0, int Score = 0, string Message = "")
+        //{
+        //    Evaluation evaluation = LMSRepo.GetEvaluationByID(ID), tmpEvaluation;
+        //    var assignment = evaluation.Assignment;
+        //    var course = assignment.Course;
+        //    var user = evaluation.Student;
+        //    List<Evaluation> studentCourseEvaluations = new List<Evaluation>();
+        //    int assignmentCount = 0;
+        //    double? totalPercentage = 0;
+
+        //    foreach (Assignment iterateCourseAssignment in course.Assignments)
+        //    {
+        //        foreach (Assignment iterateStudentAssignment in user.Assignments)
+        //        {
+        //            if (iterateCourseAssignment.Equals(iterateStudentAssignment))
+        //            {
+        //                tmpEvaluation = iterateStudentAssignment.Evaluations.FirstOrDefault(eval => eval.Student.Id.Equals(user.Id));
+        //                studentCourseEvaluations.Add(tmpEvaluation);
+        //                assignmentCount++;
+        //            }
+        //        }
+        //    }
+
+        //    assignment.IsExpired = DateTime.Now >= assignment.DueDate;
+        //    evaluation.Score = Score;
+        //    evaluation.Percentage = (evaluation.Score / evaluation.Assignment.MaxScore) * 100;
+        //    evaluation.Message = Message;
+
+        //    if (evaluation.Percentage >= 50)
+        //    {
+        //        evaluation.IsPassed = true;
+        //    }
+        //    else
+        //    {
+        //        evaluation.IsPassed = false;
+        //    }
+
+        //    if (assignmentCount < 3)
+        //    {
+        //        evaluation.Mark = "ND";
+        //        LMSRepo.EditAssignment(assignment);
+        //    }
+        //    else
+        //    {
+        //        foreach (Evaluation calcEvaluation in studentCourseEvaluations)
+        //        {
+        //            totalPercentage = totalPercentage + calcEvaluation.Percentage;
+        //        }
+
+        //        totalPercentage = totalPercentage / studentCourseEvaluations.Count;
+
+        //        foreach (Evaluation markedEvaluation in studentCourseEvaluations)
+        //        {
+        //            if (totalPercentage >= 90)
+        //            {
+        //                markedEvaluation.Mark = "A";
+        //            }
+        //            else if (totalPercentage < 90 && totalPercentage >= 80)
+        //            {
+        //                markedEvaluation.Mark = "B";
+        //            }
+        //            else if (totalPercentage < 80 && totalPercentage >= 70)
+        //            {
+        //                markedEvaluation.Mark = "C";
+        //            }
+        //            else if (totalPercentage < 70 && totalPercentage >= 60)
+        //            {
+        //                markedEvaluation.Mark = "D";
+        //            }
+        //            else if (totalPercentage < 60 && totalPercentage >= 50)
+        //            {
+        //                markedEvaluation.Mark = "E";
+        //            }
+        //            else if (totalPercentage < 50 && totalPercentage >= 40)
+        //            {
+        //                markedEvaluation.Mark = "Fx";
+        //            }
+        //            else
+        //            {
+        //                markedEvaluation.Mark = "F";
+        //            }
+
+        //            LMSRepo.EditAssignment(markedEvaluation.Assignment);
+        //        }
+        //    }
+
+        //    return RedirectToAction("IndexUser");
+        //}
 
         [Authorize(Roles = "student")]
         public ActionResult AssignmentAcceptance(int id = 0)

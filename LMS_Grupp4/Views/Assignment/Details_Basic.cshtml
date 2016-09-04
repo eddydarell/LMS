@@ -3,40 +3,59 @@
 @using Microsoft.AspNet.Identity;
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Assignment Index";
+    var userManager = new LMS_Grupp4.Repositories.LMSRepository().GetUserManager();
     bool isTeacher = (User.IsInRole("teacher")) ? true : false;
+    int studentCount = Model.Course.Users.Where(u => userManager.IsInRole(u.Id, "student") == true).Count();
+    studentCount = studentCount <= 0 ? 1 : studentCount;
+    int submissionCount = Model.Evaluations.Count;
+    double rawPercent = ((double)submissionCount / studentCount) * 100;
+    double percent = Math.Round(rawPercent, 2);
+    bool isAccepted = Model.Evaluations.Any(e => e.Student.Id == User.Identity.GetUserId());
 }
 
 <div class="row" style="padding-bottom: 20px">
     <div class="col-md-4">
-        <small>
-            User ID: @User.Identity.GetUserId()
-        </small>
+        @if (isTeacher)
+        {
+            <small>
+                Teacher ID: @User.Identity.GetUserId()
+            </small>
+        }
+        else
+        {
+            <small>
+                Student ID: @User.Identity.GetUserId()
+            </small>
+        }
+
     </div>
     <div class="col-md-4 text-center">
-        <small>Assignments details</small>
+        <small>Assignments Details: Condensed</small>
     </div>
     <div class="col-lg-4 text-right">
-        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+        <small><span class="glyphicon glyphicon-calendar"></span> @DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year <span class="glyphicon glyphicon-time"></span> @DateTime.Now.ToShortTimeString()</small>
     </div>
 </div>
 
 <div class="jumbotron">
-    <h2>Details for Assignment @Model.Name</h2>
+    <h2>Details for Assignment <a href="@Url.Action("Details", "Assignment", new { id = Model.ID})">@Model.Name</a></h2>
+    <h3>This is an assignment for the course <a href="@Url.Action("Details", "Course",new { id = Model.Course.ID})">@Model.Course.CourseName</a>.</h3>
     @if (isTeacher)
     {
         <p>
             Here you can see the basic details for this assignment.<br />
-            And also a list over students that currently has this assignment.
+            And also a list over students that currently has this assignment.<br />
+            Average <b> @percent %</b> of submissions or <b>@submissionCount / @studentCount</b>.
         </p>
-    } else
+    }
+    else
     {
         <p>
             Here you can see the basic details for this assignment.<br />
         </p>
     }
 </div>
-
 <div class="row">
     <div class="col-md-8">
         <div class="panel panel-default">
@@ -46,78 +65,85 @@
                 </div>
             </div>
             <div class="panel-body">
-                <table class="table table-bordered">
-                    <tr>
-                        <th class="text-center">
-                            Issue date
-                        </th>
-                        <th class="text-center">
-                            Due date
-                        </th>
-                        <th class="text-center">
-                            Over due
-                        </th>
-                        <th class="text-center">
-                            Max score
-                        </th>
-                        <th class="text-center">
-                            Course
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(model => Model.IssueDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => Model.DueDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => Model.IsExpired)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => Model.MaxScore)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => Model.Course.CourseName)
-                        </td>
-                    </tr>
-                </table>
+                <dl class="dl-horizontal">
+                    <dt>
+                        Issue date
+                    </dt>
+                    <dd>@Model.IssueDate.ToShortDateString()</dd>
+                    <dt class="text-center">
+                        Due date
+                    </dt>
+                    <dd>@Convert.ToDateTime(Model.DueDate).ToShortDateString()</dd>
+                    <dt class="text-center">
+                        Over due
+                    </dt>
+                    <dd>@(Model.IsExpired ? "Expired" : "Not Expired")</dd>
+                    <dt>
+                        Max score
+                    </dt>
+                    <dd>@Html.DisplayFor(model => Model.MaxScore)</dd>
+                    <dt>
+                        Course
+                    </dt>
+                    <dd><a href="@Url.Action("Details", "Course", new { id = Model.Course.ID })">@Html.DisplayFor(model => Model.Course.CourseName)</a></dd>
+
+                </dl>
+                @if (isTeacher)
+                {
+                    <hr />
+                    <a href="@Url.Action("Edit", "Assignment", new { id = Model.ID})" class="btn btn-warning">Edit <span class="glyphicon glyphicon-edit"></span></a>
+                }
+                else if (!isTeacher && !isAccepted)
+                {
+                    <hr />
+                    <a href="@Url.Action("AssignmentAcceptance", "Assignment", new { id = Model.ID})" class="btn btn-success">Accept Assignment</a>
+                }
             </div>
         </div>
+        <div>
+            <a href="@Url.Action("IndexUser", "Assignment")">Back To Assignments</a>
+        </div>
     </div>
-</div>
-
-@if (isTeacher)
-{
-    <div class="row">
-        <div class="col-md-5">
-            <div class="panel panel-default">
+    @if (isTeacher)
+    {
+        <div class="col-md-4">
+            <div class="panel panel-info">
                 <div class="panel-heading">
                     <div class="panel-title">
-                        <h2 class="text-center">Students with this assignment</h2>
+                        <h3 class="text-center">Submissions</h3>
                     </div>
                 </div>
                 <div class="panel-body">
-                    <table class="table table-bordered">
+                    <p>
+                        This is the list of all the students who has returned the assignment.
+                    </p>
+                    <table class="table table-condensed">
                         <tr>
-                            @foreach (var item in @Model.Evaluations)
-                            {
-                                <td class="text-center">
+                            <th class="text-center">Student</th>
+                        </tr>
+                        @foreach (var item in @Model.Evaluations)
+                        {
+                            <tr>
+                                <td>
                                     <a href="@Url.Action("Details", "Student", new { id = item.Student.Id })">@item.Student.RealName</a>
                                 </td>
-                            }
-
-                        </tr>
+                            </tr>
+                        }
                     </table>
+                    @if (Model.Evaluations.Count <= 0)
+                    {
+                        <div class="alert alert-warning">
+                            <h3>Nothing to display.</h3>
+                            <hr />
+                            <p>
+                                No student has returned this assignment yet.
+                            </p>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
-    </div>
-}
-
-
-<div>
-    @Html.ActionLink("Personal assignments", "IndexUser")
-    @*<a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Personal assignments</a>*@
+    }
 </div>
+
 

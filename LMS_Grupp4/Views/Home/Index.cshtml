@@ -3,7 +3,19 @@
 @{
     ViewBag.Title = "Home Page";
 }
-
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            Not Logged In
+        </small>
+    </div>
+    <div class="col-md-4 text-center">
+        <small>Home</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small><span class="glyphicon glyphicon-calendar"></span> @DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year <span class="glyphicon glyphicon-time"></span> @DateTime.Now.ToShortTimeString()</small>
+    </div>
+</div>
 <div class="jumbotron">
     <h1>Learning Management System</h1>
     <p class="lead">This is a basic LMS designed to work as a e-learning platform with all basic functionalities.</p>

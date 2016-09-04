@@ -7,6 +7,69 @@
     var teacherRoleID = roleManager.FindByName("teacher").Id;
     bool applicationExists = Model.CourseApplications.Any(ca => ca.Student.Id == User.Identity.GetUserId() && ca.Status == false);
     bool isAlreadyInCourse = Model.Users.Any(u => u.Id == User.Identity.GetUserId());
+
+    int totalAssignmentCount = Model.Assignments.Count;
+    int doneAssignmentCount = Model.Assignments.Count(a => a.Evaluations.Any(e => e.Student.Id == User.Identity.GetUserId()));
+
+
+    int assignmentCount = 0;
+    double cumulPercentage = 0.00;
+    double percentage = 0.00;
+
+
+    foreach(var assignment in Model.Assignments)
+    {
+        assignmentCount++;
+        foreach (var eval in assignment.Evaluations)
+        {
+            if(eval.Student.Id == User.Identity.GetUserId())
+            {
+
+                if(eval.Percentage == null )
+                {
+                    eval.Percentage = 0;
+                    cumulPercentage += (double)eval.Percentage;
+                }
+                else
+                {
+                    cumulPercentage += (double)eval.Percentage;
+                }
+            }
+        }
+    }
+
+    percentage = Math.Round(cumulPercentage / assignmentCount);
+
+    string mark = "";
+
+    if (percentage >= 90)
+    {
+        mark = "A";
+    }
+    else if (percentage < 90 && percentage >= 80)
+    {
+        mark = "B";
+    }
+    else if (percentage < 80 && percentage >= 70)
+    {
+        mark = "C";
+    }
+    else if (percentage < 70 && percentage >= 60)
+    {
+        mark = "D";
+    }
+    else if (percentage < 60 && percentage >= 50)
+    {
+        mark = "E";
+    }
+    else if (percentage < 50 && percentage >= 40)
+    {
+        mark = "Fx";
+    }
+    else
+    {
+        mark = "F";
+    }
 }
 <div class="row" style="padding-bottom: 20px">
     <div class="col-md-4">
@@ -39,6 +102,46 @@
             <div class="panel-body">
 
                 <dl class="dl-horizontal">
+                    <dt>
+                        Percentage
+                    </dt>
+
+                    <dd>
+                        @percentage %
+                        @if (doneAssignmentCount < totalAssignmentCount)
+                        {
+                            <div class="alert alert-danger">
+                                <small>You have undone assignments! <span class="glyphicon glyphicon-exclamation-sign"></span></small>
+                            </div>
+                        }
+                        
+                    </dd>
+                    <dt>
+                        Mark
+                    </dt>
+                    <dd>
+                        @mark 
+                        @if (doneAssignmentCount < totalAssignmentCount)
+                        {
+                            <div class="alert alert-danger">
+                                <small>You have undone assignments! <span class="glyphicon glyphicon-exclamation-sign"></span></small>
+                            </div>
+                        }
+                    </dd>
+                    <dt>
+                        Total Assignments
+                    </dt>
+
+                    <dd>
+                        @totalAssignmentCount
+                    </dd>
+                    <dt>
+                        Done Assignments
+                    </dt>
+
+                    <dd>
+                        @doneAssignmentCount
+                    </dd>
                     <dt>
                         @Html.DisplayNameFor(model => model.CourseName)
                     </dt>
@@ -85,17 +188,21 @@
                     </div>
                 </div>
             </div>
-            @if (applicationExists)
-            {
-                <div class="panel-footer warning">
+            <div class="panel-footer warning">
+                <small>
+                    <span style="color: red" class="glyphicon glyphicon-exclamation-sign"></span> Note that every undone assignment is evaluated as a 0.
+                </small>
+                @if (applicationExists)
+                {
                     <small>
                         You have a pending application for this course.<br />
                         Refer to your applications <a href="@Url.Action("Index", "CourseApplication")">page</a> to view it.
                     </small>
-                </div>
-            }
+
+                }
+            </div>
         </div>
-        <a href="@Url.Action("Index", "Course")" class="btn btn-default btn-md">Back To List</a>
+        <a href="@Url.Action("Index", "Course")" >Back To List</a>
     </div>
     <div class="col-md-4">
         <div class="panel panel-default">

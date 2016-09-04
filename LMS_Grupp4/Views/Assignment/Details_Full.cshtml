@@ -3,129 +3,139 @@
 @using Microsoft.AspNet.Identity;
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Assignment Details: Full";
+    var userManager = new LMS_Grupp4.Repositories.LMSRepository().GetUserManager();
     bool isTeacher = (User.IsInRole("teacher")) ? true : false;
+    int studentCount = Model.Assignment.Course.Users.Where(u => userManager.IsInRole(u.Id, "student") == true).Count();
+    studentCount = studentCount <= 0 ? 1 : studentCount;
+    int submissionCount = Model.Assignment.Evaluations.Count;
+    double rawPercent = ((double)submissionCount / studentCount) * 100;
+    double percent = Math.Round(rawPercent, 2);
+
 }
 
 
 <div class="row" style="padding-bottom: 20px">
     <div class="col-md-4">
-        <small>
-            User ID: @User.Identity.GetUserId()
-        </small>
+        @if (isTeacher)
+        {
+            <small>
+                Teacher ID: @User.Identity.GetUserId()
+            </small>
+        }
+        else
+        {
+            <small>
+                Student ID: @User.Identity.GetUserId()
+            </small>
+        }
+
     </div>
     <div class="col-md-4 text-center">
-        <small>Assignments details</small>
+        <small>Assignments Details: Full</small>
     </div>
     <div class="col-lg-4 text-right">
-        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+        <small><span class="glyphicon glyphicon-calendar"></span> @DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year <span class="glyphicon glyphicon-time"></span> @DateTime.Now.ToShortTimeString()</small>
     </div>
 </div>
 
 <div class="jumbotron">
-    <h2>Details for Assignment @Model.Assignment.Name</h2>
+    <h2>Details for Assignment <a href="@Url.Action("Details", "Assignment", new { id = Model.ID})">@Model.Assignment.Name</a></h2>
+    <h3>This is an assignment for the course <a href="@Url.Action("Details", "Course",new { id = Model.Assignment.Course.ID})">@Model.Assignment.Course.CourseName</a>.</h3>
+    @if (isTeacher)
+    {
+        <p>
+            Here you can see the full details for this assignment, including the evaluation.<br />
+            And also a list over students that currently has this assignment.<br />
+            Average <b> @percent %</b> of submissions or <b>@submissionCount / @studentCount</b>.
+        </p>
+    }
+    else
+    {
         <p>
             Here you can see the full details for this assignment.<br />
+            Including the assignment evaluation.
         </p>
+    }
 </div>
 
 <div class="row">
-    <div class="col-md-10">
-        <div class="panel panel-default">
+    <div class="col-md-8">
+        <div class="panel panel-info">
             <div class="panel-heading">
                 <div class="panel-title">
                     <h2 class="text-center">Assignment details</h2>
                 </div>
             </div>
             <div class="panel-body">
-                <table class="table table-bordered">
-                    <tr>
-                        <th class="text-center">
-                            Completed
-                        </th>
-                        <th class="text-center">
-                            Issue date
-                        </th>
-                        <th class="text-center">
-                            Due date
-                        </th>
-                        <th class="text-center">
-                            Over due
-                        </th>
-                        <th class="text-center">
-                            Course grade
-                        </th>
-                        <th class="text-center">
-                            Max score
-                        </th>
-                        <th class="text-center">
-                            Score
-                        </th>
-                        <th class="text-center">
-                            Percentage
-                        </th>
-                        <th class="text-center">
-                            Message
-                        </th>
-                        <th class="text-center">
-                            Course
-                        </th>
-                        <th class="text-center">
-                            Student
-                        </th>
-                        <th class="text-center">
-                            File
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(model => Model.IsPassed)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => Model.Assignment.IssueDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => Model.Assignment.DueDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => Model.Assignment.IsExpired)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => Model.Mark)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => Model.Assignment.MaxScore)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => Model.Score)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => Model.Percentage)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(model => Model.Message)
-                        </td>
-                        <td>
-                            @*@Html.DisplayFor(model => Model.Assignment.Course.CourseName)*@
-                            <a href="@Url.Action("Details", "Course", new { id = @Model.Assignment.Course.ID })">@Model.Assignment.Course.CourseName</a>
-                        </td>
-                        <td>
-                            @*@Html.DisplayFor(model => Model.Student)*@
-                            <a href="@Url.Action("Details", "Student", new { id = @Model.Student.Id })">@Model.Student.RealName</a>
-                        </td>
-                        @*<td>
-                            @Html.DisplayFor(model => Model.LMSFile)
+                <dl class="dl-horizontal">
+                    <dt class="text-center">
+                        Passed
+                    </dt>
+                    <dd>@(Model.IsPassed ? "Yes" : "No")</dd>
+                    <dt>
+                        Issue date
+                    </dt>
+                    <dd>@Model.Assignment.IssueDate.ToShortDateString()</dd>
+                    <dt>
+                        Due date
+                    </dt>
+                    <dd>@Convert.ToDateTime(Model.Assignment.DueDate).ToShortDateString()</dd>
+                    <dt>
+                        Over due
+                    </dt>
+                    <dd>@(Model.Assignment.IsExpired ? "Outdated" : "To Date")</dd>
+                    <dt>
+                        Assignment grade
+                    </dt>
+                    <dd>@Html.DisplayFor(model => Model.Mark)</dd>
+                    <dt>
+                        Max score
+                    </dt>
+                    <dd>@Html.DisplayFor(model => Model.Assignment.MaxScore)</dd>
+                    <dt>
+                        Score
+                    </dt>
+                    <dd>@Html.DisplayFor(model => Model.Score)</dd>
+                    <dt>
+                        Percentage
+                    </dt>
+                    <dd>@Html.DisplayFor(model => Model.Percentage)</dd>
+                    <dt>
+                        Teacher's Comment
+                    </dt>
+                    <dd>@Html.DisplayFor(model => Model.Message)</dd>
+                    <dt>
+                        Course
+                    </dt>
+                    <dd><a href="@Url.Action("Details", "Course", new { id = @Model.Assignment.Course.ID })">@Model.Assignment.Course.CourseName</a></dd>
+                    <dt>
+                        Student
+                    </dt>
+                    <dd><a href="@Url.Action("Details", "Student", new { id = @Model.Student.Id })">@Model.Student.RealName</a></dd>
+                    <dt>
+                        File
+                    </dt>
+                    <dd>
+                        @if (Model.LMSFile != null)
+                        {
                             <a href="@Url.Action("Index", "File", new { id = @Model.LMSFile.ID })">@Model.LMSFile.Name</a>
-                        </td>*@
-                    </tr>
-                </table>
+                        }
+                        else
+                        {
+                            <span>No file attached.</span>
+                        }
+                    </dd>
+
+                </dl>
             </div>
         </div>
+        
     </div>
 </div>
 
 <div>
-    @Html.ActionLink("Personal assignments", "IndexUser")
+    <a href="@Url.Action("IndexUser", "Assignment")">Back To Assignments</a>
 </div>
 
 

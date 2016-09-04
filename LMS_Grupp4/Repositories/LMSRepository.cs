@@ -59,8 +59,8 @@ namespace LMS_Grupp4.Repositories
             }
             catch(Exception e)
             {
-                error.ExceptionHandler(e);
-                return null;//Proper handling
+                error.ExceptionHandler();
+                return null;
             }
 			
 		}
@@ -74,7 +74,7 @@ namespace LMS_Grupp4.Repositories
             }
             catch(Exception e)
             {
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
                 return null;
             }
 		}
@@ -91,7 +91,7 @@ namespace LMS_Grupp4.Repositories
             {
 
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());                
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
 		}
 
@@ -106,7 +106,7 @@ namespace LMS_Grupp4.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
 		}
 
@@ -122,7 +122,7 @@ namespace LMS_Grupp4.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
 		}
         #endregion
@@ -137,7 +137,7 @@ namespace LMS_Grupp4.Repositories
             }
             catch (Exception e)
             {
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
                 return null;
             }
         }
@@ -151,7 +151,7 @@ namespace LMS_Grupp4.Repositories
             }
             catch (Exception e)
             {
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
                 return null;
             }
         }
@@ -167,7 +167,7 @@ namespace LMS_Grupp4.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
         }
 
@@ -182,7 +182,7 @@ namespace LMS_Grupp4.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
         }
 
@@ -198,7 +198,7 @@ namespace LMS_Grupp4.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
         }
         #endregion
@@ -213,7 +213,7 @@ namespace LMS_Grupp4.Repositories
             }
             catch (Exception e)
             {
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
                 return null;                
             }
 		}
@@ -227,7 +227,7 @@ namespace LMS_Grupp4.Repositories
             }
             catch (Exception e)
             {
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
                 return null;
             }
 		}
@@ -243,7 +243,7 @@ namespace LMS_Grupp4.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
 		}
 
@@ -258,7 +258,7 @@ namespace LMS_Grupp4.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
 		}
 
@@ -274,7 +274,7 @@ namespace LMS_Grupp4.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
 		}
 		#endregion 
@@ -289,7 +289,7 @@ namespace LMS_Grupp4.Repositories
             }
             catch (Exception e)
             {
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
                 return null;
             }
 		}
@@ -303,7 +303,7 @@ namespace LMS_Grupp4.Repositories
             }
             catch (Exception e)
             {
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
                 return null;
             }
 		}
@@ -319,7 +319,7 @@ namespace LMS_Grupp4.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
 		}
 
@@ -334,7 +334,7 @@ namespace LMS_Grupp4.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
 		}
 
@@ -350,7 +350,7 @@ namespace LMS_Grupp4.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
 		}
 		#endregion
@@ -365,7 +365,7 @@ namespace LMS_Grupp4.Repositories
             }
             catch (Exception e)
             {
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
                 return null;
             }
         }
@@ -379,7 +379,7 @@ namespace LMS_Grupp4.Repositories
             }
             catch (Exception e)
             {
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
                 return null;
             }
         }
@@ -395,7 +395,7 @@ namespace LMS_Grupp4.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
         }
 
@@ -410,7 +410,7 @@ namespace LMS_Grupp4.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
         }
 
@@ -426,7 +426,7 @@ namespace LMS_Grupp4.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
         }
         #endregion
@@ -441,7 +441,7 @@ namespace LMS_Grupp4.Repositories
             }
             catch (Exception e)
             {
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
                 return null;
             }
         }
@@ -455,7 +455,7 @@ namespace LMS_Grupp4.Repositories
             }
             catch (Exception e)
             {
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
                 return null;
             }
         }
@@ -471,7 +471,7 @@ namespace LMS_Grupp4.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
         }
 
@@ -486,7 +486,7 @@ namespace LMS_Grupp4.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
         }
 
@@ -502,7 +502,7 @@ namespace LMS_Grupp4.Repositories
             catch (Exception e)
             {
                 Console.WriteLine("An exception was thrown: {0}", e.ToString());
-                error.ExceptionHandler(e);
+                error.ExceptionHandler();
             }
         }
         #endregion

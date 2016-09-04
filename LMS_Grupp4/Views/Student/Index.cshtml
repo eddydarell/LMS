@@ -19,7 +19,7 @@
         <small>Student Overview</small>
     </div>
     <div class="col-lg-4 text-right">
-        <small>@DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year</small>
+        <small><span class="glyphicon glyphicon-calendar"></span> @DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year <span class="glyphicon glyphicon-time"></span> @DateTime.Now.ToShortTimeString()</small>
     </div>
 </div>
 
@@ -130,6 +130,9 @@
                             Assignment
                         </th>
                         <th class="text-center">
+                            Course
+                        </th>
+                        <th class="text-center">
                             Due Date
                         </th>
                     </tr>
@@ -141,7 +144,10 @@
                                 <a href="@Url.Action("Details_Basic", "Assignment", new { id = item.ID})">@Html.DisplayFor(assignment => item.Name)</a>
                             </td>
                             <td>
-                                @Html.DisplayFor(assignment => item.DueDate)
+                                <a href="@Url.Action("Details", "Course", new { id = item.Course.ID})">@item.Course.CourseName</a>
+                            </td>
+                            <td>
+                               @Convert.ToDateTime(item.DueDate).ToShortDateString()
                             </td>
                         </tr>
                     }
@@ -226,7 +232,7 @@
 
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-7">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <div class="panel-title">
@@ -248,7 +254,7 @@
                                 @foreach (var file in group)
                                 {
                                     <div class="list-group-item">
-                                        <a href="@Url.Action("Download", "File", new { id = file.ID})" class="list-group-item-text"><span class="glyphicon glyphicon-download"></span> @file.Name</a> from @file.Uploader.RealName.
+                                        <a href="@Url.Action("Download", "File", new { id = file.ID})" class="list-group-item-text"><span class="glyphicon glyphicon-download"></span> @file.Name</a> from @file.UploadDate.ToShortDateString()
                                         @if (!file.IsPublicVisible)
                                         {
                                             <span class="badge text-right" style="background-color:orangered">Private</span>
@@ -280,7 +286,7 @@
 
     @if (Model.SubFiles.Count > 0)
     {
-        <div class="col-md-6">
+        <div class="col-md-5">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="panel-title">
@@ -301,8 +307,7 @@
                                     @foreach (var file in group)
                                     {
                                         <div class="list-group-item">
-                                            <a href="@Url.Action("Download", "File", new { id = file.ID})" class="list-group-item-text"><span class="glyphicon glyphicon-download"></span> @file.Name</a> from @file.Uploader.RealName.
-                                        </div>
+                                            <a href="@Url.Action("Download", "File", new { id = file.ID})" class="list-group-item-text"><span class="glyphicon glyphicon-download"></span> @file.Name</a>.                                        </div>
                                     }
                                 </div>
                             </div>

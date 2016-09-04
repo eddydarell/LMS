@@ -3,91 +3,102 @@
 @using Microsoft.AspNet.Identity;
 
 @{
-    ViewBag.Title = "EditResponse";
+    ViewBag.Title = "Assignment Evaluation";
 }
-
-<h2>Respond to @Model.Assignment.Name</h2>
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    <input type="hidden" value="@Model.ID" name="ID" />
-
-    <div class="form-horizontal">
-        <h4>Assignment</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @*<div class="form-group">
-            @Html.LabelFor(model => Model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => Model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => Model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-        <div class="form-group">
-            @Html.LabelFor(model => Model.Assignment.IssueDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => Model.Assignment.IssueDate, new { htmlAttributes = new { @class = "form-control" } })
-                @*@Html.ValidationMessageFor(model => Model.IssueDate, "", new { @class = "text-danger" })*@
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => Model.Assignment.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => Model.Assignment.DueDate, new { htmlAttributes = new { @class = "form-control" } })
-                @*@Html.ValidationMessageFor(model => Model.DueDate, "", new { @class = "text-danger" })*@
-            </div>
-        </div>
-        @*<div class="form-group">
-            @Html.LabelFor(model => Model.Mark, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => Model.Mark, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => Model.Mark, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-        @*<div class="form-group">
-            @Html.LabelFor(model => Model.IsPassed, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => Model.IsPassed, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => Model.IsPassed, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-        @*<div class="form-group">
-            @Html.LabelFor(model => Model.IsExpired, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => Model.IsExpired, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => Model.IsExpired, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-        <div class="form-group">
-            @Html.LabelFor(model => Model.Score, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => Model.Score, new { htmlAttributes = new { @class = "form-control" } })
-                @*@Html.ValidationMessageFor(model => Model.Score, "", new { @class = "text-danger" })*@
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => Model.Assignment.MaxScore, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => Model.Assignment.MaxScore, new { htmlAttributes = new { @class = "form-control" } })
-                @*@Html.ValidationMessageFor(model => Model.MaxScore, "", new { @class = "text-danger" })*@
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => Model.Message, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => Model.Message, new { htmlAttributes = new { @class = "form-control" } })
-                @*@Html.ValidationMessageFor(model => Model.MaxScore, "", new { @class = "text-danger" })*@
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Respond" class="btn btn-default" />
-                <br /><br />
-                <a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Back to personal assignments</a>
-            </div>
-        </div>
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            Teacher ID: @User.Identity.GetUserId()
+        </small>
     </div>
-}
+    <div class="col-md-4 text-center">
+        <small>Assignment Evaluation</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small><span class="glyphicon glyphicon-calendar"></span> @DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year <span class="glyphicon glyphicon-time"></span> @DateTime.Now.ToShortTimeString()</small>
+    </div>
+</div>
 
+
+<div class="jumbotron">
+    <h2>Logged in as: <a href="@Url.Action("Index", "Teacher")">@User.Identity.GetUserRealName()</a></h2>
+    <p>
+        You are evaluating the assignment <a href="@Url.Action("Details_Basic", "Assignment", new { id = Model.Assignment.ID})"><b>@Model.Assignment.Name</b></a>.
+        This evaluation is for the student <a href="@Url.Action("Details", "Student", new { Model.Student.Id})">@Model.Student.RealName</a>.<br />
+        In the course <a href="@Url.Action("Details", "Course", new { id = Model.Assignment.Course.ID})">@Model.Assignment.Course.CourseName</a>.
+
+    </p>
+</div>
+<div class="row">
+    <div class="col-md-9">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h3 class="text-center">Evaluation</h3>
+                </div>
+            </div>
+            <div class="panel-body">
+                <h4>Evaluating @Model.Student.RealName's assignment @Model.Assignment.Name in @Model.Assignment.Course.CourseName</h4>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" value="@Model.ID" name="ID" />
+
+                    <div class="form-horizontal">
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.Assignment.IssueDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DisplayFor(model => Model.Assignment.IssueDate, new { htmlAttributes = new { @class = "form-control" } })
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.Assignment.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DisplayFor(model => Model.Assignment.DueDate, new { htmlAttributes = new { @class = "form-control" } })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.Score, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => Model.Score, new { htmlAttributes = new { @class = "form-control" } })
+                                @*@Html.ValidationMessageFor(model => Model.Score, "", new { @class = "text-danger" })*@
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.Assignment.MaxScore, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DisplayFor(model => Model.Assignment.MaxScore, new { htmlAttributes = new { @class = "form-control" } })
+                                @*@Html.ValidationMessageFor(model => Model.MaxScore, "", new { @class = "text-danger" })*@
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.Message, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => Model.Message, new { htmlAttributes = new { @class = "form-control" } })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Respond" class="btn btn-default" />
+                               
+                                
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <p>
+            <a href="@Url.Action("IndexUser", "Assignment")">Back To Assignments</a>
+        </p>
+    </div>
+</div>

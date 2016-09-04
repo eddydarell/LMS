@@ -3,49 +3,96 @@
 @using Microsoft.AspNet.Identity;
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Assignment Edition";
 }
-
-<h2>Edit</h2>
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    <input type="hidden" value="@Model.ID" name="ID" />
-
-    <div class="form-horizontal">
-        <h4>Assignment</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => Model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => Model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => Model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => Model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => Model.DueDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => Model.DueDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => Model.MaxScore, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => Model.MaxScore, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => Model.MaxScore, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Edit" class="btn btn-default" />
-                <br /><br />
-                <a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Back to personal assignments</a>
-            </div>
-        </div>
+<div class="row" style="padding-bottom: 20px">
+    <div class="col-md-4">
+        <small>
+            Teacher ID: @User.Identity.GetUserId()
+        </small>
     </div>
-}
+    <div class="col-md-4 text-center">
+        <small> Assignment Edition</small>
+    </div>
+    <div class="col-lg-4 text-right">
+        <small><span class="glyphicon glyphicon-calendar"></span> @DateTime.Now.DayOfWeek, @DateTime.Now.Date.Day @DateTime.Now.Year <span class="glyphicon glyphicon-time"></span> @DateTime.Now.ToShortTimeString()</small>
+    </div>
+</div>
 
+
+<div class="jumbotron">
+    <h2>Logged in as: <a href="@Url.Action("Index", "Teacher")">@User.Identity.GetUserRealName()</a></h2>
+    <p>
+        You are on the assignment edition page.<br />
+        You are editing an assignment for <a href="@Url.Action("Details", "Course", new { id = Model.Course.ID})">@Model.Course.CourseName</a><br />
+    </p>
+</div>
+<div class="row">
+    <div class="col-md-9">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h3 class="text-center">Edition</h3>
+                </div>
+            </div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" value="@Model.ID" name="ID" />
+
+                    <div class="form-horizontal">
+                        <h4>Editing assignment: <b>@Model.Name</b></h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => Model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => Model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => Model.DueDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.ValidationMessageFor(model => Model.DueDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.MaxScore, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => Model.MaxScore, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => Model.MaxScore, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Edit" class="btn btn-default" />
+                                
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <p>
+            <a href="@Url.Action("IndexUser", "Assignment")" >Back To Assignments</a>
+        </p>
+    </div>
+</div>
+<script>
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker({
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            showWeek: true,
+            firstDay: 1,
+            minDate: 0,
+            changeMonth: true,
+            changeYear: true
+        }); //Initialize any date pickers
+    });
+</script>

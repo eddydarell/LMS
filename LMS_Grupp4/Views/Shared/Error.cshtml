@@ -1,9 +1,34 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
-
+﻿
 @{
-    ViewBag.Title = "Error";
+    ViewBag.Title = "Exception";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<div class="jumbotron">
+    <h1>Learning Management System</h1>
+    <p class="lead">This is a basic LMS designed to work as a e-learning platform with all basic functionalities.</p>
+    <p><a href="@Url.Action("About")" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
 
+<div class="row">
+    <div class="col-md-8 col-md-offset-1">
+        <div class="alert alert-warning">
+            <h2>An Unexpected Error Has Occurred</h2>
+            <hr />
+            <blockquote>
+                <p>
+                    The server encountered an unexpected error.<br />
+                    Refer to the error details for more information.<br />
+                    If this error persists, <a href="@Url.Action("Contact", "Home")" title="Contact us">contact us.</a>
+                </p>
+                <hr />
+                <p>
+                    We are sorry for any inconvenience caused.
+                </p>
+                <small>LMS Dev Team</small>
+            </blockquote>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <img src="~/Content/sadness.png" alt="Sadness" style="max-width: 100%" />
+    </div>
+</div>    

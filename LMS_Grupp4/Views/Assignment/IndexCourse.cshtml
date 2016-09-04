@@ -30,7 +30,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="panel-title">
@@ -38,14 +38,15 @@
                 </div>
             </div>
             <div class="panel-body">
-                <table class="table table-bordered">
+                <table class="table">
                     <tr>
                         <th>
                             Name
                         </th>
                         <th>
                             Due date
-                        </th>        
+                        </th><th></th>
+
                     </tr>
 
                     @foreach (var item in Model.Assignments)
@@ -65,7 +66,8 @@
                                     <a href="@Url.Action("Edit", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Edit</a>
                                     <a href="@Url.Action("Delete", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Delete</a>
                                 </td>
-                            } else
+                            }
+                            else
                             {
                                 <td>
                                     <a href="@Url.Action("AssignmentAcceptance", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Confirm assignment</a>
@@ -75,9 +77,10 @@
                     }
 
                 </table>
-                <a href="@Url.Action("IndexUser", "Assignment")" class="btn btn-default btn-sm">Personal assignments</a>
+                
             </div>
-        <div>
+        </div>
+        <a href="@Url.Action("IndexUser", "Assignment")">Back To Assignments</a>
     </div>
 </div>
 

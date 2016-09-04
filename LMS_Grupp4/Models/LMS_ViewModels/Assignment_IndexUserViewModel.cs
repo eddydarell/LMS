@@ -8,10 +8,10 @@ namespace LMS_Grupp4.Models.LMS_ViewModels
 {
 	public class Assignment_IndexUserViewModel
 	{
-		public IEnumerable<Assignment> TeacherAssignments;
-		public IEnumerable<Assignment> StudentAssignments;
+		public IEnumerable<IGrouping<string, Assignment>> TeacherAssignments;
+		public IEnumerable<IGrouping<string, Assignment>> StudentAssignments;
 		
-		public Assignment_IndexUserViewModel(IEnumerable<Assignment> teacherAssignments, IEnumerable<Assignment> studentAssignments)
+		public Assignment_IndexUserViewModel(IEnumerable<IGrouping<string, Assignment>> teacherAssignments, IEnumerable<IGrouping<string, Assignment>> studentAssignments)
 		{
 			this.TeacherAssignments = teacherAssignments;
 			this.StudentAssignments = studentAssignments;
