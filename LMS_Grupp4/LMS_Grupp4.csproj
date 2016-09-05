@@ -729,6 +729,7 @@
     <Content Include="Views\Assignment\UploadFile.cshtml" />
     <Content Include="Views\File\SubmissionFiles.cshtml" />
     <Content Include="Views\Search\SearchCourseByName.cshtml" />
+    <Content Include="Views\Student\_GradesPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Uploads\Submissions\" />

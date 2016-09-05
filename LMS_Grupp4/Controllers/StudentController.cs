@@ -93,20 +93,61 @@ namespace LMS_Grupp4.Controllers
 			}
 		}
 
-		//public ActionResult Files(string id = "")
-		//{
-		//	var user = LMSRepo.GetUserManager().FindById(id);
-		//	var filesModelList = user.Files.ToList();
-		//	return View(filesModelList);
-		//}
+        public ActionResult ComputeGrades()
+        {
+            var userManager = LMSRepo.GetUserManager();
+            var user = userManager.FindById(User.Identity.GetUserId());
 
-		//public ActionResult Assignments(string id = "")
-		//{
-		//	var user = LMSRepo.GetUserManager().FindById(id);
-		//	var assignmentModelList = user.Assignments.ToList();
-		//	return View(assignmentModelList);
-		//}
+            List<IDictionary<string, double>> grades = new List<IDictionary<string, double>>();
+            
+            foreach (var course in user.Courses)
+            {
+                var courseDictionary = new Dictionary<string, double>();
+                int assignmentCount = 0;
+                double cumulPercentage = 0.00;
 
-		
-	}
+                foreach (var assignment in course.Assignments)
+                {
+                    assignmentCount++;
+                    foreach (var eval in assignment.Evaluations)
+                    {
+                        if (eval.Student.Id == User.Identity.GetUserId())
+                        {
+
+                            if (eval.Percentage == null)
+                            {
+                                eval.Percentage = 0;
+                                cumulPercentage += (double)eval.Percentage;
+                            }
+                            else
+                            {
+                                cumulPercentage += (double)eval.Percentage;
+                            }
+                        }
+                    }
+                }
+
+                courseDictionary[course.CourseName] = Math.Round(cumulPercentage / assignmentCount);
+                grades.Add(courseDictionary);
+            }
+
+            return PartialView("_GradesPartial", grades);
+        }
+
+        //public ActionResult Files(string id = "")
+        //{
+        //	var user = LMSRepo.GetUserManager().FindById(id);
+        //	var filesModelList = user.Files.ToList();
+        //	return View(filesModelList);
+        //}
+
+        //public ActionResult Assignments(string id = "")
+        //{
+        //	var user = LMSRepo.GetUserManager().FindById(id);
+        //	var assignmentModelList = user.Assignments.ToList();
+        //	return View(assignmentModelList);
+        //}
+
+
+    }
 }

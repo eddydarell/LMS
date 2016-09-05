@@ -356,13 +356,31 @@ namespace LMS_Grupp4.Controllers
         public ActionResult ConfirmAssignment(int id = 0)
         {
             string userId = User.Identity.GetUserId();
-            var user = LMSRepo.GetUserManager().FindById(userId);
-
+            var userManager = LMSRepo.GetUserManager();
+            var user = userManager.FindById(userId);
+            
             Assignment assignment = LMSRepo.GetAssignmentByID(id);
+
+            //Add file to evaluation
+            var evaluation = new Evaluation();
+            evaluation.LMSFile = null;
+            evaluation.Student = user;
+            evaluation.Score = 0;
+            LMSRepo.AddEvaluation(evaluation);
+
+            //Add evaluation to the assignment
+            assignment.Evaluations.Add(evaluation);
+            user.Assignments.Add(assignment);
+
+            //assignment.Students.Add(uploader);
+            userManager.Update(user);
+
+
 
             assignment.IsExpired = DateTime.Now >= assignment.DueDate;
 
-            user.Assignments.Add(assignment);
+            LMSRepo.EditAssignment(assignment);
+            //user.Assignments.Add(assignment);
 
             return RedirectToAction("IndexUser");
         }

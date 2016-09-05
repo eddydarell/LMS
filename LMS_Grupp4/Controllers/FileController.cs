@@ -255,8 +255,24 @@ namespace LMS_Grupp4.Controllers
                     file.SaveAs(path);
                 }
             }
+            else
+            {
+                //Add file to evaluation
+                var evaluation = new Evaluation();
+                evaluation.LMSFile = null;
+                evaluation.Student = uploader;
+                evaluation.Score = 0;
+                LMSRepo.AddEvaluation(evaluation);
 
-            return RedirectToAction("ConfirmAssignment", "Assignment", new { id = assignment.ID});
+                //Add evaluation to the assignment
+                assignment.Evaluations.Add(evaluation);
+                uploader.Assignments.Add(assignment);
+
+                //assignment.Students.Add(uploader);
+                userManager.Update(uploader);
+            }
+
+            return RedirectToAction("IndexUser", "Assignment");
         }
         
         //Returns all files from submissions folder.
