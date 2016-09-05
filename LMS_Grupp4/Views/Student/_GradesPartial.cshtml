@@ -1,0 +1,49 @@
+﻿@using LMS_Grupp4.Models
+@model List<IDictionary<string, double>>
+
+
+@{
+    int courseCount = Model.Count;
+    double colWidth = (double)12 / courseCount;
+    int colWidthInt = (int)Math.Round(colWidth, 0);
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4 class="text-center panel-title">Grades Overview</h4>
+            </div>
+            <div class="row">
+                <div class="panel-body">
+
+                    @foreach (var courseDictionary in Model)
+            {
+                        <div class="text-center col-md-@colWidthInt">
+                            @foreach (var d in courseDictionary)
+                            {
+                                if (d.Value >= 50.00)
+                                {
+                                    <div class="alert alert-success">
+                                        <h4 class="well well-sm">@d.Key</h4>
+                                        <h1>@IdentityExtensions.SetMark(d.Value)</h1>
+                                        <h3>@d.Value %</h3>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-danger">
+                                        <h4 class="well well-sm">@d.Key</h4>
+                                        <h1>@IdentityExtensions.SetMark(d.Value)</h1>
+                                        <h3>@d.Value %</h3>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

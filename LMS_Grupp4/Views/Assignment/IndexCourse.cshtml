@@ -45,7 +45,8 @@
                         </th>
                         <th>
                             Due date
-                        </th><th></th>
+                        </th>
+                        <th></th>
 
                     </tr>
 
@@ -81,7 +82,7 @@
                                 @Html.ActionLink(item.Name, "Details_Basic", new { id = item.ID })
                             </td>
                             <td>
-                                @Html.DisplayFor(assignment => item.DueDate)
+                                @Convert.ToDateTime(item.DueDate).ToShortDateString()
                             </td>
 
 
@@ -94,15 +95,28 @@
                             }
                             else
                             {
-                                <td>
-                                    <a href="@Url.Action("AssignmentAcceptance", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Confirm assignment</a>
-                                </td>
+                                if (item.Evaluations.Any(a => a.Student.Id == User.Identity.GetUserId()))
+                                {
+                                    <td>
+                                        <div class="alert alert-success">
+                                            <p>
+                                                <span class="glyphicon glyphicon-ok-sign"></span> Assignment already accepted
+                                            </p>
+                                        </div>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <a href="@Url.Action("AssignmentAcceptance", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Confirm assignment</a>
+                                    </td>
+                                }
                             }
                         </tr>
                     }
 
                 </table>
-                
+
             </div>
         </div>
         <a href="@Url.Action("IndexUser", "Assignment")">Back To Assignments</a>

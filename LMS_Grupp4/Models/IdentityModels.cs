@@ -65,5 +65,42 @@ namespace LMS_Grupp4.Models
             // Test for null to avoid issues during local testing
             return (claim != null) ? claim.Value : string.Empty;
         }
+
+        //Extension function
+        public static string SetMark(double percentage)
+        {
+            string mark = "";
+
+            if (percentage >= 90)
+            {
+                mark = "A";
+            }
+            else if (percentage < 90 && percentage >= 80)
+            {
+                mark = "B";
+            }
+            else if (percentage < 80 && percentage >= 70)
+            {
+                mark = "C";
+            }
+            else if (percentage < 70 && percentage >= 60)
+            {
+                mark = "D";
+            }
+            else if (percentage < 60 && percentage >= 50)
+            {
+                mark = "E";
+            }
+            else if (percentage < 50 && percentage >= 40)
+            {
+                mark = "Fx";
+            }
+            else
+            {
+                mark = "F";
+            }
+
+            return mark;
+        }
     }
 }

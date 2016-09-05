@@ -120,12 +120,16 @@
                     <table class="table table-condensed">
                         <tr>
                             <th class="text-center">Student</th>
+                            <th class="text-center">Action</th>
                         </tr>
                         @foreach (var item in @Model.Evaluations)
                         {
                             <tr>
                                 <td>
                                     <a href="@Url.Action("Details", "Student", new { id = item.Student.Id })">@item.Student.RealName</a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("EditResponse", "Assignment", new { id = item.Assignment.ID })" class="btn btn-success btn-sm">Evaluate</a>
                                 </td>
                             </tr>
                         }
