@@ -1,0 +1,570 @@
+[AssignmentController]
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using LMS_Grupp4.Repositories;
+using LMS_Grupp4.Models.LMS_ViewModels;
+using LMS_Grupp4.Models.LMS_Models;
+using LMS_Grupp4.Models;
+
+namespace LMS_Grupp4.Controllers
+{
+	public class AssignmentController : Controller
+	{
+		LMSRepository LMSRepo = new LMSRepository();
+
+		[Authorize(Roles = "teacher, student")]
+		public ActionResult IndexUser(string userId = "")
+		{
+			if (String.IsNullOrWhiteSpace(userId))
+			{
+				userId = User.Identity.GetUserId();
+			}
+			ViewBag.UserID = userId;
+
+			var user = LMSRepo.GetUserManager().FindById(userId);
+
+            List<Assignment> assignmentModelList;
+
+			if(User.IsInRole("student"))
+			{
+			    try
+			    {
+				    assignmentModelList = user.Assignments.ToList();
+			    }
+
+                catch (NullReferenceException)
+			    {
+				    return View();
+			    }
+
+			    return View(assignmentModelList);
+		    }
+			else
+			{
+				var teacherCourses = user.Courses;
+				List<Assignment> teacherAssignments = new List<Assignment>();
+
+				try
+				{
+					foreach (Course course in teacherCourses)
+					{
+						foreach (Assignment assignment in course.Assignments)
+						{
+							teacherAssignments.Add(assignment);
+						}
+					}
+				} 
+				catch(NullReferenceException) 
+				{
+					 return View();
+				}
+				
+				return View(teacherAssignments); 
+			}	
+		}
+
+		public ActionResult IndexCourse(int courseID = 0)
+		{
+			Course course = LMSRepo.GetCourseByID(courseID);
+			string courseName = course.CourseName;
+			var courseAssignmentList = course.Assignments;
+
+			Assignment_IndexCourseViewModel aICVM = new Assignment_IndexCourseViewModel(courseName, courseAssignmentList);
+
+			return View(aICVM);
+		}
+
+		[Authorize(Roles = "teacher")]
+		[HttpGet]
+		public ActionResult Create(int courseID = 0)
+		{
+			var roleManager = LMSRepo.GetRoleManager();
+			var studentRole = roleManager.FindByName("student");
+			var course = LMSRepo.GetCourseByID(courseID);
+			var students = course.Users.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
+
+
+			Assignment_CreateViewModel a_CVM = new Assignment_CreateViewModel(students, courseID);
+
+			return View(a_CVM);
+		}
+
+		[Authorize(Roles = "teacher")]
+		[HttpPost]
+		public ActionResult Create(int CourseID = 0, string Name = "", DateTime? DueDate = null, int MaxScore = 0)
+		{
+			Assignment assignment = new Assignment();
+			Course course = LMSRepo.GetCourseByID(CourseID);
+
+			assignment.Name = Name;
+			assignment.DueDate = DueDate;
+			assignment.MaxScore = MaxScore;
+			assignment.IssueDate = DateTime.Now;
+			//Connects the course to the assignment
+			assignment.Course = course;
+			assignment.Students = new List<ApplicationUser>();
+
+			LMSRepo.AddAssignment(assignment);
+
+
+			//var roleManager = LMSRepo.GetRoleManager();
+			//var studentRole = roleManager.FindByName("student");
+			//string id = User.Identity.GetUserId();
+			//var teacher = LMSRepo.GetUserManager().FindById(id);
+
+			//var students = course.Students.Where(stu => stu.Roles.FirstOrDefault(r => r.RoleId == studentRole.Id) != null).ToList();
+
+			return RedirectToAction("Index");
+		}
+
+		[Authorize(Roles = "teacher")]
+		[HttpGet]
+		public ActionResult Edit(int assignmentID = 0)
+		{
+			Assignment assignment = LMSRepo.GetAssignmentByID(assignmentID);
+
+			return View(assignment);
+		}
+
+		[Authorize(Roles = "teacher")]
+		[HttpPost]
+		public ActionResult Edit(int ID = 0, string Name = "", DateTime? DueDate = null)
+		{
+			Assignment assignment = LMSRepo.GetAssignmentByID(ID);
+			assignment.Name = Name;
+			assignment.DueDate = DueDate;
+
+			LMSRepo.EditAssignment(assignment);
+
+			return RedirectToAction("IndexUser");
+		}
+
+        [Authorize(Roles = "teacher")]
+        [HttpGet]
+        public ActionResult EditResponse(int assignmentID = 0)
+        {
+            Assignment assignment = LMSRepo.GetAssignmentByID(assignmentID);
+
+            return View(assignment);
+        }
+
+        [Authorize(Roles = "teacher")]
+        [HttpPost]
+        public ActionResult EditResponse(int ID = 0, string Mark = "", bool IsPassed = false, int Score = 0)
+        {
+            Assignment assignment = LMSRepo.GetAssignmentByID(ID);
+            assignment.Mark = Mark;
+            assignment.IsPassed = IsPassed;
+            assignment.Score = Score;
+            assignment.Percentage = assignment.Score / assignment.MaxScore;
+
+            LMSRepo.EditAssignment(assignment);
+
+            return RedirectToAction("IndexUser");
+        }
+
+        [Authorize(Roles = "student")]
+        public ActionResult ConfirmAssignment(int id = 0)
+		{
+			string userId = User.Identity.GetUserId();
+			var user = LMSRepo.GetUserManager().FindById(userId);
+
+			Assignment assignment = LMSRepo.GetAssignmentByID(id);
+			user.Assignments.Add(assignment);
+
+			LMSRepo.SaveChanges();
+
+			return RedirectToAction("IndexUser");
+		}
+
+		public ActionResult Details(int? id)
+		{
+			var assignment = LMSRepo.GetAssignmentByID(id);
+
+			return View(assignment);
+		}
+	}
+}
+
+[Assignment_IndexUserViewModel]
+using LMS_Grupp4.Models.LMS_Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace LMS_Grupp4.Models.LMS_ViewModels
+{
+    public class Assignment_IndexUserViewModel
+    {
+        public IEnumerable<Assignment> StudentAssignments;
+        public IEnumerable<Assignment> TeacherAssignments;
+
+        public Assignment_IndexUserViewModel(IEnumerable<Assignment> studentAssignments, IEnumerable<Assignment> teacherAssignments)
+        {
+            this.StudentAssignments = studentAssignments;
+            this.TeacherAssignments = teacherAssignments;
+        }
+    }
+}
+
+[Edit]
+@model LMS_Grupp4.Models.LMS_Models.Assignment
+@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" value="@Model.ID" name="ID" />
+
+    <div class="form-horizontal">
+        <h4>Assignment</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => Model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => Model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => Model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => Model.DueDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => Model.DueDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.IsExpired, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => Model.IsExpired, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => Model.IsExpired, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Edit" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "IndexUser")
+</div>
+
+[EditResponse]
+@model LMS_Grupp4.Models.LMS_Models.Assignment
+@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "EditResponse";
+}
+
+<h2>Respond</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" value="@Model.ID" name="ID" />
+
+    <div class="form-horizontal">
+        <h4>Assignment</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => Model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => Model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.ValidationMessageFor(model => Model.Name, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => Model.DueDate, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.ValidationMessageFor(model => Model.DueDate, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.IssueDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => Model.IssueDate, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.ValidationMessageFor(model => Model.IssueDate, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.Mark, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => Model.Mark, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.ValidationMessageFor(model => Model.Mark, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.IsPassed, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => Model.IsPassed, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.ValidationMessageFor(model => Model.IsPassed, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.IsExpired, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => Model.IsExpired, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.ValidationMessageFor(model => Model.IsExpired, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.Score, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => Model.Score, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.ValidationMessageFor(model => Model.Score, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => Model.MaxScore, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => Model.MaxScore, new { htmlAttributes = new { @class = "form-control" } })
+                @*@Html.ValidationMessageFor(model => Model.MaxScore, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Edit" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "IndexUser")
+</div>
+
+[IndexCourse]
+@model LMS_Grupp4.Models.LMS_ViewModels.Assignment_IndexCourseViewModel
+@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity;
+
+
+@{
+    ViewBag.Title = "Index";
+    bool isTeacher = (User.IsInRole("teacher")) ? true : false;
+}
+
+
+<div class="jumbotron">
+    @if (isTeacher)
+    {
+        <h1>You are logged in as Teacher: @User.Identity.GetUserRealName()</h1>
+        <small>ID: @ViewBag.UserID</small>
+    } else
+    {
+        <h1>You are logged in as Student: @User.Identity.GetUserRealName()</h1>
+        <small>ID: @ViewBag.UserID</small>
+    }
+</div>
+
+<h2>Assignments for course @Model.CourseName</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Due date
+        </th>
+        @*<th>
+            Completed
+        </th>*@
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Assignments)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Name, "Details", new { id = item.ID })
+            </td>
+            <td>
+                @Html.DisplayFor(assignment => item.DueDate)
+            </td>
+            @*<td>
+                @Html.DisplayFor(assignment => item.IsPassed)
+            </td>*@
+
+            @if (isTeacher)
+            {
+                <td>
+                    <a href="@Url.Action("Edit", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Edit</a>
+                    @*@Html.ActionLink("Edit", "Edit") |*@
+                    <a href="@Url.Action("Delete", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Delete</a>
+                    @*@Html.ActionLink("Delete", "Delete")*@
+                </td>
+            }
+            else
+            {
+                <td>
+                    @*@Html.ActionLink("Confirm assignment", "ConfirmAssignment", new {id = item.ID})*@
+                    <a href="@Url.Action("ConfirmAssignment", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Confirm assignment</a>
+                </td>
+            }
+        </tr>
+    }
+
+</table>
+
+[IndexUser]
+@model IEnumerable<LMS_Grupp4.Models.LMS_Models.Assignment>
+@using LMS_Grupp4.Models
+@using Microsoft.AspNet.Identity;
+
+
+@{
+ViewBag.Title = "Index";
+bool isTeacher = (User.IsInRole("teacher")) ? true : false;
+}
+
+
+<div class="jumbotron">
+    @if (isTeacher)
+    {
+    <h1>You are logged in as Teacher: @User.Identity.GetUserRealName()</h1>
+    <small>ID: @ViewBag.UserID</small>
+    }
+    else
+    {
+    <h1>You are logged in as Student: @User.Identity.GetUserRealName()</h1>
+    <small>ID: @ViewBag.UserID</small>
+    }
+</div>
+
+@if (isTeacher)
+{
+    <h2>Your assignments</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Due date
+            </th>
+            <th>
+                Completed
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "Details", new { id = item.ID })
+                </td>
+                <td>
+                    @Html.DisplayFor(assignment => item.DueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(assignment => item.IsPassed)
+                </td>
+
+                <td>
+                    <a href="@Url.Action("Edit", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Edit</a>
+                    <a href="@Url.Action("Delete", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <h2>Returned assignments</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Due date
+            </th>
+            <th>
+                Completed
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "Details", new { id = item.ID })
+                </td>
+                <td>
+                    @Html.DisplayFor(assignment => item.DueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(assignment => item.IsPassed)
+                </td>
+                <td>
+                    <a href="@Url.Action("EditResponse", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Respond</a>
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+else
+{
+    <h2>Your assignments</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Due date
+            </th>
+            <th>
+                Completed
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.Name, "Details", new { id = item.ID })
+                </td>
+                <td>
+                    @Html.DisplayFor(assignment => item.DueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(assignment => item.IsPassed)
+                </td>
+            </tr>
+        }
+    </table>
+}

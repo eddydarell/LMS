@@ -49,6 +49,31 @@
 
                     </tr>
 
+                    @if (isTeacher)
+                    {
+                        if(Model.Assignments.c)
+                        <tr>
+                            <td>
+                                @Html.ActionLink(item.Name, "Details_Basic", new { id = item.ID })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(assignment => item.DueDate)
+                            </td>
+
+
+                            @if (isTeacher)
+                            {
+                                <td>
+                                    <a href="@Url.Action("Edit", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Edit</a>
+                                    <a href="@Url.Action("Delete", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Delete</a>
+                                </td>
+                            }
+                        </tr>
+                    } 
+                    else
+                    {
+
+                    }
                     @foreach (var item in Model.Assignments)
                     {
                         <tr>

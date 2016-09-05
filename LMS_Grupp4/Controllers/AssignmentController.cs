@@ -99,11 +99,22 @@ namespace LMS_Grupp4.Controllers
         {
             try
             {
+				var userId = User.Identity.GetUserId();
+				var user = LMSRepo.GetUserManager().FindById(userId);
                 Course course = LMSRepo.GetCourseByID(courseID);
                 string courseName = course.CourseName;
                 var courseAssignmentList = course.Assignments;
+				List<Assignment> studentUnconfirmedAssignments = new List<Assignment>(); 
 
-                Assignment_IndexCourseViewModel aICVM = new Assignment_IndexCourseViewModel(courseName, courseAssignmentList);
+				foreach (var assignment in courseAssignmentList)
+				{
+					if (!assignment.Evaluations.Any(e => e.Student.Id == user.Id))
+					{
+						studentUnconfirmedAssignments.Add(assignment);
+					}
+				}
+
+                Assignment_IndexCourseViewModel aICVM = new Assignment_IndexCourseViewModel(courseName, courseAssignmentList, studentUnconfirmedAssignments);
 
                 return View(aICVM);
             }
