@@ -103,7 +103,7 @@ namespace LMS_Grupp4.Controllers
                 string courseName = course.CourseName;
                 var courseAssignmentList = course.Assignments;
 			
-                Assignment_IndexCourseViewModel aICVM = new Assignment_IndexCourseViewModel(courseName, courseAssignmentList);
+                Assignment_IndexCourseViewModel aICVM = new Assignment_IndexCourseViewModel(course, courseAssignmentList);
 
                 return View(aICVM);
             }
@@ -386,7 +386,7 @@ namespace LMS_Grupp4.Controllers
         }
 
 
-        public ActionResult Details_Basic(int id)
+        public ActionResult Details_Basic(int id = 0)
         {
             var assignment = LMSRepo.GetAssignmentByID(id);
 
@@ -396,7 +396,7 @@ namespace LMS_Grupp4.Controllers
         }
 
 
-        public ActionResult Details_Full(int id)
+        public ActionResult Details_Full(int id = 0)
         {
             var evaluation = LMSRepo.GetEvaluationByID(id);
 
@@ -407,7 +407,7 @@ namespace LMS_Grupp4.Controllers
 
 
         [Authorize(Roles = "teacher")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id = 0)
         {
             Assignment assignment = LMSRepo.GetAssignmentByID(id);
 
@@ -416,7 +416,7 @@ namespace LMS_Grupp4.Controllers
 
 
         [Authorize(Roles = "teacher")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id = 0)
         {
             var assignment = LMSRepo.GetAssignmentByID(id);
             List<Evaluation> tmpEvaluationList = new List<Evaluation>();

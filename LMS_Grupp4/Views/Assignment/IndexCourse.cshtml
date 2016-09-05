@@ -23,7 +23,7 @@
 
 
 <div class="jumbotron">
-    <h1>Assignments for course @Model.CourseName</h1>
+    <h2>Assignments for course <a href="@Url.Action("Details", "Course", new { id = Model.Course.ID })">@Model.Course.CourseName</a></h2>
     <p>
         Here you can see all the assignments that are registered for this course.<br />
     </p>
@@ -83,7 +83,7 @@
                                 else
                                 {
                                     <td>
-                                        <a href="@Url.Action("AssignmentAcceptance", "Assignment", new { id = item.ID })" class="btn btn-default btn-sm">Confirm assignment</a>
+                                        <a href="@Url.Action("AssignmentAcceptance", "Assignment", new { id = item.ID })" class="btn btn-success">Confirm assignment</a>
                                     </td>
                                 }
                             }
@@ -94,7 +94,7 @@
 
             </div>
         </div>
-        <a href="@Url.Action("IndexUser", "Assignment")">Back To Assignments</a>
+        <a href="@Url.Action("IndexUser", "Assignment")">Back To Personal Assignments</a>
     </div>
 </div>
 

@@ -110,10 +110,6 @@
                     </dt>
                     <dd><a href="@Url.Action("Details", "Course", new { id = @Model.Assignment.Course.ID })">@Model.Assignment.Course.CourseName</a></dd>
                     <dt>
-                        Student
-                    </dt>
-                    <dd><a href="@Url.Action("Details", "Student", new { id = @Model.Student.Id })">@Model.Student.RealName</a></dd>
-                    <dt>
                         File
                     </dt>
                     <dd>
@@ -135,7 +131,7 @@
 </div>
 
 <div>
-    <a href="@Url.Action("IndexUser", "Assignment")">Back To Assignments</a>
+    <a href="@Url.Action("IndexUser", "Assignment")">Back To Personal Assignments</a>
 </div>
 
 

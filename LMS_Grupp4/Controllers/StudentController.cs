@@ -20,7 +20,8 @@ namespace LMS_Grupp4.Controllers
 		public ActionResult Index()
 		{
 			var user = LMSRepo.GetUserManager().FindById(User.Identity.GetUserId());
-			var coursesWithPendingApplications = user.Courses.Where(c => c.CourseApplications.Any(ca => ca.Status == false)).ToList();
+			var courses = LMSRepo.GetAllCourses();
+			var coursesWithPendingApplications = courses.Where(c => c.CourseApplications.Any(ca => ca.Status == false && ca.Student.Id == user.Id)).ToList();
 
 			List<CourseApplication> applications = new List<CourseApplication>();
 			foreach (var course in coursesWithPendingApplications)
