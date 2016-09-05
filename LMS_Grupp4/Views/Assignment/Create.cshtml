@@ -59,7 +59,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => Model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => Model.DueDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                @Html.EditorFor(model => Model.DueDate, new { htmlAttributes = new { @class = "form-control datepicker" , @type = "datetime"} })
                                 @Html.ValidationMessageFor(model => Model.DueDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                         <div class="form-group">
                             @Html.LabelFor(model => Model.MaxScore, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.EditorFor(model => Model.MaxScore, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.EditorFor(model => Model.MaxScore, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                                 @Html.ValidationMessageFor(model => Model.MaxScore, "", new { @class = "text-danger" })
                             </div>
                         </div>
