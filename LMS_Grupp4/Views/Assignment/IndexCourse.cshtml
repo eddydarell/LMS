@@ -50,9 +50,8 @@
 
                     </tr>
 
-                    @if (isTeacher)
-                    {
-                        if(Model.Assignments.c)
+                  
+                        
                         <tr>
                             <td>
                                 @Html.ActionLink(item.Name, "Details_Basic", new { id = item.ID })
@@ -71,10 +70,7 @@
                             }
                         </tr>
                     } 
-                    else
-                    {
-
-                    }
+                 
                     @foreach (var item in Model.Assignments)
                     {
                         <tr>
