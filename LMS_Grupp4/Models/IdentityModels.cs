@@ -44,6 +44,7 @@ namespace LMS_Grupp4.Models
         public DbSet<ProgramClass> ProgramClasses { get; set; }
         public DbSet<CourseApplication> CourseApplications { get; set; }
 		public DbSet<Evaluation> Evaluations { get; set; }
+        public DbSet<ScheduleEvent> Events { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -57,7 +58,7 @@ namespace LMS_Grupp4.Models
     }
 
     //This class in intended to provide extensions to the Use.Identity object
-    public static class IdentityExtensions
+    public static class PersonalIdentityExtensions
     {
         public static string GetUserRealName(this IIdentity identity)
         {
@@ -101,6 +102,47 @@ namespace LMS_Grupp4.Models
             }
 
             return mark;
+        }
+
+        public static string DisplayEventPeriodicity(int periodicity = 0)
+        {
+            switch(periodicity)
+            {
+                case 0: return "None";
+                case 1: return "Daily";
+                case 2: return "Weekly";
+                case 3: return "Monthly";
+                case 4: return "Yearly";
+            }
+
+            return "Not Specified.";
+        }
+
+        public static string DisplayEventPriority(int priority = 0)
+        {
+            switch(priority)
+            {
+                case 1: return "Normal";
+                case 2: return "Low";
+                case 3: return "High";
+            }
+
+            return "Normal";
+        }
+
+        public static string DisplayEventNature(int nature = 0)
+        {
+            switch(nature)
+            {
+                case 1: return "Lecture";
+                case 2: return "Test";
+                case 3: return "Exam";
+                case 4: return "Lab";
+                case 5: return "Cancellation";
+                case 6: return "Other";
+            }
+
+            return "Other";
         }
     }
 }

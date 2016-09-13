@@ -268,6 +268,78 @@ namespace LMS_Grupp4.Controllers
                 return View("_Forbidden");
             }
         }
+        #region Schedule(New)
+
+        [HttpGet]
+        [Authorize(Roles = "teacher")]
+        public ActionResult CreateEvent(int id = 0)
+        {
+            var course = LMSRepo.GetCourseByID(id);
+            var scheduleEvent = new ScheduleEvent
+            {
+                 CourseID = course.ID,
+                 Course = course
+            };
+
+            return View(scheduleEvent);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "teacher")]
+        public ActionResult CreateEvent(ScheduleEvent scheduleEvent)
+        {
+            if(ModelState.IsValid)
+            {
+                var course = LMSRepo.GetCourseByID(scheduleEvent.CourseID);
+
+                scheduleEvent.Course = course;
+
+                LMSRepo.AddEvent(scheduleEvent);
+
+                return RedirectToAction("Details", new { id = scheduleEvent.Course.ID});
+            }
+            else
+            {
+                return View(scheduleEvent);
+            }
+        }
+
+        public ActionResult ViewEventsByCourse(int id = 0)
+        {
+            var course = LMSRepo.GetCourseByID(id);
+            var events = course.Events.ToList();
+
+            return View(events);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "teacher")]
+        public ActionResult EditEvent(int id = 0)
+        {
+            var scheduleEvent = LMSRepo.GetEventByID(id);
+            return View(scheduleEvent);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "teacher")]
+        public ActionResult EditEvent(ScheduleEvent scheduleEvent)
+        {
+            if (ModelState.IsValid)
+            {
+                var course = LMSRepo.GetCourseByID(scheduleEvent.CourseID);
+
+                scheduleEvent.Course = course;
+
+                LMSRepo.EditEvent(scheduleEvent);
+
+                return RedirectToAction("Details", new { id = scheduleEvent.Course.ID });
+            }
+            else
+            {
+                return View(scheduleEvent);
+            }
+        }
+        #endregion
 
         public ActionResult FiveMostPopularCourses()
         {

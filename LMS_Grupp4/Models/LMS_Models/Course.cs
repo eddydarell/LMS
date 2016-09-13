@@ -30,5 +30,6 @@ namespace LMS_Grupp4.Models.LMS_Models
         public virtual ICollection<ProgramClass> Classes { get; set; }
         public virtual ICollection<Assignment> Assignments { get; set; }
         public virtual ICollection<LMSFile> Files { get; set; }
+        public virtual ICollection<ScheduleEvent> Events { get; set; }
     }
 }

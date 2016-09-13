@@ -87,6 +87,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -209,9 +210,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608300710022_initial.cs" />
-    <Compile Include="Migrations\201608300710022_initial.Designer.cs">
-      <DependentUpon>201608300710022_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201609080810585_AddedEvents.cs" />
+    <Compile Include="Migrations\201609080810585_AddedEvents.Designer.cs">
+      <DependentUpon>201609080810585_AddedEvents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609080823561_AddedEventsForeignKey.cs" />
+    <Compile Include="Migrations\201609080823561_AddedEventsForeignKey.Designer.cs">
+      <DependentUpon>201609080823561_AddedEventsForeignKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609081018588_AddedAllday.cs" />
+    <Compile Include="Migrations\201609081018588_AddedAllday.Designer.cs">
+      <DependentUpon>201609081018588_AddedAllday.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -223,6 +232,7 @@
     <Compile Include="Models\LMS_Models\Evaluation.cs" />
     <Compile Include="Models\LMS_Models\LMSFile.cs" />
     <Compile Include="Models\LMS_Models\ProgramClass.cs" />
+    <Compile Include="Models\LMS_Models\ScheduleEvent.cs" />
     <Compile Include="Models\LMS_ViewModels\Admin_ManageUserViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Assignment_CreateViewModel.cs" />
     <Compile Include="Models\LMS_ViewModels\Assignment_IndexCourseViewModel.cs" />
@@ -727,6 +737,9 @@
     <Content Include="Views\File\SubmissionFiles.cshtml" />
     <Content Include="Views\Search\SearchCourseByName.cshtml" />
     <Content Include="Views\Student\_GradesPartial.cshtml" />
+    <Content Include="Views\Course\CreateEvent.cshtml" />
+    <Content Include="Views\Course\ViewEventsByCourse.cshtml" />
+    <Content Include="Views\Course\EditEvent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -741,8 +754,14 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608300710022_initial.resx">
-      <DependentUpon>201608300710022_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201609080810585_AddedEvents.resx">
+      <DependentUpon>201609080810585_AddedEvents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609080823561_AddedEventsForeignKey.resx">
+      <DependentUpon>201609080823561_AddedEventsForeignKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609081018588_AddedAllday.resx">
+      <DependentUpon>201609081018588_AddedAllday.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

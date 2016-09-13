@@ -1,0 +1,289 @@
+﻿@using Microsoft.AspNet.Identity
+@using LMS_Grupp4.Models
+@model List<LMS_Grupp4.Models.LMS_Models.ScheduleEvent>
+
+@{
+    ViewBag.Title = "Course Schedule";
+}
+
+<h2>Course Schedule</h2>
+
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>start Date</th>
+        <th>End Date</th>
+        <th>Start Time</th>
+        <th>End Date</th>
+        <th>Periodicity</th>
+        <th>Priority</th>
+        <th>Lock Status</th>
+        <th>Status</th>
+        <th>Nature</th>
+        <th>Description</th>
+        <th></th>
+    </tr>
+    @foreach (var scheduleEvent in Model)
+    {
+        <tr>
+            <td>@scheduleEvent.Title</td>
+            <td>@scheduleEvent.StartDate.ToShortDateString()</td>
+            <td>@scheduleEvent.EndDate.ToShortDateString()</td>
+            <td>@scheduleEvent.StartTime</td>
+            <td>@scheduleEvent.EndTime</td>
+            <td>@PersonalIdentityExtensions.DisplayEventPeriodicity(scheduleEvent.Periodicity)</td>
+            <td>@PersonalIdentityExtensions.DisplayEventPriority(scheduleEvent.Priority)</td>
+            <td>@(scheduleEvent.IsLocked ? "Unlocked" : "Locked")</td>
+            <td>@(scheduleEvent.IsExpired ? "Expired" : "Not Expired")</td>
+            <td>@PersonalIdentityExtensions.DisplayEventNature(scheduleEvent.EventNature)</td>
+            <td>@scheduleEvent.Description</td>
+            <td>
+                <a href="@Url.Action("EditEvent", "Course", new { id = scheduleEvent.ID })">Edit</a>
+                <a href="@Url.Action("DeleteEvent", "Course", new { id = scheduleEvent.ID })">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="divcalendar">
+
+    <div id="calendaroverallcontrols">
+        <!-- <div id="year"></div> -->
+
+        <div id="calendarmonthcontrols">
+            <a id="btnPrevYr" href="#" title="Previous Year"><span><<</span></a>
+
+            <a id="btnPrev" href="#" title="Previous Month"><span><</span></a>
+
+            <!-- <input type="button" src="images/btnprevmonth.png" alt="Submit" id="btnPrev"/>-->
+            <!-- <div id="month"></div>-->
+
+            <div id="monthandyear"></div>
+
+            <!--<input type="button" src="images/btnnextmonth.png" alt="Submit" id="btnNext"/>-->
+
+            <a id="btnNext" href="#" title="Next Month"><span>></span></a>
+
+            <a id="btnNextYr" href="#" title="Next Year"><span>>></span></a>
+        </div>
+    </div>
+</div>
+
+<div id="divcalendartable"></div>
+
+<script>
+    (function () {
+        var c = new Calendar({
+            ParentID: "divcalendartable",
+
+            DaysOfWeek: [
+            'MON',
+            'TUE',
+            'WED',
+            'THU',
+            'FRI',
+            'SAT',
+            'SUN'
+            ],
+
+            Months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+
+            Format: 'dd/mm/yyyy'
+        });
+
+        c.showCurrent();
+        
+
+        // Bind next and previous button clicks
+        getId('btnPrev').onclick = function () {
+            c.previousMonth();
+            setTimeout(renderEvents, 50);
+        };
+
+        getId('btnPrevYr').onclick = function () {
+            c.previousYear();
+            setTimeout(renderEvents, 50);
+        };
+        getId('btnNext').onclick = function () {
+            c.nextMonth();
+            setTimeout(renderEvents, 50);
+        };
+
+        getId('btnNextYr').onclick = function () {
+            c.nextYear();
+            setTimeout(renderEvents, 50);
+        };
+
+
+        // Get element by id
+        function getId(id) {
+            return document.getElementById(id);
+        }
+
+        //Jquery
+
+        var n = $('.sch_date').length;
+        console.log(n);
+
+        
+
+        /**
+        * Internal functions to work with the date parsing and
+        * displaying.
+        */
+        //Retrieves the date value for a box using its id
+        var getEventBoxDate = function (elem) {
+            var boxDate = [];
+            var idValue = elem.id;
+
+            boxDate = idValue.replace(/date-/, '').split('/');
+
+            return boxDate;
+        };
+
+        //Creates an event card
+        var createEventBox = function (newEvent) {
+            var eventBox = '<div class="eventBox">' +
+                            '<div class="eventNature' + newEvent.nature + '">' +
+                                '<span class="title text-left">' + newEvent.title + '</span><span class="courseName">' + newEvent.course + '</span><br/>' +
+                                '<span class="time text-right"><span class="glyphicon glyphicon-time"></span>  ' + newEvent.startTime + ' - ' + newEvent.endTime + '</span>' +
+                            '</div>' +
+                            '<div class="eventPriority' + newEvent.priority + '"></div>' +
+                       '</div>';
+
+            return eventBox;
+        };
+
+        //Test
+        function renderEvents() {
+            var calendarBoxes = $('.sch_date');
+            //default values for test purpose
+            calendarEvents = {
+                startTime: '10:00',
+                endTime: '12:00',
+                periodicity: 0,
+                startDate: new Date(2016, 8, 1, 0, 0, 0, 0),
+                endDate: new Date(2016, 10, 1, 0, 0, 0, 0),
+                title: 'Lecture',
+                description: 'Test Description',
+                priority: 1,
+                nature: 1,
+                course: 'Math'
+            };
+
+            calendarEvents1 = {
+                startTime: '10:00',
+                endTime: '12:00',
+                periodicity: 0,
+                startDate: new Date(2016, 8, 25, 0, 0, 0, 0),
+                endDate: new Date(2016, 8, 26, 0, 0, 0, 0),
+                title: 'Long Lecture',
+                description: 'Test Description',
+                priority: 3,
+                nature: 1,
+                course: 'Dance'
+            };
+
+            calendarEvents2 = {
+                startTime: '13:00',
+                endTime: '15:00',
+                periodicity: 2,
+                startDate: new Date(2016, 8, 2, 0, 0, 0, 0),
+                endDate: new Date(2016, 8, 23, 0, 0, 0, 0),
+                title: 'Exam',
+                description: 'Test Description',
+                priority: 3,
+                nature: 3,
+                course: 'Biology'
+            };
+
+            calendarEvents3 = {
+                startTime: '08:00',
+                endTime: '10:00',
+                periodicity: 1,
+                startDate: new Date(2016, 8, 26, 0, 0, 0, 0),
+                endDate: new Date(2016, 8, 30, 0, 0, 0, 0),
+                title: 'Quiz',
+                description: 'Test Description',
+                priority: 2,
+                nature: 2,
+                course: 'Swedish'
+            };
+
+            var eventArray = [calendarEvents,  calendarEvents2];
+
+
+            for (var j = 0; j < eventArray.length; j++) {
+
+                var weeklyCounter = 0;
+
+                for (var i = 0; i < calendarBoxes.length; i++) {
+
+                    var idDate = getEventBoxDate(calendarBoxes[i]);
+                    var boxDate = new Date(idDate[2], idDate[1], idDate[0], 0, 0, 0, 0);
+                    var repeatDaily = true;
+                    var repeatWeekly = true;
+                    var repeatMonthly = true;
+
+                    if (boxDate >= eventArray[j].startDate && boxDate <= eventArray[j].endDate && boxDate.getDay() != 0 && boxDate.getDay() != 6) {
+                        switch (eventArray[j].periodicity) {
+                            case 0:
+                                if (!repeatDaily && !repeatWeekly && !repeatWeekly) {
+                                    console.log("skipped");
+
+                                    continue;
+                                }
+
+                                var eventDiv = createEventBox(eventArray[j]);
+                                $(eventDiv).hide().appendTo(calendarBoxes[i]).fadeIn(1000);
+
+                                repeatDaily = false;
+                                repeatWeekly = false;
+                                repeatMonthly = false;
+                                break;
+                            case 1:
+                                var eventDiv = createEventBox(eventArray[j]);
+                                $(eventDiv).hide().appendTo(calendarBoxes[i]).fadeIn(1000);
+                                console.log('found case 1');
+                                break;
+                            case 2:
+                                repeatDaily = false;
+                                repeatWeekly = true;
+                                repeatMonthly = false;
+                                if (repeatWeekly && !repeatDaily && !repeatMonthly) {
+                                    if (weeklyCounter % 5 == 0) {
+                                        var eventDiv = createEventBox(eventArray[j]);
+                                        $(eventDiv).hide().appendTo(calendarBoxes[i]).fadeIn(1000);
+                                        console.log('found case 2 weekly' + weeklyCounter);
+                                    }
+                                    else {
+                                        console.log('skipped weekly.');
+
+                                    }
+
+                                    weeklyCounter++;
+                                    console.log(weeklyCounter);
+                                }
+
+                                break;
+                            case 3:
+                                //var eventDiv = createEventBox(eventArray[j]);
+                                //$(eventDiv).appendTo(calendarBoxes[i]);
+                                //console.log('found case 3');
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+
+        };
+
+        renderEvents();
+
+        var test = getEventBoxDate($('.sch_date')[0]);
+        console.log(test);
+
+    })();
+</script>
