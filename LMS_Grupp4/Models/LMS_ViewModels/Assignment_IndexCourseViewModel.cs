@@ -8,12 +8,12 @@ namespace LMS_Grupp4.Models.LMS_ViewModels
 {
 	public class Assignment_IndexCourseViewModel
 	{
-		public string CourseName;
+		public Course Course;
 		public IEnumerable<Assignment> Assignments;
 
-		public Assignment_IndexCourseViewModel(string courseName, IEnumerable<Assignment> assignments)
+		public Assignment_IndexCourseViewModel(Course course, IEnumerable<Assignment> assignments)
 		{
-			this.CourseName = courseName;
+			this.Course = course;
 			this.Assignments = assignments;
 		}
 	}
