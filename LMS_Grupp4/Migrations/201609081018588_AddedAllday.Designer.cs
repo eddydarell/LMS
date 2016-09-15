@@ -7,13 +7,13 @@ namespace LMS_Grupp4.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddedEvents : IMigrationMetadata
+    public sealed partial class AddedAllday : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedEvents));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedAllday));
         
         string IMigrationMetadata.Id
         {
-            get { return "201608300710022_initial"; }
+            get { return "201609081018588_AddedAllday"; }
         }
         
         string IMigrationMetadata.Source

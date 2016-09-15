@@ -541,6 +541,42 @@ namespace LMS_Grupp4.Repositories
 			db.Evaluations.Remove(evaluation);
 			db.SaveChanges();
 		}
-		#endregion
+        #endregion
+
+        #region Event
+        // Returns all evaluations from the database
+        public IEnumerable<ScheduleEvent> GetAllEvents()
+        {
+            return db.Events.ToList();
+        }
+
+        // Gets a evaluation from the database with a specific id
+        public ScheduleEvent GetEventByID(int id)
+        {
+            return db.Events.Find(id);
+        }
+
+        // Add evaluation to the database
+        public void AddEvent(ScheduleEvent scheduleEvent)
+        {
+            db.Events.Add(scheduleEvent);
+            db.SaveChanges();
+        }
+
+        // Edit a evaluation in the database
+        public void EditEvent(ScheduleEvent scheduleEvent)
+        {
+            db.Entry(scheduleEvent).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        // Delete a evaluation from the database
+        public void DeleteEvent(int id)
+        {
+            ScheduleEvent scheduleEvent = db.Events.Find(id);
+            db.Events.Remove(scheduleEvent);
+            db.SaveChanges();
+        }
+        #endregion
     }
 }

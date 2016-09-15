@@ -53,3 +53,304 @@ dt, dd {
     padding: 20px;
     overflow: scroll;
 }
+
+/*Calendar Style*/
+
+#divcalendartable{
+    width: 1134px;
+    max-width:1134px;
+    border-collapse: collapse;
+    border: 1px solid #DDD;
+}
+
+#divcalendartable th{
+    text-align:center;
+    width: 162px;
+    max-width: 162px;
+    min-width: 100px;
+    border: 1px solid #CCC;
+    color: teal;
+    font-size: 1.2em;
+    background-color: #FAFAFA;
+    font-weight:bolder;
+}
+
+#divcalendartable tr td:nth-last-child(-n+2),
+#divcalendartable tr td:last-child,
+#divcalendartable th:nth-last-child(-n+2),
+#divcalendartable th:last-child{
+    color: orangered;
+    background-color: floralwhite;
+    width: 162px;
+}
+
+#divcalendartable tr{
+    width: 100%;
+}
+
+#divcalendartable td{
+    width: 162px;
+    max-width: 162px;
+    min-width: 162px;
+    border: 1px solid #CCC;
+    height: 100px;
+    overflow: hidden;
+    font-size:1.1em;
+    font-weight: bold
+}
+
+#calendarmonthcontrols{
+    width: 1134px;
+    max-width:1134px;
+    align-content: center;
+    text-align: center;
+    border: 1px solid #CCC;
+    height: 95px;
+    font-size: 2.8em;
+    background-color: teal;
+}
+
+#calendarmonthcontrols a{
+    border-radius: 50%;
+    background-color: #fff;
+    color: teal;
+    width: 75px;
+    height: 75px;
+    border: 3px solid teal;
+    line-height: 1.6;
+    text-decoration: none;
+}
+
+#calendarmonthcontrols a:hover{
+   color: #fff;
+   background-color: teal;
+   border: 3px solid #FFF;
+   text-decoration: none;
+}
+
+#calendarmonthcontrols div{
+    color: #FFF;
+    font-weight: bolder;
+}
+
+#calendarmonthcontrols a, 
+#calendarmonthcontrols div {
+    display: inline-block;
+    margin: 10px;
+    padding: 5px;
+}
+
+.nextmonthdates,
+.prevmonthdates{
+    background-color: #F1f1f1!important;
+    color: black!important;
+}
+
+.nextmonthdates,
+.prevmonthdates,
+.currentmonthdates {
+    text-align:center;
+    align-content: center;
+    align-items: center;
+}
+
+#today{
+    background-color: lightyellow!important;
+}
+
+.calendarDayBox{
+    font-size: 18px;
+    margin-left: 5px;
+    margin-top: 5px;
+    text-align: center;
+    width: 28px;
+    height: 28px;
+    border: 2px solid black;
+    border-radius: 50%;
+    line-height:1.24;
+    align-self:center;
+    margin: 3px;
+    padding: 2px;
+}
+
+
+.sch_date{
+    /*background-color: lightcyan;*/
+    width: 100%;
+    max-width: 200%;
+    height:65px;
+    text-align: left;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    text-wrap: none;
+    display: flex;
+}
+
+.calendarDayEventBox{
+    width: 100%;
+    max-width: 200%;
+    height:65px;
+    text-align: left;
+    text-wrap: none;
+    display: flex;
+}
+
+
+.nextmonthdates .calendarDayBox,
+.prevmonthdates .calendarDayBox {
+    border: 2px solid #CCC!important;
+    background-color: #CCC!important;
+    color: #F1f1f1;
+}
+
+#today .calendarDayBox{
+    border: 2px solid orange!important;
+    background-color: orange!important;
+    color: lightyellow!important;
+}
+
+.currentmonthdates .calendarDayBox{
+    border: 2px solid teal;
+    color: white;
+    background-color: teal;
+}
+
+#divcalendartable tr td:nth-last-child(-n+2) .calendarDayBox,
+#divcalendartable tr td:last-child .calendarDayBox{
+    border: 2px solid orangered;
+    background-color: orangered;
+    color: floralwhite;
+}
+
+.eventBox{
+    display: inline-block;
+    width:140px;
+    max-width: 140px;
+    min-width: 140px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+
+.eventBox .time{
+    font-size: 0.6em;
+    margin-left: 5px;
+}
+
+.eventBox .title{
+    font-size: 0.75em;
+    margin-right: 5px;
+    padding-left: 2px;
+}
+
+.eventBox .courseName{
+    font-size: 0.6em;
+    margin-left: 3px;
+    text-decoration: underline;
+}
+
+.eventNature1{
+    background-color: azure;
+    height: 47px;
+    max-height: 47px;
+}
+
+.eventNature2{
+    background-color: #FFF0F0;
+    height: 47px;
+    max-height: 47px;
+}
+
+.eventNature3{
+    background-color: #FFE3E3;
+    height: 47px;
+    max-height: 47px;
+}
+
+.eventNature4{
+    background-color: lightblue;
+    height: 47px;
+    max-height: 47px;
+}
+
+.eventNature5{
+    background-color: lightgray;
+    height: 47px;
+    max-height: 47px;
+}
+
+.eventNature6{
+    background-color: lightgreen;
+    height: 47px;
+    max-height: 47px;
+}
+
+.eventPriority1{
+     background-color: forestgreen;
+     height: 23px;
+     min-height: 45px;
+     width: 100%;
+     min-width: 100%;
+}
+
+.eventPriority2{
+    background-color: blue;
+    height: 5px;
+    height: 23px;
+     min-height: 45px;
+     width: 100%;
+     min-width: 100%;
+}
+
+.eventPriority3{
+    background-color: red;
+    height: 5px;
+    height: 23px;
+     min-height: 45px;
+     width: 100%;
+     min-width: 100%;
+}
+
+/*
+::-webkit-scrollbar {
+    width: 8px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+    width: 8px;
+    background-image: -webkit-linear-gradient(#F5F5F5, #8A8A8A);
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border: 1px solid black;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-button {
+    background-color: #7c2929;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: #b3b3b3;
+}*/
+::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+    width: 10px;
+    height: 10px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: teal;
+}
