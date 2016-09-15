@@ -103,26 +103,26 @@ namespace LMS_Grupp4.Controllers
 
                     //Verifies if the file has already been uploaded in the same directory
                     var existingFilesWithSameName = LMSRepo.GetAllFiles().Where(f => f.Name == fileName || f.Name.Replace(" - copy", "") == fileName && f.URL == path).ToList();
-                    if (existingFilesWithSameName.Count > 0)
-                    {
-                        var existingFilesWithSameNameAndSize = existingFilesWithSameName.Where(ef => ef.Size == fileSize).ToList();
-                        if (existingFilesWithSameNameAndSize.Count > 0)//Found file with same name and size
-                        {
-                            var existingFilesWithSameNameAndSizeAndFormat = existingFilesWithSameNameAndSize.Where(ef => ef.Format == fileFormat).ToList();
-                            if (existingFilesWithSameNameAndSizeAndFormat.Count > 0)//Exact same file found
-                            {
-                                return null;//To-Do: proper handling
-                            }
-                            else//File with same name and size found but different format: Change name
-                            {
-                                fileName += " - copy";
-                            }
-                        }
-                        else//If same names but different sizes, Change upload name, add - copy
-                        {
-                            fileName += " - copy";
-                        }
-                    }
+					//if (existingFilesWithSameName.Count > 0)
+					//{
+					//	var existingFilesWithSameNameAndSize = existingFilesWithSameName.Where(ef => ef.Size == fileSize).ToList();
+					//	if (existingFilesWithSameNameAndSize.Count > 0)//Found file with same name and size
+					//	{
+					//		var existingFilesWithSameNameAndSizeAndFormat = existingFilesWithSameNameAndSize.Where(ef => ef.Format == fileFormat).ToList();
+					//		if (existingFilesWithSameNameAndSizeAndFormat.Count > 0)//Exact same file found
+					//		{
+					//			return null;//To-Do: proper handling
+					//		}
+					//		else//File with same name and size found but different format: Change name
+					//		{
+					//			fileName += " - copy";
+					//		}
+					//	}
+					//	else//If same names but different sizes, Change upload name, add - copy
+					//	{
+					//		fileName += " - copy";
+					//	}
+					//}
 
                     //Add file informations in the file object to be saved in the database
                     dbFile.Name = fileName;

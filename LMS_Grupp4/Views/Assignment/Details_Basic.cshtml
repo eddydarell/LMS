@@ -39,7 +39,7 @@
 </div>
 
 <div class="jumbotron">
-    <h2>Details for Assignment <a href="@Url.Action("Details", "Assignment", new { id = Model.ID})">@Model.Name</a></h2>
+    <h2>Details for Assignment <a href="@Url.Action("Details_Basic", "Assignment", new { id = Model.ID})">@Model.Name</a></h2>
     <h3>This is an assignment for the course <a href="@Url.Action("Details", "Course",new { id = Model.Course.ID})">@Model.Course.CourseName</a>.</h3>
     @if (isTeacher)
     {

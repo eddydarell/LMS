@@ -227,7 +227,7 @@ else
                             {
                                 foreach (var evaluation in assignment.Evaluations)
                                 {
-                                    if (evaluation.Student.Id.Equals(User.Identity.GetUserId()) && evaluation.Score != null || evaluation.Score > 0)
+                                    if (evaluation.Student.Id.Equals(User.Identity.GetUserId()) && evaluation.Score != null && evaluation.Score > 0)
                                     {
                                         <tr>
                                             <td>
@@ -235,7 +235,6 @@ else
                                             </td>
                                             <td>
                                                 <a href="@Url.Action("Details", "Course", new { id = evaluation.Assignment.Course.ID })">@Html.DisplayFor(courseName => evaluation.Assignment.Course.CourseName)</a>
-
                                             </td>
                                         </tr>
                                     }
